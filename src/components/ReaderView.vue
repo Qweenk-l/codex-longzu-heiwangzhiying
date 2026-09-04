@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import type { Choice, Session, Story } from '../engine/types';
 import SafeText from './SafeText.vue';
+import { readingPages } from '../readingPages';
 
 const props = defineProps<{ story: Story; session: Session; choices: Choice[]; busy: boolean; inputMessage: string }>();
 const emit = defineEmits<{
@@ -13,57 +14,31 @@ const body = ref<HTMLElement>();
 const actions = ref<HTMLElement>();
 const inputOpen = ref(false);
 const input = ref('');
-const latestPending = ref(false);
-let latestIndex = 0;
+const historyDialog = ref<HTMLDialogElement>();
+const historyIndex = ref(0);
+const pages = computed(() => readingPages(props.story, props.session));
+const currentPage = computed(() => pages.value[pages.value.length - 1]);
+const recordedPage = computed(() => pages.value[historyIndex.value]);
 const chapter = computed(() => props.story.chapters.find(item => item.chapter === (props.session.mode === 'test' ? props.session.testChapter : props.story.nodes[props.session.currentNodeId].chapter)));
 const ending = computed(() => props.session.endingId ? props.story.endings[props.session.endingId] : undefined);
-const visibleHistory = computed(() => historyFor(props.session));
-function historyFor(state: Session) {
-  return state.history.filter(entry => state.mode !== 'test' || props.story.nodes[entry.nodeId].chapter === state.testChapter);
+const visibleHistory = computed(() => currentPage.value?.entries ?? []);
+function openHistory() {
+  historyIndex.value = Math.max(0, pages.value.length - 2);
+  historyDialog.value?.showModal();
+  if (historyDialog.value) historyDialog.value.scrollTop = 0;
 }
-function lastStoryIndex(state: Session) {
-  const history = historyFor(state);
-  for (let index = history.length - 1; index >= 0; index--) if (history[index].kind === 'story') return index;
-  return 0;
+async function browseHistory(index: number) {
+  historyIndex.value = index;
+  await nextTick();
+  if (historyDialog.value) historyDialog.value.scrollTop = 0;
 }
-
-function scrollToEntry(index: number) {
-  const container = body.value;
-  const target = container?.querySelector<HTMLElement>(`[data-entry-index="${index}"]`);
-  if (container && target) container.scrollTop += target.getBoundingClientRect().top - container.getBoundingClientRect().top - 24;
-}
-function goLatest() {
-  scrollToEntry(latestIndex);
-  latestPending.value = false;
-}
-function onBodyScroll() {
-  const container = body.value;
-  if (container && container.scrollHeight - container.clientHeight - container.scrollTop < 40) latestPending.value = false;
-}
-watch(() => props.session, async (current, previous) => {
-  const container = body.value;
-  const nearBottom = !container || container.scrollHeight - container.clientHeight - container.scrollTop < 80;
-  const oldPosition = container?.scrollTop ?? 0;
-  const history = historyFor(current);
-  const previousLength = historyFor(previous).length;
-  const appended = history.length > previousLength;
-  latestIndex = appended
-    ? Math.max(previousLength, history.findIndex((entry, index) => index >= previousLength && entry.kind !== 'choice'))
-    : lastStoryIndex(current);
+defineExpose({ openHistory });
+watch(() => props.session, async () => {
   input.value = '';
   inputOpen.value = false;
   await nextTick();
   if (actions.value) actions.value.scrollTop = 0;
-  if (nearBottom || !appended) { goLatest(); }
-  else {
-    if (body.value) body.value.scrollTop = oldPosition;
-    latestPending.value = true;
-  }
-});
-onMounted(() => {
-  latestIndex = lastStoryIndex(props.session);
-  // New games begin at the beginning; resumed routes open at their latest scene.
-  if (props.session.mode === 'normal' && props.session.choices.length > 0) scrollToEntry(latestIndex);
+  if (body.value) body.value.scrollTop = 0;
 });
 function submit() {
   if (!props.busy && input.value.trim()) emit('input', props.session.currentNodeId, input.value);
@@ -82,7 +57,7 @@ async function keepInputVisible(event: FocusEvent) {
 
 <template>
   <main class="reader-main" aria-label="剧情阅读">
-    <section ref="body" class="story-region" tabindex="0" aria-label="正文阅读区" @scroll="onBodyScroll">
+    <section ref="body" class="story-region" tabindex="0" aria-label="正文阅读区">
       <div class="reading-column">
         <aside v-if="session.mode === 'test'" class="test-context">
           <strong>章节测试 · {{ chapter?.title }}</strong>
@@ -107,7 +82,6 @@ async function keepInputVisible(event: FocusEvent) {
     </section>
     <section ref="actions" class="action-region" aria-label="行动区" tabindex="0">
       <div class="action-column">
-        <button v-if="latestPending" class="latest-button" @click="goLatest">回到最新位置</button>
         <template v-if="session.status === 'choice'">
           <div class="action-heading"><h2>你的行动</h2><span>选择一项，故事继续</span></div>
           <div class="choice-list">
@@ -131,4 +105,20 @@ async function keepInputVisible(event: FocusEvent) {
       </div>
     </section>
   </main>
+  <dialog ref="historyDialog" class="history-dialog" aria-labelledby="history-title" aria-describedby="history-description">
+    <form method="dialog" class="dialog-heading"><h2 id="history-title">剧情记录</h2><button>关闭记录</button></form>
+    <p id="history-description" class="muted">回看已经读过的完整页面，不撤销选择或改变当前进度。</p>
+    <nav class="history-navigation" aria-label="记录翻页">
+      <button :disabled="historyIndex === 0" @click="browseHistory(historyIndex - 1)">上一段</button>
+      <span role="status">第 {{ historyIndex + 1 }} / {{ pages.length }} 段{{ historyIndex === pages.length - 1 ? ' · 当前页' : '' }}</span>
+      <button :disabled="historyIndex >= pages.length - 1" @click="browseHistory(historyIndex + 1)">下一段</button>
+    </nav>
+    <div v-if="recordedPage" class="history-page" :class="{ 'is-current': historyIndex === pages.length - 1 }">
+      <article v-for="(entry, index) in recordedPage.entries" :key="entry.id" :class="['history-entry', `entry-${entry.kind}`]">
+        <h2 v-if="entry.kind === 'story' && (index === 0 || story.nodes[entry.nodeId].chapter !== story.nodes[recordedPage.entries[index - 1].nodeId].chapter)" class="chapter-heading">{{ story.chapters.find(item => item.chapter === story.nodes[entry.nodeId].chapter)?.title }}</h2>
+        <span v-if="entry.kind === 'choice'" class="choice-caption">你的选择</span>
+        <SafeText :text="entry.text" />
+      </article>
+    </div>
+  </dialog>
 </template>

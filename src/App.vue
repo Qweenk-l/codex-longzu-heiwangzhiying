@@ -17,6 +17,7 @@ const inputMessage = ref('');
 const saved = ref(false);
 const saveStatus = ref('正在读取存档…');
 const readerKey = ref(0);
+const reader = ref<InstanceType<typeof ReaderView>>();
 const fileInput = ref<HTMLInputElement>();
 const settingsDialog = ref<HTMLDialogElement>();
 const checkpointsDialog = ref<HTMLDialogElement>();
@@ -217,6 +218,7 @@ onBeforeUnmount(() => {
       <nav aria-label="阅读菜单">
         <span v-if="inReader && session?.mode === 'test'" class="test-badge">章节测试</span>
         <button v-if="inReader" :disabled="busy" @click="toMenu">目录</button>
+        <button v-if="inReader" :disabled="busy" @click="reader?.openHistory()">剧情记录</button>
         <button v-if="inReader" :disabled="busy || !checkpoints.length" @click="checkpointsDialog?.showModal()">回退</button>
         <button @click="settingsDialog?.showModal()">设置</button>
       </nav>
@@ -226,7 +228,7 @@ onBeforeUnmount(() => {
       <button v-if="normal && !saved && !(inReader && session?.mode === 'test')" :disabled="busy" @click="retrySave">重试保存</button>
     </div>
     <div v-if="error" class="error-banner" role="alert"><span>{{ error }}</span><button aria-label="关闭提示" @click="error = ''">关闭</button></div>
-    <ReaderView v-if="inReader && session" :key="readerKey" :story="story" :session="session" :choices="choices" :busy="busy" :input-message="inputMessage" @choose="takeChoice" @input="submitInput" @menu="toMenu" @restart="testChapter(session.testChapter!)" @return-to-decision="returnToDecision" />
+    <ReaderView v-if="inReader && session" ref="reader" :key="readerKey" :story="story" :session="session" :choices="choices" :busy="busy" :input-message="inputMessage" @choose="takeChoice" @input="submitInput" @menu="toMenu" @restart="testChapter(session.testChapter!)" @return-to-decision="returnToDecision" />
     <main v-else class="menu-region">
       <div class="menu-content">
         <p class="eyebrow">固定路明非 · 第一季阶段试玩</p>

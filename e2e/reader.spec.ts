@@ -64,17 +64,34 @@ test('fixed reading areas, safe free input, saved progress and isolated chapter 
   expect(errors).toEqual([]);
 });
 
-test('history reading is preserved when acting and latest button only scrolls',async({page})=>{
+test('each choice opens a complete new page, history is read-only and survives reload',async({page},info)=>{
   await page.goto('/'); await page.getByRole('button',{name:'开始游戏',exact:true}).click();
   let state=startGame(story);
-  await page.locator('.story-region').evaluate(el=>{el.scrollTop=0;});
+  const firstPage=await page.locator('.story-region .history-entry').allTextContents();
+  await page.locator('.story-region').evaluate(el=>{el.scrollTop=el.scrollHeight;});
   state=await clickChoice(page,state,'remember-name');
-  await expect(page.getByRole('button',{name:'回到最新位置'})).toBeVisible();
+  await expect(page.locator('.story-region')).not.toContainText('这不是你的梦');
+  await expect(page.locator('.story-region')).toContainText(story.nodes['PRO-03'].content.split('\n')[0]);
+  await expect(page.locator('.story-region')).toContainText(story.nodes['CH1-01'].content.split('\n')[0]);
   expect((await geometry(page)).bodyTop).toBe(0);
   const label=availableChoices(story,state)[0].label;
-  await page.getByRole('button',{name:'回到最新位置'}).click();
-  expect((await geometry(page)).bodyTop).toBeGreaterThan(0);
+  const mergedPage=await page.locator('.story-region .history-entry').allTextContents();
+  await page.locator('.story-region').evaluate(el=>{el.scrollTop=100;});
+  const prior=await geometry(page);
+  await page.getByRole('button',{name:'剧情记录',exact:true}).click();
+  const records=page.getByRole('dialog',{name:'剧情记录',exact:true});
+  expect(await records.locator('.history-entry').allTextContents()).toEqual(firstPage);
+  await records.getByRole('button',{name:'下一段',exact:true}).click();
+  await expect(records).toContainText('当前页');
+  expect(await records.locator('.history-entry').allTextContents()).toEqual(mergedPage);
+  await records.getByRole('button',{name:'关闭记录'}).click();
+  expect((await geometry(page)).bodyTop).toBe(prior.bodyTop);
   await expect(page.locator('.choice-button').first()).toHaveText(label);
+  await page.reload(); await page.getByRole('button',{name:'继续游戏',exact:true}).click();
+  expect(await page.locator('.story-region .history-entry').allTextContents()).toEqual(mergedPage);
+  expect((await geometry(page)).bodyTop).toBe(0);
+  await expect(page.getByRole('button',{name:'继续',exact:true})).toHaveCount(0);
+  await page.screenshot({path:info.outputPath('merged-reading-page.png'),fullPage:true});
   await page.setViewportSize({width:375,height:430});
   await page.getByRole('button',{name:'用文字表达行动'}).click();
   await page.getByLabel('你想怎么做？').fill('不知道');

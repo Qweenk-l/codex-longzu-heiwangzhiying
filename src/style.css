@@ -42,7 +42,11 @@ h1, h2, h3, p { margin-top: 0; }
 .choice-list { display: grid; gap: 10px; }
 .choice-button { text-align: left; width: 100%; line-height: 1.7; }
 .action-column > button { margin: 0 8px 10px 0; }
-.latest-button { color: var(--accent); font-size: 14px; }
+.history-dialog { width: min(800px, calc(100vw - 32px)); }
+.history-navigation { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 20px; }
+.history-navigation span { font-size: 14px; }
+.history-page { font-size: var(--reader-font-size); line-height: 1.85; }
+.history-page.is-current { border-left: 3px solid var(--accent); padding-left: 16px; }
 .text-toggle { margin-top: 12px; font-size: 14px; }
 .input-form { display: grid; gap: 10px; padding: 12px 0; }
 .input-form label { font-weight: 600; }
