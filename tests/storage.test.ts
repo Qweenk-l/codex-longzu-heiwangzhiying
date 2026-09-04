@@ -3,12 +3,28 @@ import { describe, expect, it } from 'vitest';
 import { choose, startGame } from '../src/engine/engine';
 import { exportGame, importGame, loadGame, saveGame } from '../src/storage/repository';
 import type { Story } from '../src/engine/types';
+import { readFileSync } from 'node:fs';
 
 const story:Story={id:'storage-test',contentVersion:'1',entryNodeId:'a',chapters:[],endings:{},nodes:{
   a:{id:'a',title:'开始',chapter:0,content:'开始',choices:[{id:'go',label:'往前',keywords:[],effects:[{type:'flag',key:'seen',value:true}],nextNodeId:'b'}],checkpointId:'cp'},
   b:{id:'b',title:'结束',chapter:0,content:'完',choices:[],stageEnd:true},
 }};
 describe('save boundaries',()=>{
+  it('upgrades only the approved knock paragraph in an existing .1 save', async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=readFileSync(new URL('./fixtures/before-knock-save.json',import.meta.url),'utf8');
+    const result=importGame(current,old);
+    expect(result.currentNodeId).toBe('CH1-01');
+    expect(result.contentVersion).toBe('v0.4B-stage-one.2');
+    expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^窗外，婶婶在敲门。\n\n/);
+    expect(result.flags).toEqual(JSON.parse(old).session.flags);
+    expect(result.choices).toEqual(JSON.parse(old).session.choices);
+    await saveGame(current,result);
+    expect(await loadGame(current)).toEqual(result);
+    const altered=JSON.parse(old);
+    altered.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-01').text='伪造正文';
+    expect(()=>importGame(current,JSON.stringify(altered))).toThrow();
+  });
   it('round trips through actual IndexedDB API with replay validation',async()=>{
     const state=choose(story,startGame(story),'a','go');
     await saveGame(story,state);

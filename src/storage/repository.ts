@@ -16,9 +16,23 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
-  if (value.formatVersion !== 1 || value.contentVersion !== story.contentVersion) throw new Error('存档版本与当前剧情不一致，原进度已保留。');
-  const session = value.session;
-  if (!object(session) || session.mode !== 'normal') throw new Error('章节测试不能作为正式存档。');
+  const beforeKnockEdit = story.id === 'longzu-black-king-shadow-stage-one'
+    && story.contentVersion === 'v0.4B-stage-one.2' && value.contentVersion === 'v0.4B-stage-one.1';
+  if (value.formatVersion !== 1 || (value.contentVersion !== story.contentVersion && !beforeKnockEdit)) throw new Error('存档版本与当前剧情不一致，原进度已保留。');
+  if (!object(value.session) || value.session.mode !== 'normal') throw new Error('章节测试不能作为正式存档。');
+  let session: Record<string, unknown> = value.session;
+  if (beforeKnockEdit) {
+    if (session.contentVersion !== 'v0.4B-stage-one.1') throw new Error('存档版本记录不一致。');
+    session = structuredClone(session);
+    const currentText = story.nodes['CH1-01'].content;
+    const originalText = currentText.replace(/^窗外，婶婶在敲门。\n\n/, '');
+    if (Array.isArray(session.history)) {
+      for (const entry of session.history) {
+        if (object(entry) && entry.kind === 'story' && entry.nodeId === 'CH1-01' && entry.text === originalText) entry.text = currentText;
+      }
+    }
+    session.contentVersion = story.contentVersion;
+  }
   if (!Array.isArray(session.choices) || session.choices.length > 1000) throw new Error('存档中的选择记录无效。');
   let replay = startGame(story);
   try {

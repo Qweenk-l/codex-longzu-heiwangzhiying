@@ -14,6 +14,7 @@ describe('v0.4B 阶段内容契约', () => {
     expect(node('CH1-02').content).toContain('却没有留下电话号码');
     expect(node('CH1-02').content).toContain('纯黑色的 N96 手机');
     expect(node('CH1-01').choices[1]?.id).toBe('avoidance');
+    expect(node('CH1-01').content).toMatch(/^窗外，婶婶在敲门。\n\n窗外，婶婶第三次敲门时/);
   });
 
   it('恢复两版准备、共同候场正文和第三问两个选项', () => {

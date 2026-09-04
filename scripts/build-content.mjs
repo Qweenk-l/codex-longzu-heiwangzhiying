@@ -160,7 +160,7 @@ const prefixTwo = [...prefixOne, ...[
   ['CH1-10', 'power-instinctive'], ['CH1-11', 'admit-unknown'],
 ].map(([nodeId, choiceId]) => ({ nodeId, choiceId }))];
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.4B-stage-one.1', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.4B-stage-one.2', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },

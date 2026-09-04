@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "projectId": "longzu-black-king-shadow-stage-one",
+  "contentVersion": "v0.4B-stage-one.1",
+  "session": {
+    "formatVersion": 1,
+    "projectId": "longzu-black-king-shadow-stage-one",
+    "contentVersion": "v0.4B-stage-one.1",
+    "mode": "normal",
+    "currentNodeId": "CH1-01",
+    "flags": {
+      "sawWhiteCityDream": true,
+      "dreamFocusName": true,
+      "dreamFocusSilhouette": false,
+      "dreamFocusFlame": false
+    },
+    "history": [
+      {
+        "id": 0,
+        "nodeId": "PRO-01",
+        "text": "这不是你的梦。\n\n黑暗像一片没有岸的水，先有声音从水底浮上来。那声音很轻，像一个孩子在空荡荡的宫殿里寻找唯一认识的人。\n\n“哥哥。”\n\n远处的城立在高处，白色墙壁被夜色切出锋利的边缘。风从城门穿过，带来铁器碰撞和巨大翅翼掠过天空的闷响。城中没有人奔逃，仿佛所有人都已经知道结局，只剩火还没有抵达。\n\n梦中人低下头。他看不清自己的手，只能感觉掌心里握着某种沉重的东西。\n\n那孩子又叫了一声。\n\n“哥哥，你还在吗？”\n\n白色的人影站在火光尚未照亮的城墙尽头，没有回答。\n\n孩子终于跑进火光里。他的影子被拉得很长，几乎碰到白衣人的脚边。\n\n“康斯坦丁。”白衣人叫出他的名字。\n\n孩子停下了。他像是想笑，又像是在等一个早已约定好的回答。城外传来山岳崩裂般的轰鸣，火从远处的屋顶一排排亮起，照出白衣人苍白而平静的脸。\n\n“我做错了吗？”孩子问。\n\n白衣人伸出手，动作很慢。梦中人却忽然感到一阵近乎窒息的恐惧——不是怕城毁灭，而是怕自己下一刻会忘记这个孩子。\n\n火焰越过城墙，把最后的回答吞没。",
+        "kind": "story"
+      },
+      {
+        "id": 1,
+        "nodeId": "PRO-01",
+        "text": "努力记住那个名字",
+        "kind": "choice"
+      },
+      {
+        "id": 2,
+        "nodeId": "PRO-03",
+        "text": "梦中人猛地醒来。\n\n列车经过远处，玻璃窗轻轻震动。电脑屏幕的冷光映在一张没有被镜头照清的脸上。桌边的杯子被碰倒，水沿着旧报纸往下淌，那个人却只是坐着，像还在听一座早已烧尽的城。\n\n下一秒，画面被切断。\n\n鼠标点击声重新响起。\n\n你的屏幕上，一队机枪兵从矿区边缘包抄过去。熊猫头像在聊天框里疯狂闪动。\n\n老唐：等等！兄弟，有话好说！你这是打游戏还是拆迁？\n\n你把最后一辆坦克点掉，屏幕中央跳出胜利提示。",
+        "kind": "story"
+      },
+      {
+        "id": 3,
+        "nodeId": "CH1-01",
+        "text": "窗外，婶婶第三次敲门时，门板已经有了投降的意思。\n\n婶婶：路明非！让你出去买东西，不是让你在屋里给外国人打仗！顺便去报刊亭看看，有没有美国学校寄来的信！\n\n老唐：谁啊？这气势，美国房东听了都得主动退押金。\n\n你：我婶婶。我们家的最高执行长官，权限包括断网和没收晚饭。\n\n老唐：那你还不快撤？留得青山在，不怕没星际。\n\n你看了一眼桌角。其他学校的拒信叠成薄薄一摞，只剩芝加哥那边还没有结果。你跟自己说反正都一样，可鼠标悬在退出按钮上，迟迟没有按下去。",
+        "kind": "story"
+      }
+    ],
+    "choices": [
+      {
+        "nodeId": "PRO-01",
+        "choiceId": "remember-name"
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "CP-PRO-END",
+        "nodeId": "PRO-03",
+        "flags": {
+          "sawWhiteCityDream": true,
+          "dreamFocusName": true,
+          "dreamFocusSilhouette": false,
+          "dreamFocusFlame": false
+        },
+        "historyLength": 3,
+        "choiceLength": 1
+      }
+    ],
+    "status": "choice"
+  }
+}

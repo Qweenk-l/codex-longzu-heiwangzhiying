@@ -73,6 +73,8 @@ test('each choice opens a complete new page, history is read-only and survives r
   await expect(page.locator('.story-region')).not.toContainText('这不是你的梦');
   await expect(page.locator('.story-region')).toContainText(story.nodes['PRO-03'].content.split('\n')[0]);
   await expect(page.locator('.story-region')).toContainText(story.nodes['CH1-01'].content.split('\n')[0]);
+  await expect(page.locator('.story-region .chapter-heading')).toHaveCount(0);
+  await expect(page.locator('.story-region p').filter({hasText:/^窗外，婶婶在敲门。$/})).toHaveCount(1);
   expect((await geometry(page)).bodyTop).toBe(0);
   const label=availableChoices(story,state)[0].label;
   const mergedPage=await page.locator('.story-region .history-entry').allTextContents();
@@ -80,6 +82,7 @@ test('each choice opens a complete new page, history is read-only and survives r
   const prior=await geometry(page);
   await page.getByRole('button',{name:'剧情记录',exact:true}).click();
   const records=page.getByRole('dialog',{name:'剧情记录',exact:true});
+  await expect(records.locator('.chapter-heading')).toHaveCount(0);
   expect(await records.locator('.history-entry').allTextContents()).toEqual(firstPage);
   await records.getByRole('button',{name:'下一段',exact:true}).click();
   await expect(records).toContainText('当前页');

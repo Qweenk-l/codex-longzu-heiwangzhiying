@@ -26,7 +26,6 @@ h1, h2, h3, p { margin-top: 0; }
 .reading-column, .action-column { max-width: 780px; margin-inline: auto; overflow-wrap: anywhere; }
 .history-entry p { white-space: pre-line; margin: 0 0 1.15em; }
 .history-entry { margin-bottom: 1.65em; }
-.chapter-heading { margin: 12px 0 28px; font-size: 1.35em; font-weight: 600; }
 .entry-choice { color: var(--muted); border-left: 3px solid var(--border); padding: 6px 0 6px 18px; font-size: .92em; }
 .entry-choice p { margin: 0; }
 .choice-caption { display: block; font-size: 12px; letter-spacing: .08em; margin-bottom: 4px; }

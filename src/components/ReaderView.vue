@@ -65,7 +65,6 @@ async function keepInputVisible(event: FocusEvent) {
           <p>本章结束后停止，正式进度保持不变。</p>
         </aside>
         <article v-for="(entry, index) in visibleHistory" :key="entry.id" :data-entry-index="index" :class="['history-entry', `entry-${entry.kind}`]">
-          <h2 v-if="entry.kind === 'story' && (index === 0 || story.nodes[entry.nodeId].chapter !== story.nodes[visibleHistory[index - 1].nodeId].chapter)" class="chapter-heading">{{ story.chapters.find(item => item.chapter === story.nodes[entry.nodeId].chapter)?.title }}</h2>
           <span v-if="entry.kind === 'choice'" class="choice-caption">你的选择</span>
           <SafeText :text="entry.text" />
         </article>
@@ -115,7 +114,6 @@ async function keepInputVisible(event: FocusEvent) {
     </nav>
     <div v-if="recordedPage" class="history-page" :class="{ 'is-current': historyIndex === pages.length - 1 }">
       <article v-for="(entry, index) in recordedPage.entries" :key="entry.id" :class="['history-entry', `entry-${entry.kind}`]">
-        <h2 v-if="entry.kind === 'story' && (index === 0 || story.nodes[entry.nodeId].chapter !== story.nodes[recordedPage.entries[index - 1].nodeId].chapter)" class="chapter-heading">{{ story.chapters.find(item => item.chapter === story.nodes[entry.nodeId].chapter)?.title }}</h2>
         <span v-if="entry.kind === 'choice'" class="choice-caption">你的选择</span>
         <SafeText :text="entry.text" />
       </article>
