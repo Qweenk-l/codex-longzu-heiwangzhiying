@@ -1,0 +1,72 @@
+# 首阶段内容接入映射
+
+日期：2026-09-04。运行内容版本：`v0.4B-stage-one.1`。固定路明非，序章至第二章；不含 AI 或第三章实装。
+
+## 可复现来源
+
+`npm run content:build` 只读取本工程 `content-source/v0.4B.md` 和 `content-source/baseline-v0.7C.json`，输出 `src/content/stage-one.json`、`content-source/state-mapping.json`。运行不读取父目录、旧项目或网络。
+
+- `v0.4B.md` 是当前参考稿《龙族试玩前三章剧情设计稿-v0.4B.md》的逐字节快照，权威正文、对白、选项标签、根词和反馈均由此提取。文件 SHA-256：`7565e519dd61fc669be7c9e608711e4c01e3bf72e89c63c5b246c4d06d0d42cf`。
+- `baseline-v0.7C.json` 是旧核心包的逐字节快照，保留既有稳定 ID 与后继作为接入基线；未用其短正文覆盖 v0.4B。文件 SHA-256：`a152054e5bb4bd4eef972fb2c4eee8e8c7f0b9909cadc144103d26b3a1813f5e`。
+- 原参考稿与核心包没有修改。`state-mapping.json` 另记录标准化换行后的正文摘要值、枚举映射、数值事件及三条反馈中被移除的编辑说明。
+
+## 节点与选项
+
+运行包有 **39 个静态节点、63 个存储选项、57 个独立选项标签**；其中 29 个存储选项有 `feedback`。复制计数来自 CH1-06、CH1-07 的共同选项。39 个节点包括获批的 CANON 已知情版本，比审计报告最初估算的 38 多一个。以下行号均对应快照 `v0.4B.md`。
+
+| 运行节点 | 来源行 | 映射与差异 |
+|---|---|---|
+| PRO-01 | 47–101 | 合并旧 PRO-01/PRO-02 的全文与三选项，移除旧 PRO-02，进入写 sawWhiteCityDream |
+| PRO-03 | 103–128 | 只用源稿正文；删旧额外敲门句，CP-PRO-END 后自动进入 CH1 |
+| CH1-01 | 133–166 | 原 quiet-hope 改 avoidance；完整原稿三标签、根词 |
+| CH1-02 | 168–210 | 恢复无电话号码邀请信、FedEx 包裹、N96、唯一联系人 |
+| CH1-03-HIDE / VERIFY | 212–254 | 原稿携带信与 N96；隐藏路线补 hidInterestFromFamily |
+| CH1-03-OLDTANG / CHEN / SU / DIRECT | 256–361 | 全文按稿；联系人事实在对应节点写入，陈→苏保留二者行为记录 |
+| CH1-04 / CH1-05 | 363–434 | 叔叔用 N96；陌生昵称诺诺约战后离线；共同效果在选择完成时写入 |
+| CH1-06-OLDTANG / NO-OLDTANG | 436–487 | 旧 CH1-06 拆两版，按 askedOldTang；共同选项保留 ID |
+| CH1-07-KNOWN / UNKNOWN | 489–547 | 两段认知差异各接完整共同正文；原 answer-zhao 改 ask-su |
+| CH1-08 / CH1-09 / CH1-10 | 549–634 | 完整三问；alien-intuition 改 alien-skeptical，alien-deflected 改 alien-probing |
+| CH1-11 | 636–668 | 删除 failed-bluff；仅 admit-unknown / question-purpose，各自反馈后接共同面试结束回响 |
+| CH1-12 | 670–698 | 全文，completedChapterOne / CP-CH1-END；自动进入 CH2 |
+| CH2-01 / CH2-02 / CH2-03 | 704–799 | 全文、原稿标签与反馈；父母信阅读事实和牵挂增加事件 |
+| CH2-04 / CH2-05 | 801–868 | 首次见真人只认出猫头像；接纸巾保密请求；延后接受邀请 |
+| CH2-06 / CH2-07 | 870–927 | 观察/追问回响；noticedSetup 限制拒绝/离开；选择保留 |
+| CH2-08-CANON / CANON-KNOWN | 929–952 | 原文 + 获批的 confrontedSetup 已知情版本 |
+| CH2-08-DIGNITY-KNOWN / UNCERTAIN / SILENT | 954–1006 | 原单节点拆三版，分别使用原稿开头 + 完整共同正文；应用已批准句子修正 |
+| CH2-09-CANON / DIGNITY | 1008–1060 | 全文；分别写 public / outside 及对应信任/尊重来源事件 |
+| CH2-10 | 1062–1104 | 四定义选项；新增 self-rescue；感谢只对 public，自我离场只对 outside，各路线可见三项 |
+| CH2-11 | 1106–1147 | 四动机含父母条件；CP-CH2-DECISION 在选择前保存 |
+| CH2-ALT-END | 1149–1171 | 临时普通人生结局；由会话恢复已到达的 CP-CH2-DECISION |
+| CH2-12 | 1173–1211 | 获批喧闹句；字幕“下一章《没有时刻表的列车》”；stageEnd=true，移除 CH3 跳转 |
+
+`feedback` 在引擎中按“所选标签 → 该项回响 → 自动承接正文”追加到同一阅读历史，无继续按钮。回响保留源稿的叙述式表达，不自行扩写对白。三处纯编辑指令不属于玩家文字：CH1-04 的“不泄露血统”、CH1-07 的“不扩大感情表现”、CH2-02 的“但不透露血统等级”移除，实际角色回答保持原意；精确前后句见 `state-mapping.json.editorialFeedback`。
+
+## 已批准运行正文修正
+
+以下仅改运行副本，不改参考稿。
+
+1. CH2-12：“几个小时前，你还站在别人告白的字母里” → “几个小时前，你还困在那场告白的喧闹里”。
+2. DIGNITY 三版共同句：“直到屏幕上的句子亮起，你才彻底看懂这场安排。” → “屏幕上的句子亮起，那场安排也彻底摆到了所有人面前。”，不产生重复句号。
+3. 仅 confrontedSetup=true 的 CANON 整段改为：“你举着那个字母，直到手臂发酸。你明知道这是赵孟华准备的告白，却还是站在了这里。你不是故事里迟到的男主角，只是告白布景缺少的一块。” 其他 CANON 路线原文保留。
+
+## 条件、状态与后续消费者
+
+- CH1-05 先按 askedOldTang 判定准备版本；CH1-06 各选项按 askedChen **或** askedSu 跳入 KNOWN，否则 UNKNOWN。recognizedRecruitmentBatch 只在候场节点进入时写入。
+- CH2-07 的离开选择直接进 SILENT；拒绝选择按 confrontedSetup 判 KNOWN/UNCERTAIN；接受选择按 confrontedSetup 判 CANON-KNOWN/原 CANON。非静默选项清除 dignityStyleSilentExit。
+- 各原稿枚举映射到明确布尔组，每次写入同时将同组其他值设为 false。askedChen / askedSu 是独立行为事实，不随最后联系人变化清除。
+- 布尔兼容键保留原核心包后续真实条件消费者：readParentsLetter → CH4-03 父母选项；dreamFocusName → CH8-05-NAME 条件分支。其它旧 flag 的未来兑现不在本阶段作虚假声明。
+- 原稿数值不引入到本阶段的布尔引擎，而将每次变化记录为不同来源事件。分别保存父母信 +1、告白 -1、public 救场信任 +1、感谢信任 +1、outside 接人尊重 +1、自尊回应尊重 +1。未来可从事件推导变化总量；当前没有展示或消费数值，也没有把两次信任变化压成同一个布尔。精确事件名见 `state-mapping.json.numericEvents`。
+- 原稿原句输入由 `Session.choices[].input` 保留，归类结果由动机布尔组保留；不新建第五种动机结果，也不调用 AI。
+
+## 章节测试与验证
+
+章节测试 `canonicalPrefix` 是从 PRO-01 合法重放至该章入口的选择数组。第一章只重放梦境焦点，第二章采用取信自嘲、直接交给叔叔、被动确认、重赛、诚实准备、现场安慰陈雯雯与原稿三道原著答案。目标章选择不会写入前情，第二章入口没有 readParentsLetter / acceptedCassell / completedChapterTwo。
+
+验证记录：
+
+- TDD：内容文件未生成时，四项测试均因缺少预期正文/节点数量失败（RED），而非依赖导入错误；生成后四项通过（GREEN）。
+- 最终 `npm test -- tests/content.test.ts`：7 项通过，包括所有普通节点源稿逐段全文比较、所有57独立标签与源稿全部回响覆盖、条件正文、获批修正、无第三章悬空引用。
+- 通过真实引擎枚举对路由有影响的状态组合，遍历覆盖全部39节点/63选项；各 public/outside 路边可见三项；临时结局恢复 CP-CH2-DECISION 且清除未来历史；所有章节前情均合法重放。
+- 复制文件哈希与原来源一致；构建只用工程内快照，结果可重复。
+
+本记录不代替 UI、滚动布局、浏览器存档及视觉验证。附录A所述 hiddenInterest 父母信后、askedChen 文学社开场、askedSu 观察反常三条轻量回响没有预写正文，暂不擅自补文；老唐出国前告别和3E回响也属于后续范围。

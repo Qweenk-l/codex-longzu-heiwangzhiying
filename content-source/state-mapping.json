@@ -1,0 +1,106 @@
+{
+  "sourceSha256": "7565e519dd61fc669be7c9e608711e4c01e3bf72e89c63c5b246c4d06d0d42cf",
+  "enums": {
+    "dreamFocus": {
+      "name": "dreamFocusName",
+      "silhouette": "dreamFocusSilhouette",
+      "flame": "dreamFocusFlame"
+    },
+    "openingTone": {
+      "selfMock": "openingToneSelfMock",
+      "avoidance": "openingToneAvoidance",
+      "indirectProbe": "openingToneIndirectProbe"
+    },
+    "invitationRoute": {
+      "hiddenInterest": "invitationHidden",
+      "verify": "invitationVerify",
+      "directConfirm": "invitationDirect"
+    },
+    "verificationContact": {
+      "oldTang": "verificationOldTang",
+      "chenWenwen": "verificationChen",
+      "suXiaoqiang": "verificationSu"
+    },
+    "interviewCommitment": {
+      "explicit": "interviewCommitmentExplicit",
+      "questioning": "interviewCommitmentQuestioning",
+      "passive": "interviewCommitmentPassive"
+    },
+    "nonoFirstReaction": {
+      "probe": "nonoReactionProbe",
+      "challenge": "nonoReactionChallenge",
+      "guarded": "nonoReactionGuarded"
+    },
+    "interviewTone": {
+      "prepared": "interviewTonePrepared",
+      "honest": "interviewToneHonest",
+      "deflecting": "interviewToneDeflecting"
+    },
+    "alienAnswer": {
+      "canonLoneliness": "alienAnswerLoneliness",
+      "skeptical": "alienAnswerSkeptical",
+      "probing": "alienAnswerProbing"
+    },
+    "powerAnswer": {
+      "canonInstinct": "powerAnswerInstinctive",
+      "cautiousHope": "powerAnswerHopeful",
+      "probingAnomaly": "powerAnswerProbing"
+    },
+    "thirdAnswer": {
+      "canonUnknown": "thirdAnswerAdmittedUnknown",
+      "questionedPurpose": "thirdAnswerQuestionedPurpose"
+    },
+    "admissionReaction": {
+      "disbelief": "admissionReactionDisbelief",
+      "relief": "admissionReactionRelief",
+      "cautious": "admissionReactionCautious"
+    },
+    "admissionQuestion": {
+      "whyMe": "admissionQuestionWhyMe",
+      "decisionDeadline": "admissionQuestionDecisionDeadline",
+      "practical": "admissionQuestionPractical"
+    },
+    "nonoRevealReaction": {
+      "guarded": "nonoRevealGuarded",
+      "probing": "nonoRevealProbing",
+      "acceptsHelp": "nonoRevealAcceptsHelp"
+    },
+    "literatureOutcome": {
+      "canon": "literatureOutcomeCanon",
+      "dignity": "literatureOutcomeDignity"
+    },
+    "dignityStyle": {
+      "silentExit": "dignityStyleSilentExit"
+    },
+    "nonoRescueMode": {
+      "public": "nonoRescuePublic",
+      "outside": "nonoRescueOutside"
+    },
+    "nonoRoadsideQuestion": {
+      "foreknowledge": "nonoRoadsideForeknowledge",
+      "gratitude": "nonoRoadsideGratitude",
+      "selfRescue": "nonoRoadsideSelfRescue",
+      "cassellProbe": "nonoRoadsideCassellProbe"
+    },
+    "cassellMotive": {
+      "escapeOldLife": "motiveEscapeOldLife",
+      "findParents": "motiveFindParents",
+      "seekHiddenWorld": "motiveSeekHiddenWorld",
+      "declinedForNow": "motiveDeclinedForNow"
+    }
+  },
+  "numericEvents": {
+    "CH2-03:oldLifeAttachment": "oldLifeAttachmentRaisedByParentsLetter",
+    "CH2-08-CANON:oldLifeAttachment": "oldLifeAttachmentLoweredByConfession",
+    "CH2-08-DIGNITY:oldLifeAttachment": "oldLifeAttachmentLoweredByConfession",
+    "CH2-09-CANON:nonoTrust": "nonoTrustRaisedByPublicRescue",
+    "CH2-09-DIGNITY:nonoRespect": "nonoRespectRaisedByOutsidePickup",
+    "CH2-10:thank-nono:nonoTrust": "nonoTrustRaised",
+    "CH2-10:self-rescue:nonoRespect": "nonoRespectRaisedBySelfRescue"
+  },
+  "editorialFeedback": {
+    "古德里安只回答“材料让我们认为你值得见面”，不泄露血统。": "古德里安只回答“材料让我们认为你值得见面”。",
+    "陈雯雯点头道谢，不扩大感情表现。": "陈雯雯点头道谢。",
+    "古德里安说学院认为你的潜力不能用普通成绩衡量，但不透露血统等级。": "古德里安说学院认为你的潜力不能用普通成绩衡量。"
+  }
+}

@@ -1,0 +1,39 @@
+# 龙族：黑王之影 · 第一阶段试玩
+
+独立 Vue 3 + TypeScript + Vite 程序。当前接入范围为序章、第一章、第二章；第二章之后明确停在试玩终点，尚不代表第一季通关。
+
+## 启动
+
+依赖已安装时，可双击本目录的 `启动试玩.cmd`，终端与浏览器会打开；关闭终端即停止本地服务。若已经在运行，直接访问下列地址即可，不必再启动一份。
+
+需要 Node.js 24.0 及以上的 24.x 版本（本次使用 24.19.0）。在此目录执行：
+
+```powershell
+npm.cmd install
+npm.cmd run dev -- --port 5173 --strictPort
+```
+
+然后打开 http://127.0.0.1:5173 。使用同一浏览器、同一地址续读，换浏览器或地址请先导出存档。
+
+## 验证
+
+```powershell
+npm.cmd test
+npm.cmd run type-check
+npm.cmd run build
+npm.cmd run test:e2e
+```
+
+浏览器测试默认使用本机 Microsoft Edge。测试不访问真实玩家存档。
+
+## 结构与资料
+
+- `src/content/stage-one.json` 是程序运行副本；`content-source` 保留本次生成依据，`scripts/build-content.mjs` 可复现生成。
+- `src/engine` 独立处理条件、选择、自动段落、检查点及章节前情。
+- `src/storage` 使用 IndexedDB；导入会重放合法选择校验全部剧情状态。
+- `src/components` 和 `src/style.css` 负责阅读呈现；70/30 双区为首版固定约定。正文、安全加粗渲染与玩法状态分离，后续美术及视听功能可以在表现层增加。
+- AI、其他角色、第三章之后、音乐和正式美术尚未实装。当前输入只匹配可见的脚本选项。
+
+内容真值仍为上一级项目的当前参考稿；本阶段以 v0.4B 为准，三处已经批准的最小修正仅应用运行副本。详情见 `docs/content-mapping.md` 和上一级的接入审计。
+
+自动存档受当前浏览器存储条件影响。清除网站数据会删除本地进度；导出文件可在另一浏览器通过导入恢复。首阶段不做旧游戏存档兼容或跨剧情版本迁移。

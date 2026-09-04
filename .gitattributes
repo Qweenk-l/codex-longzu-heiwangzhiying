@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+content-source/v0.4B.md -text
+content-source/baseline-v0.7C.json -text
