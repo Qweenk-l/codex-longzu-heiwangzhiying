@@ -15,7 +15,7 @@ describe('save boundaries',()=>{
     const old=readFileSync(new URL('./fixtures/before-knock-save.json',import.meta.url),'utf8');
     const result=importGame(current,old);
     expect(result.currentNodeId).toBe('CH1-01');
-    expect(result.contentVersion).toBe('v0.4B-stage-one.2');
+    expect(result.contentVersion).toBe('v0.4B-stage-one.3');
     expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^窗外，婶婶在敲门。\n\n/);
     expect(result.flags).toEqual(JSON.parse(old).session.flags);
     expect(result.choices).toEqual(JSON.parse(old).session.choices);
@@ -24,6 +24,31 @@ describe('save boundaries',()=>{
     const altered=JSON.parse(old);
     altered.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-01').text='伪造正文';
     expect(()=>importGame(current,JSON.stringify(altered))).toThrow();
+  });
+  it('upgrades approved wording in .1 and .2 saves without changing choices or accepting tampered prose',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=JSON.parse(readFileSync(new URL('./fixtures/before-wording-save.json',import.meta.url),'utf8'));
+    for (const version of ['v0.4B-stage-one.1','v0.4B-stage-one.2']) {
+      const file=structuredClone(old);
+      file.contentVersion=file.session.contentVersion=version;
+      if (version.endsWith('.1')) {
+        const opening=file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-01');
+        opening.text=opening.text.replace(/^窗外，婶婶在敲门。\n\n/,'');
+      }
+      const result=importGame(current,JSON.stringify(file));
+      expect(result.currentNodeId).toBe('CH2-10');
+      expect(result.choices).toEqual(old.session.choices);
+      expect(result.flags).toEqual(old.session.flags);
+      expect(result.checkpoints).toEqual(old.session.checkpoints);
+      for (const id of ['CH1-02','CH2-08-DIGNITY-KNOWN']) {
+        expect(result.history.find(h=>h.nodeId===id)?.text).toBe(current.nodes[id].content);
+        const altered=structuredClone(file);
+        altered.session.history.find((h:{nodeId:string})=>h.nodeId===id).text+='伪造正文';
+        expect(()=>importGame(current,JSON.stringify(altered))).toThrow();
+      }
+      await saveGame(current,result);
+      expect(await loadGame(current)).toEqual(result);
+    }
   });
   it('round trips through actual IndexedDB API with replay validation',async()=>{
     const state=choose(story,startGame(story),'a','go');
