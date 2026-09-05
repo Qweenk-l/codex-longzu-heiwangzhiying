@@ -107,8 +107,16 @@ export function resolveInput(story: Story, state: Session, text: string): InputR
   if (labels.length === 1) return { kind: 'matched', choiceId: labels[0].id };
   // Only scripted labels/keywords are understood; a negation must not turn into an affirmative action.
   const exact = choices.filter(c => c.keywords.some(k => normalize(k) === input));
-  const candidates = exact.length ? exact : /不|没|别|勿|并非|放弃|拒绝/.test(input) ? []
+  let candidates = exact.length ? exact
     : choices.filter(c => c.keywords.some(k => normalize(k).length >= 2 && input.includes(normalize(k))));
+  if (!exact.length) {
+    // A scripted keyword may itself be negative (e.g. “第三项不用”). Only
+    // negation outside recognized keywords prevents executing that intention.
+    const words = [...new Set(candidates.flatMap(c => c.keywords.map(normalize)))]
+      .filter(word => word.length >= 2 && input.includes(word)).sort((a, b) => b.length - a.length);
+    const remainder = words.reduce((text, word) => text.split(word).join(''), input);
+    if (/不|没|别|勿|并非|放弃|拒绝/.test(remainder)) candidates = [];
+  }
   if (candidates.length === 1) return { kind: 'matched', choiceId: candidates[0].id };
   if (candidates.length > 1) return { kind: 'ambiguous', message: '这句话可能对应多项行动，请直接选择其中一项。' };
   return unmatched;

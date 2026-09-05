@@ -16,6 +16,19 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.5D-stage-two.1'
+    && ['v0.4B-stage-one.1', 'v0.4B-stage-one.2', 'v0.4B-stage-one.3', 'v0.4B-stage-one.4', 'v0.4B-stage-one.5'].includes(String(value.contentVersion))) {
+    // Validate against the previous, bounded chapter-two runtime first. Its
+    // earlier prose migrations remain exact; only then replay into new chapters.
+    const previous: Story = { ...story, contentVersion: 'v0.4B-stage-one.5', nodes: {
+      ...story.nodes, 'CH2-12': { ...story.nodes['CH2-12'], stageEnd: true,
+        content: story.nodes['CH2-12'].content + '\n\n下一章《没有时刻表的列车》' },
+    } };
+    const verified = validate(previous, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) resumed = choose(story, resumed, step.nodeId, step.choiceId, step.input);
+    return resumed;
+  }
   const beforeWordingEdit = story.id === 'longzu-black-king-shadow-stage-one'
     && story.contentVersion === 'v0.4B-stage-one.5'
     && ['v0.4B-stage-one.1', 'v0.4B-stage-one.2', 'v0.4B-stage-one.3', 'v0.4B-stage-one.4'].includes(String(value.contentVersion));

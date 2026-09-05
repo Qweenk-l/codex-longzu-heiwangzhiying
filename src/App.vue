@@ -7,6 +7,7 @@ import { availableChoices, choose, resolveInput, restoreCheckpoint, startChapter
 import { exportGame, importGame, loadGame, saveGame } from './storage/repository';
 
 const story = rawStory as Story;
+const lastChapterLabel = story.chapters.at(-1)!.title.split('《')[0];
 const normal = shallowRef<Session | null>(null);
 const session = shallowRef<Session | null>(null);
 const loadFailed = ref(false);
@@ -34,7 +35,7 @@ let confirmedAction: (() => void | Promise<void>) | undefined;
 const theme = ref<'light' | 'dark'>('light');
 const fontSize = ref(18);
 const choices = computed(() => session.value ? availableChoices(story, session.value) : []);
-const chapterTitle = computed(() => session.value ? story.chapters.find(item => item.chapter === (session.value?.mode === 'test' ? session.value.testChapter : story.nodes[session.value!.currentNodeId].chapter))?.title : '序章至第二章 · 阶段试玩');
+const chapterTitle = computed(() => session.value ? story.chapters.find(item => item.chapter === (session.value?.mode === 'test' ? session.value.testChapter : story.nodes[session.value!.currentNodeId].chapter))?.title : `序章至${lastChapterLabel} · 阶段试玩`);
 const checkpoints = computed(() => session.value?.checkpoints.filter(point => session.value?.mode !== 'test' || story.nodes[point.nodeId].chapter === session.value.testChapter) ?? []);
 
 function confirmAction(title: string, message: string, action: () => void | Promise<void>) {
@@ -244,7 +245,7 @@ onBeforeUnmount(() => {
         <p class="eyebrow">固定路明非 · 第一季阶段试玩</p>
         <h2>龙族：黑王之影</h2>
         <p class="intro">从白帝城的一场梦，走向卡塞尔之门。</p>
-        <p class="muted">本次可游玩序章、第一章和第二章。故事按预写分支推进，当前版本不接入 AI。</p>
+        <p class="muted">本次可游玩序章至{{ lastChapterLabel }}。故事按预写分支推进，当前版本不接入 AI。</p>
         <div class="menu-actions">
           <button class="primary-button" :disabled="busy" @click="begin">开始游戏</button>
           <button :disabled="busy || !normal" @click="resume">继续游戏</button>

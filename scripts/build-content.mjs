@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { buildChaptersThreeFive } from './build-chapters-three-five.mjs';
 
 // Only the checked-in snapshots are read; the original reference files stay untouched.
 const source = readFileSync(new URL('../content-source/v0.4B.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -148,9 +149,9 @@ for (const c of nodes['CH2-06'].choices.filter(c => c.id !== 'confront-setup')) 
 
 for (const [id, checkpointId] of Object.entries({ 'PRO-03': 'CP-PRO-END', 'CH1-12': 'CP-CH1-END', 'CH2-11': 'CP-CH2-DECISION', 'CH2-12': 'CP-CH2-END' })) nodes[id].checkpointId = checkpointId;
 nodes['CH2-ALT-END'].endingId = 'trialAlternate';
-nodes['CH2-12'].stageEnd = true;
-delete nodes['CH2-12'].autoNextNodeId;
-nodes['CH2-12'].content = nodes['CH2-12'].content.replace('几个小时前，你还站在别人告白的字母里', '几个小时前，你还困在那场告白的喧闹里') + '\n\n下一章《没有时刻表的列车》';
+nodes['CH2-12'].autoNextNodeId = 'CH3-01';
+nodes['CH2-12'].content = nodes['CH2-12'].content.replace('几个小时前，你还站在别人告白的字母里', '几个小时前，你还困在那场告白的喧闹里');
+Object.assign(nodes, buildChaptersThreeFive(baseline).nodes);
 
 const prefixOne = [{ nodeId: 'PRO-01', choiceId: 'remember-name' }];
 const prefixTwo = [...prefixOne, ...[
@@ -158,12 +159,28 @@ const prefixTwo = [...prefixOne, ...[
   ['CH1-06-NO-OLDTANG', 'interview-honest'], ['CH1-07-UNKNOWN', 'unknown-comfort-chen'], ['CH1-09', 'alien-loneliness'],
   ['CH1-10', 'power-instinctive'], ['CH1-11', 'admit-unknown'],
 ].map(([nodeId, choiceId]) => ({ nodeId, choiceId }))];
+const route = steps => steps.map(([nodeId, choiceId]) => ({ nodeId, choiceId }));
+const prefixThree = [...prefixTwo, ...route([
+  ['CH2-01', 'admission-disbelief'], ['CH2-02', 'ask-why-me'], ['CH2-04', 'accept-tissue'],
+  ['CH2-06', 'look-chen'], ['CH2-07', 'accept-letter'], ['CH2-10', 'thank-nono'], ['CH2-11', 'motive-escape'],
+])];
+const prefixFour = [...prefixThree, ...route([
+  ['CH3-02', 'ch3-02-verify'], ['CH3-03', 'ch3-03-share'], ['CH3-04', 'ch3-04-eyes'],
+  ['CH3-06', 'ch3-06-mock'], ['CH3-07', 'ch3-07-listen'],
+])];
+const prefixFive = [...prefixFour, ...route([
+  ['CH4-01', 'consequence'], ['CH4-02', 'doubt'], ['CH4-03', 'ch4-prioritize-dragon-evidence'],
+  ['CH4-05', 'ch4-focus-black-dragon'], ['CH4-07', 'check'], ['CH4-08', 'retreat'], ['CH4-09', 'pass'],
+])];
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.4B-stage-one.5', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.5D-stage-two.1', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },
     { chapter: 2, title: '第二章《隐藏的选择项》', entryNodeId: 'CH2-01', prerequisiteSummary: '你收到卡塞尔的邀请，带着 N96 回家，由叔叔联系教授。经历陌生猫头像的约战和一场不到九十秒的面试后，你以为自己又失败了。', canonicalPrefix: prefixTwo },
+    { chapter: 3, title: '第三章《没有时刻表的列车》', entryNodeId: 'CH3-01', prerequisiteSummary: '你读过父母的信，在电影院经历告白风波后接受诺诺的帮助，并决定前往卡塞尔。三周的入学准备结束，你独自飞抵芝加哥。', canonicalPrefix: prefixThree },
+    { chapter: 4, title: '第四章《屠龙学院》', entryNodeId: 'CH4-01', prerequisiteSummary: '你在车站核实车次，与芬格尔分享食物，遇见金色眼睛的神秘男孩。列车到来后你得知自己被评为S级，登车听古德里安说明学院的使命。', canonicalPrefix: prefixFour },
+    { chapter: 5, title: '第五章《自由一日》', entryNodeId: 'CH5-01', prerequisiteSummary: '你听过3E考试和龙类真相，经历黑龙幻象，并亲眼见过龙鳞与苏醒的红龙幼崽。校园忽然响起枪声，两位教授在你面前倒下；你仍把眼前的一切当成真实危机。', canonicalPrefix: prefixFive },
   ],
   nodes,
   endings: { trialAlternate: { title: '普通人生·暂时结局', description: '你暂时没有接受卡塞尔的邀请。可以回到决定前重新选择，或结束本次试玩。' } },

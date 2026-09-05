@@ -15,7 +15,7 @@ describe('save boundaries',()=>{
     const old=readFileSync(new URL('./fixtures/before-knock-save.json',import.meta.url),'utf8');
     const result=importGame(current,old);
     expect(result.currentNodeId).toBe('CH1-01');
-    expect(result.contentVersion).toBe('v0.4B-stage-one.5');
+    expect(result.contentVersion).toBe(current.contentVersion);
     expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^门外，婶婶的敲门声/);
     expect(result.flags).toEqual(JSON.parse(old).session.flags);
     expect(result.choices).toEqual(JSON.parse(old).session.choices);
@@ -89,6 +89,22 @@ describe('save boundaries',()=>{
     await saveGame(current,result);
     expect(await loadGame(current)).toEqual(result);
     old.session.history.find((h:{kind:string;nodeId:string})=>h.kind==='feedback' && h.nodeId==='CH1-07-UNKNOWN').text+='伪造';
+    expect(()=>importGame(current,JSON.stringify(old))).toThrow();
+  });
+  it('validates a chapter-two terminal save before continuing into chapter three',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=JSON.parse(readFileSync(new URL('./fixtures/before-chapters-three-five-save.json',import.meta.url),'utf8'));
+    const result=importGame(current,JSON.stringify(old));
+    expect(result.currentNodeId).toBe('CH3-02');
+    expect(result.status).toBe('choice');
+    expect(result.choices).toEqual(old.session.choices);
+    expect(result.history.filter(h=>h.kind==='story').slice(-3).map(h=>h.nodeId)).toEqual(['CH2-12','CH3-01','CH3-02']);
+    expect(result.flags.arrivedChicago).toBe(true);
+    expect(result.flags.learnedAboutFriggaRounds).not.toBe(true);
+    expect(result.checkpoints.map(c=>c.id)).toEqual(old.session.checkpoints.map((c:{id:string})=>c.id));
+    await saveGame(current,result);
+    expect(await loadGame(current)).toEqual(result);
+    old.session.flags.learnedAboutFriggaRounds=true;
     expect(()=>importGame(current,JSON.stringify(old))).toThrow();
   });
   it('round trips through actual IndexedDB API with replay validation',async()=>{

@@ -1,10 +1,10 @@
 # 首阶段内容接入映射
 
-日期：2026-09-04。运行内容版本：`v0.4B-stage-one.5`。固定路明非，序章至第二章；不含 AI 或第三章实装。
+首阶段记录日期：2026-09-04，以下39节点／63选项映射描述序章至第二章子集。2026-09-05当前运行包已扩展为 `v0.5D-stage-two.1`，共133节点／122选项，覆盖序章至第五章，不含 AI。新增内容见[第三至第五章映射](第三至第五章内容接入映射.md)。
 
 ## 可复现来源
 
-`npm run content:build` 只读取本工程 `content-source/v0.4B.md` 和 `content-source/baseline-v0.7C.json`，输出 `src/content/stage-one.json`、`content-source/state-mapping.json`。运行不读取父目录、旧项目或网络。
+`npm run content:build` 只读取本工程 `content-source/v0.4B.md`、`content-source/v0.5D.md` 和 `content-source/baseline-v0.7C.json`，输出 `src/content/stage-one.json`、`content-source/state-mapping.json`。运行不读取父目录、旧项目或网络。
 
 - `v0.4B.md` 是当前参考稿《龙族试玩前三章剧情设计稿-v0.4B.md》的逐字节快照，权威正文、对白、选项标签、根词和反馈均由此提取。文件 SHA-256：`d410b2e87eb3e61c4f8499c7705534d7d6d463c6e5c18188bdac04ea85e4bef5`。
 - `baseline-v0.7C.json` 是旧核心包的逐字节快照，保留既有稳定 ID 与后继作为接入基线；未用其短正文覆盖 v0.4B。文件 SHA-256：`a152054e5bb4bd4eef972fb2c4eee8e8c7f0b9909cadc144103d26b3a1813f5e`。

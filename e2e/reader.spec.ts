@@ -2,9 +2,9 @@ import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import rawStory from '../src/content/stage-one.json' with { type: 'json' };
 import type { Session, Story } from '../src/engine/types';
-import { availableChoices, choose, restoreCheckpoint, startGame } from '../src/engine/engine';
+import { availableChoices, choose, restoreCheckpoint, startChapterTest, startGame } from '../src/engine/engine';
 const story = rawStory as Story;
-test('chapter drawer scrolls in a short viewport and keeps unavailable chapters disabled',async({page},info)=>{
+test('chapter drawer scrolls in a short viewport and opens all implemented chapters',async({page},info)=>{
   await page.setViewportSize({width:390,height:430});
   await page.goto('/');
   const trigger=page.getByRole('button',{name:'打开章节列表',exact:true});
@@ -16,8 +16,8 @@ test('chapter drawer scrolls in a short viewport and keeps unavailable chapters 
   expect(bounds!.x).toBeGreaterThanOrEqual(0);
   expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(390);
   await expect(drawer.locator('.chapter-list button')).toHaveCount(6);
-  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(3);
-  for (const chapter of ['第三章','第四章','第五章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*待接入')})).toBeDisabled();
+  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(6);
+  for (const chapter of ['第三章','第四章','第五章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*可测试')})).toBeEnabled();
   const content=drawer.locator('.drawer-content');
   expect(await content.evaluate(el=>el.scrollHeight>el.clientHeight)).toBe(true);
   await content.evaluate(el=>{el.scrollTop=el.scrollHeight;});
@@ -36,7 +36,7 @@ async function clickChoice(page: Page, state: Session, id?: string): Promise<Ses
   expect(choice).toBeTruthy();
   await page.getByRole('region', {name:'行动区',exact:true}).getByRole('button',{name:choice.label,exact:true}).click();
   const next = choose(story, state, state.currentNodeId, choice.id);
-  await expect(page.locator('.statusbar')).toContainText('已自动保存');
+  await expect(page.locator('.statusbar')).toContainText(next.mode==='test' ? '测试进度不写入正式存档' : '已自动保存');
   if(next.status==='choice') await expect(page.locator('.choice-button').first()).toHaveText(availableChoices(story,next)[0].label);
   return next;
 }
@@ -151,17 +151,61 @@ test('temporary ending, rollback, approved known-confession variant, stage bound
   state=restoreCheckpoint(story,state,'CP-CH2-DECISION');
   await expect(page.locator('.choice-button')).toHaveCount(4);
   state=await clickChoice(page,state);
-  await expect(page.locator('.action-region')).toContainText('已到达第二章试玩终点');
+  await expect(page.locator('.topbar h1')).toContainText('第三章');
+  await expect(page.locator('.choice-button')).toHaveCount(3);
   await expect(page.locator('.story-region')).toContainText('几个小时前，你还困在那场告白的喧闹里');
   await assertSplit(page); await page.screenshot({path:info.outputPath('stage-end.png'),fullPage:true});
   await page.getByRole('button',{name:'目录',exact:true}).click();
   const downloadPromise=page.waitForEvent('download'); await page.getByRole('button',{name:'导出正式存档'}).click();
   const download=await downloadPromise; const saved=await readFile((await download.path())!,'utf8');
-  expect(JSON.parse(saved).session.currentNodeId).toBe('CH2-12');
+  expect(JSON.parse(saved).session.currentNodeId).toBe('CH3-02');
   await page.locator('input[type=file]').setInputFiles({name:'broken.json',mimeType:'application/json',buffer:Buffer.from('{broken')});
   await expect(page.getByRole('alert')).toContainText('无法读取存档文件');
   await page.locator('input[type=file]').setInputFiles({name:'valid.json',mimeType:'application/json',buffer:Buffer.from(saved)});
   await expect(page.getByRole('dialog',{name:'导入这份正式存档？'})).toBeVisible();
   await page.getByRole('dialog',{name:'导入这份正式存档？'}).getByRole('button',{name:'确认',exact:true}).click();
-  await expect(page.locator('.action-region')).toContainText('已到达第二章试玩终点');
+  await expect(page.locator('.topbar h1')).toContainText('第三章');
+  await expect(page.locator('.story-region')).toContainText('飞机落地时，芝加哥正下着细雨。');
+});
+
+test('chapters three to five have independent test routes and normal play reaches chapter five',async({page},info)=>{
+  await page.goto('/');
+  await page.getByRole('button',{name:'开始游戏',exact:true}).click();
+  const original=await page.locator('.choice-button').first().textContent();
+  await page.getByRole('button',{name:'目录',exact:true}).click();
+  for (const number of [3,4,5]) {
+    await page.getByRole('button',{name:'打开章节列表',exact:true}).click();
+    await page.getByRole('dialog',{name:'章节测试',exact:true}).getByRole('button',{name:new RegExp(story.chapters[number].title)}).click();
+    await expect(page.locator('.test-context')).toContainText(story.chapters[number].prerequisiteSummary);
+    let state=startChapterTest(story,number);
+    for(let count=0;state.status==='choice';count++) {
+      expect(count).toBeLessThan(25);
+      state=await clickChoice(page,state);
+    }
+    await expect(page.locator('.action-region')).toContainText('本章测试完成');
+    await expect(page.locator('.story-region')).not.toContainText('【红字修订】');
+    await assertSplit(page);
+    await page.screenshot({path:info.outputPath(`chapter-${number}-test-end.png`),fullPage:true});
+    await page.getByRole('button',{name:'目录',exact:true}).click();
+    await page.getByRole('button',{name:'继续游戏',exact:true}).click();
+    await expect(page.locator('.choice-button').first()).toHaveText(original!);
+    await page.getByRole('button',{name:'目录',exact:true}).click();
+  }
+  await page.locator('input[type=file]').setInputFiles('tests/fixtures/before-chapters-three-five-save.json');
+  await page.getByRole('dialog',{name:'导入这份正式存档？'}).getByRole('button',{name:'确认',exact:true}).click();
+  await expect(page.locator('.topbar h1')).toContainText('第三章');
+  // Follow the imported route, whose chapter-two choices may differ from the test prefix.
+  const imported=JSON.parse(await readFile('tests/fixtures/before-chapters-three-five-save.json','utf8'));
+  let normal=startGame(story);
+  for(const step of imported.session.choices) normal=choose(story,normal,step.nodeId,step.choiceId);
+  for(let count=0;normal.status==='choice';count++) {
+    expect(count).toBeLessThan(40);
+    normal=await clickChoice(page,normal);
+  }
+  await expect(page.locator('.action-region')).toContainText('已到达第五章试玩终点');
+  await expect(page.locator('.story-region')).toContainText('这问题值得活着考完再研究。');
+  await page.reload();
+  await page.getByRole('button',{name:'继续游戏',exact:true}).click();
+  await expect(page.locator('.action-region')).toContainText('已到达第五章试玩终点');
+  await page.screenshot({path:info.outputPath('chapter-five-normal-end.png'),fullPage:true});
 });

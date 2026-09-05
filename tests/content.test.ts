@@ -42,22 +42,22 @@ describe('v0.4B 阶段内容契约', () => {
     expect(node('CH2-10').choices.find(c => c.id === 'thank-nono')?.conditions).toEqual([{ type: 'flag', key: 'nonoRescuePublic', value: true }]);
     expect(node('CH2-10').choices.find(c => c.id === 'self-rescue')?.conditions).toEqual([{ type: 'flag', key: 'nonoRescueOutside', value: true }]);
     expect(node('CH2-12').content).toContain('几个小时前，你还困在那场告白的喧闹里');
-    expect(node('CH2-12').stageEnd).toBe(true);
-    expect(node('CH2-12').autoNextNodeId).toBeUndefined();
+    expect(node('CH2-12').stageEnd).not.toBe(true);
+    expect(node('CH2-12').autoNextNodeId).toBe('CH3-01');
     expect(node('CH2-11').checkpointId).toBe('CP-CH2-DECISION');
   });
 
-  it('静态图仅到第二章且所有节点都有真实选择、自动后继或终点', () => {
-    expect(Object.keys(story.nodes)).toHaveLength(39);
-    expect(Object.values(story.nodes).reduce((sum, n) => sum + n.choices.length, 0)).toBe(63);
+  it('静态图到第五章且所有节点都有真实选择、自动后继或终点', () => {
+    expect(Object.keys(story.nodes)).toHaveLength(133);
+    expect(Object.values(story.nodes).reduce((sum, n) => sum + n.choices.length, 0)).toBe(122);
     for (const n of Object.values(story.nodes)) {
-      expect(n.chapter).toBeLessThanOrEqual(2);
+      expect(n.chapter).toBeLessThanOrEqual(5);
       expect(n.content.trim().length).toBeGreaterThan(0);
       expect(n.content).not.toMatch(/显示条件|系统处理|写入：|\*\*|。。/);
       expect(n.choices.length > 0 || !!n.autoNextNodeId || !!n.endingId || n.stageEnd === true).toBe(true);
       const refs = [n.autoNextNodeId, ...(n.autoNextRules ?? []).map(r => r.nextNodeId), ...n.choices.flatMap(c => [c.nextNodeId, ...(c.nextNodeRules ?? []).map(r => r.nextNodeId)])].filter(Boolean);
       for (const ref of refs) expect(story.nodes[ref!], `${n.id} -> ${ref}`).toBeDefined();
-      for (const c of n.choices) expect(c.label).not.toMatch(/^继续/);
+      for (const c of n.choices) expect(c.label).not.toMatch(/^(继续|继续前进|下一步)[。！]?$/);
     }
   });
 
@@ -96,7 +96,7 @@ describe('v0.4B 阶段内容契约', () => {
     }
   });
 
-  it('所有节点与63个选项均可由真实引擎到达，条件正文和终点成立', () => {
+  it('所有节点与122个选项均可由真实引擎到达，条件正文和终点成立', () => {
     const conditionKeys = [...new Set(Object.values(story.nodes).flatMap(n => [
       ...(n.autoNextRules ?? []).flatMap(r => r.conditions),
       ...n.choices.flatMap(c => [...(c.conditions ?? []), ...(c.nextNodeRules ?? []).flatMap(r => r.conditions)]),
@@ -123,7 +123,7 @@ describe('v0.4B 阶段内容契约', () => {
       }
       if (state.status === 'stageEnd') {
         completed = true;
-        expect(state.currentNodeId).toBe('CH2-12');
+        expect(state.currentNodeId).toBe('CH5-14');
         expect(state.flags.acceptedCassell).toBe(true);
         continue;
       }
@@ -141,8 +141,8 @@ describe('v0.4B 阶段内容契约', () => {
         pending.push(next);
       }
     }
-    expect(coveredNodes.size).toBe(39);
-    expect(coveredChoices.size).toBe(63);
+    expect(coveredNodes.size).toBe(133);
+    expect(coveredChoices.size).toBe(122);
     expect(ended && completed).toBe(true);
   });
 
@@ -150,10 +150,11 @@ describe('v0.4B 阶段内容契约', () => {
     for (const chapter of story.chapters) {
       let normal = startGame(story);
       for (const step of chapter.canonicalPrefix) normal = choose(story, normal, step.nodeId, step.choiceId);
-      expect(normal.currentNodeId).toBe(chapter.entryNodeId);
+      expect(node(normal.currentNodeId).chapter).toBe(chapter.chapter);
+      expect(normal.history.find(h => h.kind === 'story' && node(h.nodeId).chapter === chapter.chapter)?.nodeId).toBe(chapter.entryNodeId);
       expect(normal.choices.every(c => node(c.nodeId).chapter < chapter.chapter)).toBe(true);
       const test = startChapterTest(story, chapter.chapter);
-      expect(test.currentNodeId).toBe(chapter.entryNodeId);
+      expect(test.currentNodeId).toBe(normal.currentNodeId);
       expect(test.flags).toEqual(normal.flags);
       expect(test.mode).toBe('test');
     }
