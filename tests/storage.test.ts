@@ -15,7 +15,7 @@ describe('save boundaries',()=>{
     const old=readFileSync(new URL('./fixtures/before-knock-save.json',import.meta.url),'utf8');
     const result=importGame(current,old);
     expect(result.currentNodeId).toBe('CH1-01');
-    expect(result.contentVersion).toBe('v0.4B-stage-one.3');
+    expect(result.contentVersion).toBe('v0.4B-stage-one.4');
     expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^窗外，婶婶在敲门。\n\n/);
     expect(result.flags).toEqual(JSON.parse(old).session.flags);
     expect(result.choices).toEqual(JSON.parse(old).session.choices);
@@ -48,6 +48,32 @@ describe('save boundaries',()=>{
       }
       await saveGame(current,result);
       expect(await loadGame(current)).toEqual(result);
+    }
+  });
+  it('upgrades the old Tang transition from .1, .2 and .3 while preserving progress',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=JSON.parse(readFileSync(new URL('./fixtures/before-old-tang-transition-save.json',import.meta.url),'utf8'));
+    for (const version of ['v0.4B-stage-one.1','v0.4B-stage-one.2','v0.4B-stage-one.3']) {
+      const file=structuredClone(old);
+      file.contentVersion=file.session.contentVersion=version;
+      if (version!== 'v0.4B-stage-one.3') {
+        const letter=file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-02');
+        letter.text=letter.text.replace('而是：现在的骗子','你第一反应是：现在的骗子');
+      }
+      if (version.endsWith('.1')) {
+        const opening=file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-01');
+        opening.text=opening.text.replace(/^窗外，婶婶在敲门。\n\n/,'');
+      }
+      const result=importGame(current,JSON.stringify(file));
+      expect(result.currentNodeId).toBe('CH1-04');
+      expect(result.flags).toEqual(old.session.flags);
+      expect(result.choices).toEqual(old.session.choices);
+      expect(result.checkpoints).toEqual(old.session.checkpoints);
+      expect(result.history.find(h=>h.nodeId==='CH1-03-OLDTANG')?.text).toBe(current.nodes['CH1-03-OLDTANG'].content);
+      await saveGame(current,result);
+      expect(await loadGame(current)).toEqual(result);
+      file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-03-OLDTANG').text+='伪造正文';
+      expect(()=>importGame(current,JSON.stringify(file))).toThrow();
     }
   });
   it('round trips through actual IndexedDB API with replay validation',async()=>{

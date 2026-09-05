@@ -17,8 +17,8 @@ function stable(value: unknown): string {
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
   const beforeWordingEdit = story.id === 'longzu-black-king-shadow-stage-one'
-    && story.contentVersion === 'v0.4B-stage-one.3'
-    && (value.contentVersion === 'v0.4B-stage-one.1' || value.contentVersion === 'v0.4B-stage-one.2');
+    && story.contentVersion === 'v0.4B-stage-one.4'
+    && (value.contentVersion === 'v0.4B-stage-one.1' || value.contentVersion === 'v0.4B-stage-one.2' || value.contentVersion === 'v0.4B-stage-one.3');
   if (value.formatVersion !== 1 || (value.contentVersion !== story.contentVersion && !beforeWordingEdit)) throw new Error('存档版本与当前剧情不一致，原进度已保留。');
   if (!object(value.session) || value.session.mode !== 'normal') throw new Error('章节测试不能作为正式存档。');
   let session: Record<string, unknown> = value.session;
@@ -27,11 +27,16 @@ function validate(story: Story, value: unknown): Session {
     session = structuredClone(session);
     // Only exact, known earlier prose can be upgraded; replay still verifies every saved field.
     const priorText: Record<string, string> = {
-      'CH1-02': story.nodes['CH1-02'].content.replace('而是：现在的骗子', '你第一反应是：现在的骗子'),
+      'CH1-03-OLDTANG': story.nodes['CH1-03-OLDTANG'].content
+        .split('\n\n你没再追问，收起信和手机往家走。')[0]
+        .replace('美国骗子是不是还没见面，就先送人一部手机。', '美国骗子是不是也给人安排五星级酒店面试。'),
     };
-    for (const variant of ['KNOWN', 'UNCERTAIN', 'SILENT']) {
-      const id = `CH2-08-DIGNITY-${variant}`;
-      priorText[id] = story.nodes[id].content.replace('少你一个也不耽误。', '少一个字母也不耽误。');
+    if (value.contentVersion !== 'v0.4B-stage-one.3') {
+      priorText['CH1-02'] = story.nodes['CH1-02'].content.replace('而是：现在的骗子', '你第一反应是：现在的骗子');
+      for (const variant of ['KNOWN', 'UNCERTAIN', 'SILENT']) {
+        const id = `CH2-08-DIGNITY-${variant}`;
+        priorText[id] = story.nodes[id].content.replace('少你一个也不耽误。', '少一个字母也不耽误。');
+      }
     }
     if (value.contentVersion === 'v0.4B-stage-one.1') {
       priorText['CH1-01'] = story.nodes['CH1-01'].content.replace(/^窗外，婶婶在敲门。\n\n/, '');
