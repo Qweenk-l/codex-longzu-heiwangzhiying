@@ -16,13 +16,25 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
-  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.5D-stage-two.1'
+  if (story.id === 'longzu-black-king-shadow-stage-one' && ['v0.5D-stage-two.1', 'v0.5D-stage-two.2'].includes(story.contentVersion)
     && ['v0.4B-stage-one.1', 'v0.4B-stage-one.2', 'v0.4B-stage-one.3', 'v0.4B-stage-one.4', 'v0.4B-stage-one.5'].includes(String(value.contentVersion))) {
     // Validate against the previous, bounded chapter-two runtime first. Its
     // earlier prose migrations remain exact; only then replay into new chapters.
     const previous: Story = { ...story, contentVersion: 'v0.4B-stage-one.5', nodes: {
       ...story.nodes, 'CH2-12': { ...story.nodes['CH2-12'], stageEnd: true,
         content: story.nodes['CH2-12'].content + '\n\n下一章《没有时刻表的列车》' },
+    } };
+    const verified = validate(previous, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) resumed = choose(story, resumed, step.nodeId, step.choiceId, step.input);
+    return resumed;
+  }
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.5D-stage-two.2'
+    && value.contentVersion === 'v0.5D-stage-two.1') {
+    // Validate the exact previous prose before replaying the same choices.
+    const previous: Story = { ...story, contentVersion: 'v0.5D-stage-two.1', nodes: {
+      ...story.nodes, 'CH3-03': { ...story.nodes['CH3-03'], content: story.nodes['CH3-03'].content.replace(
+        "芬格尔把那张五美元抻平，郑重地放在膝盖上。\n\n芬格尔：师弟，你出二十，我出五，咱们先凑着等车。至于你那个三明治……能不能分师兄一半？我也不白吃，看行李、认路，进了学院还能告诉你哪些坑千万别踩。\n\n你：都是你踩过的？\n\n芬格尔：八年。总不能一点收获都没有吧。\n\n他说得很坦然，目光却又往三明治上飘了一下。\n\n你低头看了看手里的午饭。刚才它还只是个三明治，现在已经有人愿意拿八年的大学经验来换半个了。", "芬格尔：师弟，商量一下。你的食物分我一半，我们把二十五美元合在一起撑到列车来；我负责看行李、找插座和提供八年级生存情报。\n\n你终于明白，这二十五美元不是系统自动合并的队伍资产，而是一个饿了两天的人正在向你发起合伙申请。") },
     } };
     const verified = validate(previous, value);
     let resumed = startGame(story);

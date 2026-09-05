@@ -107,6 +107,26 @@ describe('save boundaries',()=>{
     old.session.flags.learnedAboutFriggaRounds=true;
     expect(()=>importGame(current,JSON.stringify(old))).toThrow();
   });
+  it('upgrades the approved Fingel prose while rejecting altered old history',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const previous:Story=structuredClone(current);
+    previous.contentVersion='v0.5D-stage-two.1';
+    previous.nodes['CH3-03'].content=previous.nodes['CH3-03'].content.replace("芬格尔把那张五美元抻平，郑重地放在膝盖上。\n\n芬格尔：师弟，你出二十，我出五，咱们先凑着等车。至于你那个三明治……能不能分师兄一半？我也不白吃，看行李、认路，进了学院还能告诉你哪些坑千万别踩。\n\n你：都是你踩过的？\n\n芬格尔：八年。总不能一点收获都没有吧。\n\n他说得很坦然，目光却又往三明治上飘了一下。\n\n你低头看了看手里的午饭。刚才它还只是个三明治，现在已经有人愿意拿八年的大学经验来换半个了。","芬格尔：师弟，商量一下。你的食物分我一半，我们把二十五美元合在一起撑到列车来；我负责看行李、找插座和提供八年级生存情报。\n\n你终于明白，这二十五美元不是系统自动合并的队伍资产，而是一个饿了两天的人正在向你发起合伙申请。");
+    let state=startGame(previous);
+    for(const step of previous.chapters[3].canonicalPrefix) state=choose(previous,state,step.nodeId,step.choiceId);
+    state=choose(previous,state,'CH3-02','ch3-02-verify');
+    const file=JSON.parse(exportGame(previous,state));
+    expect(state.history.find(h=>h.nodeId==='CH3-03')?.text).toContain('合伙申请');
+    const upgraded=importGame(current,JSON.stringify(file));
+    expect(upgraded.history.find(h=>h.nodeId==='CH3-03')?.text).toContain('八年的大学经验来换半个');
+    expect(upgraded.choices).toEqual(state.choices);
+    expect(upgraded.flags).toEqual(state.flags);
+    expect(upgraded.checkpoints).toEqual(state.checkpoints);
+    await saveGame(current,upgraded);
+    expect(await loadGame(current)).toEqual(upgraded);
+    file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH3-03').text+='伪造';
+    expect(()=>importGame(current,JSON.stringify(file))).toThrow();
+  });
   it('round trips through actual IndexedDB API with replay validation',async()=>{
     const state=choose(story,startGame(story),'a','go');
     await saveGame(story,state);
