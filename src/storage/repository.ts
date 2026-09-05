@@ -16,6 +16,16 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-stage-three.1'
+    && /^(v0\.4B-stage-one\.[1-5]|v0\.5D-stage-two\.[12])$/.test(String(value.contentVersion))) {
+    const previous: Story = { ...story, contentVersion: 'v0.5D-stage-two.2', nodes: {
+      ...story.nodes, 'CH5-14': { ...story.nodes['CH5-14'], stageEnd: true },
+    } };
+    const verified = validate(previous, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) resumed = choose(story, resumed, step.nodeId, step.choiceId, step.input);
+    return resumed;
+  }
   if (story.id === 'longzu-black-king-shadow-stage-one' && ['v0.5D-stage-two.1', 'v0.5D-stage-two.2'].includes(story.contentVersion)
     && ['v0.4B-stage-one.1', 'v0.4B-stage-one.2', 'v0.4B-stage-one.3', 'v0.4B-stage-one.4', 'v0.4B-stage-one.5'].includes(String(value.contentVersion))) {
     // Validate against the previous, bounded chapter-two runtime first. Its

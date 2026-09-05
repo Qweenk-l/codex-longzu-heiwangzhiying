@@ -1,3 +1,4 @@
+import { buildChaptersSixNine } from './build-chapters-six-nine.mjs';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { buildChaptersThreeFive } from './build-chapters-three-five.mjs';
@@ -172,8 +173,26 @@ const prefixFive = [...prefixFour, ...route([
   ['CH4-01', 'consequence'], ['CH4-02', 'doubt'], ['CH4-03', 'ch4-prioritize-dragon-evidence'],
   ['CH4-05', 'ch4-focus-black-dragon'], ['CH4-07', 'check'], ['CH4-08', 'retreat'], ['CH4-09', 'pass'],
 ])];
+Object.assign(nodes, buildChaptersSixNine(baseline).nodes);
+delete nodes['CH5-14'].stageEnd;
+nodes['CH5-14'].autoNextNodeId = 'CH6-01';
+const prefixSix = [...prefixFive, ...route([
+  ['CH5-01','ch5-01-hide'], ['CH5-02','ch5-02-routes'], ['CH5-05','ch5-05-trust'],
+  ['CH5-07','ch5-07-helpless'], ['CH5-09','ch5-09-understand'], ['CH5-11','ch5-11-anger'], ['CH5-13','ch5-13-reject'],
+])];
+const prefixSeven = [...prefixSix, ...route([
+  ['CH6-01','ch6-01-memorize'], ['CH6-03','ch6-03-cuff'], ['CH6-04','ch6-04-draw'],
+  ['CH6-05','ch6-05-ninth'], ['CH6-07','ch6-07-rescue'], ['CH6-09','ch6-09-names'],
+])];
+const prefixEight = [...prefixSeven, ...route([
+  ['CH7-02','ch7-02-studentunion'], ['CH7-04','ch7-04-admit'], ['CH7-06','ch7-06-go'], ['CH7-07','ch7-07-wish'],
+])];
+const prefixNine = [...prefixEight, ...route([
+  ['CH8-01','ch8-01-trust'], ['CH8-03','ch8-03-obey'], ['CH8-05','ch8-05-ask'],
+  ['CH8-07','ch8-07-offset'], ['CH8-10','ch8-10-brother'],
+])];
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.5D-stage-two.2', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.7C-stage-three.1', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },
@@ -181,6 +200,10 @@ const story = {
     { chapter: 3, title: '第三章《没有时刻表的列车》', entryNodeId: 'CH3-01', prerequisiteSummary: '你读过父母的信，在电影院经历告白风波后接受诺诺的帮助，并决定前往卡塞尔。三周的入学准备结束，你独自飞抵芝加哥。', canonicalPrefix: prefixThree },
     { chapter: 4, title: '第四章《屠龙学院》', entryNodeId: 'CH4-01', prerequisiteSummary: '你在车站核实车次，与芬格尔分享食物，遇见金色眼睛的神秘男孩。列车到来后你得知自己被评为S级，登车听古德里安说明学院的使命。', canonicalPrefix: prefixFour },
     { chapter: 5, title: '第五章《自由一日》', entryNodeId: 'CH5-01', prerequisiteSummary: '你听过3E考试和龙类真相，经历黑龙幻象，并亲眼见过龙鳞与苏醒的红龙幼崽。校园忽然响起枪声，两位教授在你面前倒下；你仍把眼前的一切当成真实危机。', canonicalPrefix: prefixFive },
+    { chapter: 6, title: '第六章《龙文回响》', entryNodeId: 'CH6-01', prerequisiteSummary: '自由一日结束，你已知道训练弹的真相，三枪带来的奖励仍待3E考试确认。芬格尔与你回到宿舍，第二天九点将参加考试。', canonicalPrefix: prefixSix },
+    { chapter: 7, title: '第七章《安珀馆的星与花》', entryNodeId: 'CH7-01', prerequisiteSummary: '你通过3E，确认自由一日奖励。在图书馆协助打开青铜城地图后，仍目睹叶胜与酒德亚纪牺牲；你在悼念时把他们的名字写在同一条白布上。', canonicalPrefix: prefixSeven },
+    { chapter: 8, title: '第八章《龙穴警报》', entryNodeId: 'CH8-01', prerequisiteSummary: '你接受学生会邀请，与零共舞。警报打断晚宴，你按诺诺指引驾车离开交火区，在山顶祝她生日快乐。回到车旁，持枪的老唐突然出现在后座。', canonicalPrefix: prefixEight },
+    { chapter: 9, title: '第九章《夔门再临》', entryNodeId: 'CH9-01', prerequisiteSummary: '你保留对老唐的信任，服从诺诺分工，在钟楼偏开贤者之石的准星。康斯坦丁仍因护兄而死，老唐随后觉醒为诺顿。你保存护兄影像，并提出下一次行动必须审查撤离、通讯与处置方案。', canonicalPrefix: prefixNine },
   ],
   nodes,
   endings: { trialAlternate: { title: '普通人生·暂时结局', description: '你暂时没有接受卡塞尔的邀请。可以回到决定前重新选择，或结束本次试玩。' } },

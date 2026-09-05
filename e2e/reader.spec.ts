@@ -15,13 +15,13 @@ test('chapter drawer scrolls in a short viewport and opens all implemented chapt
   const bounds=await drawer.boundingBox();
   expect(bounds!.x).toBeGreaterThanOrEqual(0);
   expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(390);
-  await expect(drawer.locator('.chapter-list button')).toHaveCount(6);
-  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(6);
-  for (const chapter of ['第三章','第四章','第五章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*可测试')})).toBeEnabled();
+  await expect(drawer.locator('.chapter-list button')).toHaveCount(10);
+  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(10);
+  for (const chapter of ['第三章','第四章','第五章','第六章','第七章','第八章','第九章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*可测试')})).toBeEnabled();
   const content=drawer.locator('.drawer-content');
   expect(await content.evaluate(el=>el.scrollHeight>el.clientHeight)).toBe(true);
   await content.evaluate(el=>{el.scrollTop=el.scrollHeight;});
-  await expect(drawer.getByRole('button',{name:/第五章/})).toBeInViewport();
+  await expect(drawer.getByRole('button',{name:/第九章/})).toBeInViewport();
   await expect(drawer.getByRole('button',{name:'关闭',exact:true})).toBeInViewport();
   await page.screenshot({path:info.outputPath('chapter-drawer.png'),fullPage:true});
   await page.keyboard.press('Escape');
@@ -168,12 +168,12 @@ test('temporary ending, rollback, approved known-confession variant, stage bound
   await expect(page.locator('.story-region')).toContainText('飞机落地时，芝加哥正下着细雨。');
 });
 
-test('chapters three to five have independent test routes and normal play reaches chapter five',async({page},info)=>{
+test('chapters three to nine have independent test routes and normal play reaches chapter nine',async({page},info)=>{
   await page.goto('/');
   await page.getByRole('button',{name:'开始游戏',exact:true}).click();
   const original=await page.locator('.choice-button').first().textContent();
   await page.getByRole('button',{name:'目录',exact:true}).click();
-  for (const number of [3,4,5]) {
+  for (const number of [3,4,5,6,7,8,9]) {
     await page.getByRole('button',{name:'打开章节列表',exact:true}).click();
     await page.getByRole('dialog',{name:'章节测试',exact:true}).getByRole('button',{name:new RegExp(story.chapters[number].title)}).click();
     await expect(page.locator('.test-context')).toContainText(story.chapters[number].prerequisiteSummary);
@@ -199,13 +199,13 @@ test('chapters three to five have independent test routes and normal play reache
   let normal=startGame(story);
   for(const step of imported.session.choices) normal=choose(story,normal,step.nodeId,step.choiceId);
   for(let count=0;normal.status==='choice';count++) {
-    expect(count).toBeLessThan(40);
+    expect(count).toBeLessThan(100);
     normal=await clickChoice(page,normal);
   }
-  await expect(page.locator('.action-region')).toContainText('已到达第五章试玩终点');
-  await expect(page.locator('.story-region')).toContainText('这问题值得活着考完再研究。');
+  await expect(page.locator('.action-region')).toContainText('已到达第九章试玩终点');
+  await expect(page.locator('.story-region')).toContainText('舱门打开，里面的黑暗像一只等待已久的眼睛。');
   await page.reload();
   await page.getByRole('button',{name:'继续游戏',exact:true}).click();
-  await expect(page.locator('.action-region')).toContainText('已到达第五章试玩终点');
-  await page.screenshot({path:info.outputPath('chapter-five-normal-end.png'),fullPage:true});
+  await expect(page.locator('.action-region')).toContainText('已到达第九章试玩终点');
+  await page.screenshot({path:info.outputPath('chapter-nine-normal-end.png'),fullPage:true});
 });

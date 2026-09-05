@@ -47,11 +47,11 @@ describe('v0.4B 阶段内容契约', () => {
     expect(node('CH2-11').checkpointId).toBe('CP-CH2-DECISION');
   });
 
-  it('静态图到第五章且所有节点都有真实选择、自动后继或终点', () => {
-    expect(Object.keys(story.nodes)).toHaveLength(133);
-    expect(Object.values(story.nodes).reduce((sum, n) => sum + n.choices.length, 0)).toBe(122);
+  it('静态图到第九章且所有节点都有真实选择、自动后继或终点', () => {
+    expect(Object.keys(story.nodes)).toHaveLength(243);
+    expect(Object.values(story.nodes).reduce((sum, n) => sum + n.choices.length, 0)).toBe(187);
     for (const n of Object.values(story.nodes)) {
-      expect(n.chapter).toBeLessThanOrEqual(5);
+      expect(n.chapter).toBeLessThanOrEqual(9);
       expect(n.content.trim().length).toBeGreaterThan(0);
       expect(n.content).not.toMatch(/显示条件|系统处理|写入：|\*\*|。。/);
       expect(n.choices.length > 0 || !!n.autoNextNodeId || !!n.endingId || n.stageEnd === true).toBe(true);
@@ -96,11 +96,20 @@ describe('v0.4B 阶段内容契约', () => {
     }
   });
 
-  it('所有节点与122个选项均可由真实引擎到达，条件正文和终点成立', () => {
-    const conditionKeys = [...new Set(Object.values(story.nodes).flatMap(n => [
+  it('所有节点与187个选项均可由真实引擎到达，条件正文和终点成立', () => {
+    // Only retain conditions that can still be consumed downstream of this node.
+    const downstream = Object.fromEntries(Object.values(story.nodes).map(n => [n.id, new Set([
       ...(n.autoNextRules ?? []).flatMap(r => r.conditions),
       ...n.choices.flatMap(c => [...(c.conditions ?? []), ...(c.nextNodeRules ?? []).flatMap(r => r.conditions)]),
-    ]).map(c => c.key))];
+    ].map(c => c.key))]));
+    let changed = true;
+    while(changed) {
+      changed = false;
+      for(const n of Object.values(story.nodes)) {
+        const refs=[n.autoNextNodeId,...(n.autoNextRules??[]).map(r=>r.nextNodeId),...n.choices.flatMap(c=>[c.nextNodeId,...(c.nextNodeRules??[]).map(r=>r.nextNodeId)])].filter(Boolean) as string[];
+        for(const id of refs) for(const key of downstream[id]) if(!downstream[n.id].has(key)) { downstream[n.id].add(key); changed=true; }
+      }
+    }
     const pending = [startGame(story)];
     const visited = new Set<string>();
     const coveredNodes = new Set<string>();
@@ -110,7 +119,7 @@ describe('v0.4B 阶段内容契约', () => {
     while (pending.length) {
       const state = pending.pop()!;
       state.history.filter(h => h.kind === 'story').forEach(h => coveredNodes.add(h.nodeId));
-      const key = `${state.currentNodeId}:${conditionKeys.map(k => Number(state.flags[k] === true)).join('')}`;
+      const key = `${state.currentNodeId}:${[...downstream[state.currentNodeId]].sort().map(k => Number(state.flags[k] === true)).join('')}`;
       if (visited.has(key)) continue;
       visited.add(key);
       if (state.status === 'ending') {
@@ -123,7 +132,7 @@ describe('v0.4B 阶段内容契约', () => {
       }
       if (state.status === 'stageEnd') {
         completed = true;
-        expect(state.currentNodeId).toBe('CH5-14');
+        expect(state.currentNodeId).toBe('CH9-08');
         expect(state.flags.acceptedCassell).toBe(true);
         continue;
       }
@@ -141,8 +150,12 @@ describe('v0.4B 阶段内容契约', () => {
         pending.push(next);
       }
     }
-    expect(coveredNodes.size).toBe(133);
-    expect(coveredChoices.size).toBe(122);
+    expect(coveredNodes.size).toBe(243);
+    expect(coveredChoices.size).toBe(186);
+    const missing = Object.values(story.nodes).flatMap(n=>n.choices.map(c=>`${n.id}/${c.id}`)).filter(id=>!coveredChoices.has(id));
+    // Current earlier chapters can only write askedPriorityParents after reading the letter.
+    // The source OR contract also supports the isolated askedPriorityParents-only input.
+    expect(missing).toEqual(['CH6-05/ch6-05-parents-2']);
     expect(ended && completed).toBe(true);
   });
 

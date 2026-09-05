@@ -127,6 +127,20 @@ describe('save boundaries',()=>{
     file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH3-03').text+='伪造';
     expect(()=>importGame(current,JSON.stringify(file))).toThrow();
   });
+  it('validates a real chapter-five terminal save then continues at chapter six',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=JSON.parse(readFileSync(new URL('./fixtures/before-chapters-six-nine-save.json',import.meta.url),'utf8'));
+    const resumed=importGame(current,JSON.stringify(old));
+    expect(resumed.currentNodeId).toBe('CH6-01');
+    expect(resumed.choices).toEqual(old.session.choices);
+    expect(resumed.flags).toEqual(old.session.flags);
+    expect(resumed.checkpoints).toEqual(old.session.checkpoints);
+    expect(resumed.history.at(-1)?.nodeId).toBe('CH6-01');
+    await saveGame(current,resumed);
+    expect(await loadGame(current)).toEqual(resumed);
+    old.session.history.at(-1).text+='伪造';
+    expect(()=>importGame(current,JSON.stringify(old))).toThrow();
+  });
   it('round trips through actual IndexedDB API with replay validation',async()=>{
     const state=choose(story,startGame(story),'a','go');
     await saveGame(story,state);
