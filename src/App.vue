@@ -21,6 +21,12 @@ const reader = ref<InstanceType<typeof ReaderView>>();
 const fileInput = ref<HTMLInputElement>();
 const settingsDialog = ref<HTMLDialogElement>();
 const checkpointsDialog = ref<HTMLDialogElement>();
+const chaptersDialog = ref<HTMLDialogElement>();
+const testChapters = computed(() => [
+  ...story.chapters.map(chapter => ({ chapter: chapter.chapter, title: chapter.title, available: Boolean(story.nodes[chapter.entryNodeId]) })),
+  ...[3, 4, 5].filter(number => !story.chapters.some(chapter => chapter.chapter === number))
+    .map(number => ({ chapter: number, title: `第${['', '', '', '三', '四', '五'][number]}章`, available: false })),
+].sort((a, b) => a.chapter - b.chapter));
 const confirmDialog = ref<HTMLDialogElement>();
 const confirmTitle = ref('');
 const confirmText = ref('');
@@ -91,7 +97,11 @@ function resume() {
 }
 function testChapter(chapter: number) {
   if (busy.value) return;
-  try { void applyState(startChapterTest(story, chapter), true); } catch (cause) { showError(cause); }
+  try {
+    const state = startChapterTest(story, chapter);
+    chaptersDialog.value?.close();
+    void applyState(state, true);
+  } catch (cause) { showError(cause); }
 }
 function takeChoice(nodeId: string, choiceId: string, input?: string) {
   if (busy.value || !session.value) return;
@@ -242,13 +252,25 @@ onBeforeUnmount(() => {
         <section class="chapter-tests" aria-labelledby="test-heading">
           <h3 id="test-heading">章节测试</h3>
           <p class="muted">从预设前情进入指定章节，不影响正式进度。</p>
-          <div class="chapter-buttons"><button v-for="chapter in story.chapters" :key="chapter.chapter" :disabled="busy" @click="testChapter(chapter.chapter)">{{ chapter.title }}</button></div>
+          <button :disabled="busy" aria-haspopup="dialog" @click="chaptersDialog?.showModal()">打开章节列表</button>
         </section>
         <div class="save-tools"><button :disabled="busy || !normal" @click="downloadSave">导出正式存档</button><button :disabled="busy" @click="fileInput?.click()">导入存档</button></div>
         <p class="storage-note">进度保存在当前浏览器。换设备或清理浏览器前，请先导出存档。</p>
       </div>
     </main>
     <input ref="fileInput" class="file-input" type="file" accept=".json,application/json" aria-label="选择存档文件" @change="readImport" />
+    <dialog ref="chaptersDialog" class="chapter-drawer" aria-labelledby="chapters-title" aria-describedby="chapters-description" @click.self="chaptersDialog?.close()">
+      <form method="dialog" class="dialog-heading drawer-heading"><h2 id="chapters-title">章节测试</h2><button autofocus>关闭</button></form>
+      <div class="drawer-content">
+        <p id="chapters-description" class="muted">从预设前情进入章节，不影响正式进度。</p>
+        <div class="chapter-list">
+          <button v-for="chapter in testChapters" :key="chapter.chapter" :disabled="busy || !chapter.available" @click="testChapter(chapter.chapter)">
+            <span>{{ chapter.title }}</span><span class="chapter-state">{{ chapter.available ? '可测试' : '待接入' }}</span>
+          </button>
+        </div>
+      </div>
+      <p class="drawer-note muted">章节接入并验证后，开放对应测试入口。</p>
+    </dialog>
     <dialog ref="settingsDialog" aria-labelledby="settings-title">
       <form method="dialog" class="dialog-heading"><h2 id="settings-title">阅读设置</h2><button>关闭</button></form>
       <fieldset><legend>正文字号</legend><div class="setting-options"><label v-for="size in [16, 18, 20]" :key="size"><input v-model="fontSize" type="radio" :value="size" name="font-size" />{{ size }} px</label></div></fieldset>

@@ -15,8 +15,8 @@ describe('save boundaries',()=>{
     const old=readFileSync(new URL('./fixtures/before-knock-save.json',import.meta.url),'utf8');
     const result=importGame(current,old);
     expect(result.currentNodeId).toBe('CH1-01');
-    expect(result.contentVersion).toBe('v0.4B-stage-one.4');
-    expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^窗外，婶婶在敲门。\n\n/);
+    expect(result.contentVersion).toBe('v0.4B-stage-one.5');
+    expect(result.history.filter(h=>h.nodeId==='CH1-01')[0].text).toMatch(/^门外，婶婶的敲门声/);
     expect(result.flags).toEqual(JSON.parse(old).session.flags);
     expect(result.choices).toEqual(JSON.parse(old).session.choices);
     await saveGame(current,result);
@@ -75,6 +75,21 @@ describe('save boundaries',()=>{
       file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH1-03-OLDTANG').text+='伪造正文';
       expect(()=>importGame(current,JSON.stringify(file))).toThrow();
     }
+  });
+  it('upgrades .4 story and choice feedback together without changing checkpoints',async()=>{
+    const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
+    const old=JSON.parse(readFileSync(new URL('./fixtures/before-final-comments-save.json',import.meta.url),'utf8'));
+    const result=importGame(current,JSON.stringify(old));
+    expect(result.flags).toEqual(old.session.flags);
+    expect(result.choices).toEqual(old.session.choices);
+    expect(result.checkpoints).toEqual(old.session.checkpoints);
+    expect(result.history).toHaveLength(old.session.history.length);
+    expect(result.history.find(h=>h.kind==='feedback' && h.nodeId==='CH1-07-UNKNOWN')?.text.split('\n\n')).toHaveLength(3);
+    expect(result.history.find(h=>h.nodeId==='CH2-08-DIGNITY-KNOWN')?.text).toContain('别拉我来凑数');
+    await saveGame(current,result);
+    expect(await loadGame(current)).toEqual(result);
+    old.session.history.find((h:{kind:string;nodeId:string})=>h.kind==='feedback' && h.nodeId==='CH1-07-UNKNOWN').text+='伪造';
+    expect(()=>importGame(current,JSON.stringify(old))).toThrow();
   });
   it('round trips through actual IndexedDB API with replay validation',async()=>{
     const state=choose(story,startGame(story),'a','go');

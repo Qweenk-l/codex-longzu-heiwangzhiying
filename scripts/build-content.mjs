@@ -71,7 +71,6 @@ const choiceIds = {
 };
 const editorialFeedback = {
   '古德里安只回答“材料让我们认为你值得见面”，不泄露血统。': '古德里安只回答“材料让我们认为你值得见面”。',
-  '陈雯雯点头道谢，不扩大感情表现。': '陈雯雯点头道谢。',
   '古德里安说学院认为你的潜力不能用普通成绩衡量，但不透露血统等级。': '古德里安说学院认为你的潜力不能用普通成绩衡量。',
 };
 function choices(body, old, id) {
@@ -86,7 +85,7 @@ function choices(body, old, id) {
     const item = { id: choiceId, label: clean(label), keywords: field('自由输入根?').split('、').map(clean).filter(Boolean), effects: effects(effectText, `${id}:${choiceId}`), nextNodeId: next };
     const condition = field('显示条件') || field('条件');
     if (condition) item.conditions = [...condition.matchAll(/(\w+) = (\w+)/g)].map(([, key, value]) => value === 'true' ? flag(key) : flag(enums[key]?.[value] ?? key, value !== 'false'));
-    const feedback = field('回响');
+    const feedback = clean(meta.match(/^   - 回响：(.+(?:\n {5}\S.*)*)/m)?.[1] ?? '').replace(/\n {5}/g, '\n\n');
     if (feedback) item.feedback = editorialFeedback[feedback] ?? feedback;
     const common = body.match(/^\*\*共同写入：\*\*\s*(.+)$/m)?.[1];
     if (common) item.effects.push(...effects(common, id));
@@ -160,7 +159,7 @@ const prefixTwo = [...prefixOne, ...[
   ['CH1-10', 'power-instinctive'], ['CH1-11', 'admit-unknown'],
 ].map(([nodeId, choiceId]) => ({ nodeId, choiceId }))];
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.4B-stage-one.4', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.4B-stage-one.5', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },

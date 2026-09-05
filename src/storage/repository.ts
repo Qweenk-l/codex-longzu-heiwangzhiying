@@ -17,8 +17,8 @@ function stable(value: unknown): string {
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
   const beforeWordingEdit = story.id === 'longzu-black-king-shadow-stage-one'
-    && story.contentVersion === 'v0.4B-stage-one.4'
-    && (value.contentVersion === 'v0.4B-stage-one.1' || value.contentVersion === 'v0.4B-stage-one.2' || value.contentVersion === 'v0.4B-stage-one.3');
+    && story.contentVersion === 'v0.4B-stage-one.5'
+    && ['v0.4B-stage-one.1', 'v0.4B-stage-one.2', 'v0.4B-stage-one.3', 'v0.4B-stage-one.4'].includes(String(value.contentVersion));
   if (value.formatVersion !== 1 || (value.contentVersion !== story.contentVersion && !beforeWordingEdit)) throw new Error('存档版本与当前剧情不一致，原进度已保留。');
   if (!object(value.session) || value.session.mode !== 'normal') throw new Error('章节测试不能作为正式存档。');
   let session: Record<string, unknown> = value.session;
@@ -27,25 +27,31 @@ function validate(story: Story, value: unknown): Session {
     session = structuredClone(session);
     // Only exact, known earlier prose can be upgraded; replay still verifies every saved field.
     const priorText: Record<string, string> = {
-      'CH1-03-OLDTANG': story.nodes['CH1-03-OLDTANG'].content
-        .split('\n\n你没再追问，收起信和手机往家走。')[0]
-        .replace('美国骗子是不是还没见面，就先送人一部手机。', '美国骗子是不是也给人安排五星级酒店面试。'),
+      'CH1-01': story.nodes['CH1-01'].content.replace('门外，婶婶的敲门声一阵紧过一阵。敲到第三回，门板已经有了投降的意思。',
+        (value.contentVersion === 'v0.4B-stage-one.1' ? '' : '窗外，婶婶在敲门。\n\n') + '窗外，婶婶第三次敲门时，门板已经有了投降的意思。'),
+      'CH2-08-DIGNITY-KNOWN': story.nodes['CH2-08-DIGNITY-KNOWN'].content.replace('你要跟谁表白就自己去说，别拉我来凑数。', '你喜欢谁就自己去说，别拿我补你的句子。'),
     };
-    if (value.contentVersion !== 'v0.4B-stage-one.3') {
+    if (value.contentVersion !== 'v0.4B-stage-one.4') {
+      priorText['CH1-03-OLDTANG'] = story.nodes['CH1-03-OLDTANG'].content
+        .split('\n\n你没再追问，收起信和手机往家走。')[0]
+        .replace('美国骗子是不是还没见面，就先送人一部手机。', '美国骗子是不是也给人安排五星级酒店面试。');
+    }
+    if (value.contentVersion === 'v0.4B-stage-one.1' || value.contentVersion === 'v0.4B-stage-one.2') {
       priorText['CH1-02'] = story.nodes['CH1-02'].content.replace('而是：现在的骗子', '你第一反应是：现在的骗子');
       for (const variant of ['KNOWN', 'UNCERTAIN', 'SILENT']) {
         const id = `CH2-08-DIGNITY-${variant}`;
-        priorText[id] = story.nodes[id].content.replace('少你一个也不耽误。', '少一个字母也不耽误。');
+        priorText[id] = (priorText[id] ?? story.nodes[id].content).replace('少你一个也不耽误。', '少一个字母也不耽误。');
       }
-    }
-    if (value.contentVersion === 'v0.4B-stage-one.1') {
-      priorText['CH1-01'] = story.nodes['CH1-01'].content.replace(/^窗外，婶婶在敲门。\n\n/, '');
     }
     if (Array.isArray(session.history)) {
       for (const entry of session.history) {
         if (object(entry) && entry.kind === 'story' && typeof entry.nodeId === 'string'
           && Object.hasOwn(priorText, entry.nodeId) && entry.text === priorText[entry.nodeId]) {
           entry.text = story.nodes[entry.nodeId].content;
+        }
+        if (object(entry) && entry.kind === 'feedback' && entry.text === '陈雯雯点头道谢。'
+          && (entry.nodeId === 'CH1-07-KNOWN' || entry.nodeId === 'CH1-07-UNKNOWN')) {
+          entry.text = story.nodes[entry.nodeId].choices.find(choice => choice.id.endsWith('-comfort-chen'))!.feedback;
         }
       }
     }

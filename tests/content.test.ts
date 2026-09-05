@@ -14,7 +14,7 @@ describe('v0.4B 阶段内容契约', () => {
     expect(node('CH1-02').content).toContain('却没有留下电话号码');
     expect(node('CH1-02').content).toContain('纯黑色的 N96 手机');
     expect(node('CH1-01').choices[1]?.id).toBe('avoidance');
-    expect(node('CH1-01').content).toMatch(/^窗外，婶婶在敲门。\n\n窗外，婶婶第三次敲门时/);
+    expect(node('CH1-01').content).toMatch(/^门外，婶婶的敲门声一阵紧过一阵。敲到第三回，门板已经有了投降的意思。/);
   });
 
   it('恢复两版准备、共同候场正文和第三问两个选项', () => {
@@ -29,7 +29,7 @@ describe('v0.4B 阶段内容契约', () => {
   });
 
   it('保留尊严三版、路边条件与三处获批修正', () => {
-    expect(node('CH2-08-DIGNITY-KNOWN')?.content ?? '').toContain('你喜欢谁就自己去说');
+    expect(node('CH2-08-DIGNITY-KNOWN')?.content ?? '').toContain('你要跟谁表白就自己去说，别拉我来凑数。');
     expect(node('CH2-08-DIGNITY-UNCERTAIN').content).toContain('说不清楚，我不站');
     expect(node('CH2-08-DIGNITY-SILENT').content).toContain('你没有回头');
     for (const variant of ['KNOWN', 'UNCERTAIN', 'SILENT']) {
@@ -85,10 +85,15 @@ describe('v0.4B 阶段内容契约', () => {
     const feedback = Object.values(story.nodes).flatMap(n => n.choices.map(c => c.feedback ?? '')).join('\n');
     const trims: Record<string, string> = {
       '古德里安只回答“材料让我们认为你值得见面”，不泄露血统。': '古德里安只回答“材料让我们认为你值得见面”。',
-      '陈雯雯点头道谢，不扩大感情表现。': '陈雯雯点头道谢。',
       '古德里安说学院认为你的潜力不能用普通成绩衡量，但不透露血统等级。': '古德里安说学院认为你的潜力不能用普通成绩衡量。',
     };
-    for (const match of md.matchAll(/^   - 回响：(.+)$/gm)) expect(feedback).toContain(trims[match[1]] ?? match[1]);
+    for (const match of md.matchAll(/^   - 回响：(.+(?:\n {5}\S.*)*)/gm)) {
+      const text = match[1].replace(/\n {5}/g, '\n\n');
+      expect(feedback).toContain(trims[text] ?? text);
+    }
+    for (const variant of ['KNOWN', 'UNKNOWN']) {
+      expect(node(`CH1-07-${variant}`).choices[0].feedback?.split('\n\n')).toHaveLength(3);
+    }
   });
 
   it('所有节点与63个选项均可由真实引擎到达，条件正文和终点成立', () => {

@@ -1,0 +1,476 @@
+{
+  "formatVersion": 1,
+  "projectId": "longzu-black-king-shadow-stage-one",
+  "contentVersion": "v0.4B-stage-one.4",
+  "session": {
+    "formatVersion": 1,
+    "projectId": "longzu-black-king-shadow-stage-one",
+    "contentVersion": "v0.4B-stage-one.4",
+    "mode": "normal",
+    "currentNodeId": "CH2-10",
+    "flags": {
+      "sawWhiteCityDream": true,
+      "dreamFocusName": true,
+      "dreamFocusSilhouette": false,
+      "dreamFocusFlame": false,
+      "openingToneSelfMock": true,
+      "openingToneAvoidance": false,
+      "openingToneIndirectProbe": false,
+      "invitationHidden": false,
+      "invitationVerify": false,
+      "invitationDirect": true,
+      "familyConfirmedEarly": true,
+      "interviewCommitmentExplicit": false,
+      "interviewCommitmentQuestioning": false,
+      "interviewCommitmentPassive": true,
+      "interviewConfirmed": true,
+      "nonoReactionProbe": false,
+      "nonoReactionChallenge": true,
+      "nonoReactionGuarded": false,
+      "metNonoOnline": true,
+      "interviewTonePrepared": false,
+      "interviewToneHonest": true,
+      "interviewToneDeflecting": false,
+      "recognizedRecruitmentBatch": true,
+      "comfortedChenAtInterview": true,
+      "enteredCassellInterview": true,
+      "alienAnswerLoneliness": true,
+      "alienAnswerSkeptical": false,
+      "alienAnswerProbing": false,
+      "powerAnswerInstinctive": true,
+      "powerAnswerHopeful": false,
+      "powerAnswerProbing": false,
+      "thirdAnswerAdmittedUnknown": true,
+      "thirdAnswerQuestionedPurpose": false,
+      "completedChapterOne": true,
+      "admissionReactionDisbelief": true,
+      "admissionReactionRelief": false,
+      "admissionReactionCautious": false,
+      "admissionQuestionWhyMe": true,
+      "admissionQuestionDecisionDeadline": false,
+      "admissionQuestionPractical": false,
+      "readParentsLetter": true,
+      "oldLifeAttachmentRaisedByParentsLetter": true,
+      "nonoRevealGuarded": true,
+      "nonoRevealProbing": false,
+      "nonoRevealAcceptsHelp": false,
+      "metNonoOffline": true,
+      "delayedAcceptance": true,
+      "literatureEventUnlocked": true,
+      "noticedSetup": true,
+      "confrontedSetup": true,
+      "literatureOutcomeCanon": false,
+      "literatureOutcomeDignity": true,
+      "dignityStyleSilentExit": false,
+      "publicHumiliation": false,
+      "protectedDignity": true,
+      "oldLifeAttachmentLoweredByConfession": true,
+      "nonoRescuePublic": false,
+      "nonoRescueOutside": true,
+      "nonoRespectRaisedByOutsidePickup": true
+    },
+    "history": [
+      {
+        "id": 0,
+        "nodeId": "PRO-01",
+        "text": "这不是你的梦。\n\n黑暗像一片没有岸的水，先有声音从水底浮上来。那声音很轻，像一个孩子在空荡荡的宫殿里寻找唯一认识的人。\n\n“哥哥。”\n\n远处的城立在高处，白色墙壁被夜色切出锋利的边缘。风从城门穿过，带来铁器碰撞和巨大翅翼掠过天空的闷响。城中没有人奔逃，仿佛所有人都已经知道结局，只剩火还没有抵达。\n\n梦中人低下头。他看不清自己的手，只能感觉掌心里握着某种沉重的东西。\n\n那孩子又叫了一声。\n\n“哥哥，你还在吗？”\n\n白色的人影站在火光尚未照亮的城墙尽头，没有回答。\n\n孩子终于跑进火光里。他的影子被拉得很长，几乎碰到白衣人的脚边。\n\n“康斯坦丁。”白衣人叫出他的名字。\n\n孩子停下了。他像是想笑，又像是在等一个早已约定好的回答。城外传来山岳崩裂般的轰鸣，火从远处的屋顶一排排亮起，照出白衣人苍白而平静的脸。\n\n“我做错了吗？”孩子问。\n\n白衣人伸出手，动作很慢。梦中人却忽然感到一阵近乎窒息的恐惧——不是怕城毁灭，而是怕自己下一刻会忘记这个孩子。\n\n火焰越过城墙，把最后的回答吞没。",
+        "kind": "story"
+      },
+      {
+        "id": 1,
+        "nodeId": "PRO-01",
+        "text": "努力记住那个名字",
+        "kind": "choice"
+      },
+      {
+        "id": 2,
+        "nodeId": "PRO-03",
+        "text": "梦中人猛地醒来。\n\n列车经过远处，玻璃窗轻轻震动。电脑屏幕的冷光映在一张没有被镜头照清的脸上。桌边的杯子被碰倒，水沿着旧报纸往下淌，那个人却只是坐着，像还在听一座早已烧尽的城。\n\n下一秒，画面被切断。\n\n鼠标点击声重新响起。\n\n你的屏幕上，一队机枪兵从矿区边缘包抄过去。熊猫头像在聊天框里疯狂闪动。\n\n老唐：等等！兄弟，有话好说！你这是打游戏还是拆迁？\n\n你把最后一辆坦克点掉，屏幕中央跳出胜利提示。",
+        "kind": "story"
+      },
+      {
+        "id": 3,
+        "nodeId": "CH1-01",
+        "text": "窗外，婶婶在敲门。\n\n窗外，婶婶第三次敲门时，门板已经有了投降的意思。\n\n婶婶：路明非！让你出去买东西，不是让你在屋里给外国人打仗！顺便去报刊亭看看，有没有美国学校寄来的信！\n\n老唐：谁啊？这气势，美国房东听了都得主动退押金。\n\n你：我婶婶。我们家的最高执行长官，权限包括断网和没收晚饭。\n\n老唐：那你还不快撤？留得青山在，不怕没星际。\n\n你看了一眼桌角。其他学校的拒信叠成薄薄一摞，只剩芝加哥那边还没有结果。你跟自己说反正都一样，可鼠标悬在退出按钮上，迟迟没有按下去。",
+        "kind": "story"
+      },
+      {
+        "id": 4,
+        "nodeId": "CH1-01",
+        "text": "“拒信还差最后一张，凑齐能召唤神龙。走，收集最后一张。”",
+        "kind": "choice"
+      },
+      {
+        "id": 5,
+        "nodeId": "CH1-02",
+        "text": "报刊亭老板从一叠报纸下面抽出几封信。最上面的信封薄得很诚实——这种厚度通常装不下奖学金、校徽和美好未来，只够装一句“感谢申请”。\n\n你站在街边拆开它。\n\n信的前半段确实客气地拒绝了你原本申请的方向。你几乎已经准备把它折回去，下一段却说，你的材料被转交给一所与芝加哥方面保持合作的私立学院。那所学校名叫卡塞尔学院，愿意为你提供一次特别面试。\n\n末尾有署名：诺玛·劳伦斯。信中请你在收到邀请后联系正在中国访问的古德里安教授，却没有留下电话号码。\n\n你把信封倒了倒。除了一张打印纸，什么也没有。\n\n报刊亭老板又从柜台下面拿出一张签收单，说跟信一起来的还有一个 FedEx 包裹。你签了字，从硬纸信封里倒出一只纯黑色的 N96 手机。\n\n手机还有一大半电。通讯录里只有一个联系人：古德里安教授。\n\n你第一反应不是惊喜。\n\n而是：现在的骗子都已经舍得送 N96 了？",
+        "kind": "story"
+      },
+      {
+        "id": 6,
+        "nodeId": "CH1-02",
+        "text": "直接带回家，让叔叔联系教授",
+        "kind": "choice"
+      },
+      {
+        "id": 7,
+        "nodeId": "CH1-03-DIRECT",
+        "text": "你没有继续站在街边研究骗子为什么舍得送一只 N96。回到家，你把信和手机一起放到叔叔面前。\n\n你：有个学校让我去面试。你们先看看是真的假的，假的我就当今天多走了两站路。\n\n叔叔扶了扶眼镜，先看丽晶酒店和教授署名，又打开 N96 的通讯录。婶婶把信翻到背面，像是学费可能印在水印里。\n\n路鸣泽：卡塞尔？听着像卖汽车的。\n\n婶婶：你懂什么，别打岔。老路，用这只手机给教授打电话，先问清楚要不要钱。",
+        "kind": "story"
+      },
+      {
+        "id": 8,
+        "nodeId": "CH1-04",
+        "text": "叔叔用那只 N96 拨通唯一的联系人。古德里安教授的声音热情得像已经等了半辈子。他反复确认你的姓名和面试时间，又郑重保证学院不会在面试阶段收取费用。\n\n叔叔开始询问学校历史，婶婶追问住宿和奖学金，路鸣泽抱着词典查“Cassell”到底怎么拼。\n\n录取信写的是你的名字，客厅里最像旁听生的人却也是你。\n\n古德里安：明非也在旁边吗？我非常期待见到他！请务必让他亲自来。我们不是在寻找成绩单上最漂亮的学生。\n\n婶婶捂住话筒，小声问：那他们找什么？\n\n你：可能找成绩单最有想象空间的。",
+        "kind": "story"
+      },
+      {
+        "id": 9,
+        "nodeId": "CH1-04",
+        "text": "你对叔叔说：“你们决定吧。”",
+        "kind": "choice"
+      },
+      {
+        "id": 10,
+        "nodeId": "CH1-05",
+        "text": "晚上，你挂着 QQ。十八小时前，你给陈雯雯留过言，问文学社毕业活动的安排；她的头像仍然是灰的。\n\n另一个从没见过的红色猫头像先弹了出来，昵称栏写着“诺诺”。\n\n红色猫头像：切一盘？\n\n你：你谁？我什么时候加过你？\n\n红色猫头像：赢了再问。\n\n对局开始不到五分钟，你的矿区被骚扰，主力被引走，最后一处基地在你眼前爆开。对方没有打出“再见”，只留下一个咧着满嘴大牙狂笑的表情，随后头像暗了下去。\n\n你盯着那行灰下去的昵称，第一次觉得有人隔着屏幕看穿了你的心不在焉。",
+        "kind": "story"
+      },
+      {
+        "id": 11,
+        "nodeId": "CH1-05",
+        "text": "发起重赛：“喂喂喂，一局可不能说明问题，你这就想走了？”",
+        "kind": "choice"
+      },
+      {
+        "id": 12,
+        "nodeId": "CH1-05",
+        "text": "重赛邀请没有被接受，只剩那个大笑表情留在聊天记录里。",
+        "kind": "feedback"
+      },
+      {
+        "id": 13,
+        "nodeId": "CH1-06-NO-OLDTANG",
+        "text": "红色猫头像暗下去不久，陈雯雯终于回复了文学社活动的消息：“去啊，后天见。”\n\n楼顶的风把晾衣绳吹得左右摇晃。你拿着面试通知，试图想象明天会问什么。\n\n如果他们问人生规划，你的人生目前可以概括成“先活到晚饭”；如果问为什么选择卡塞尔，真正的答案是你根本不知道卡塞尔为什么选择你。\n\n你打开和老唐的聊天框，想问他美国大学会问什么，最后又关上了。楼下婶婶正在替你挑衬衫，声音隔着几层楼还能听见。",
+        "kind": "story"
+      },
+      {
+        "id": 14,
+        "nodeId": "CH1-06-NO-OLDTANG",
+        "text": "决定不会就承认，不硬编答案",
+        "kind": "choice"
+      },
+      {
+        "id": 15,
+        "nodeId": "CH1-07-UNKNOWN",
+        "text": "第二天上午，候场区摆着十七把椅子。陈雯雯、苏晓樯、柳淼淼、赵孟华……熟悉的面孔几乎坐满了。\n\n你这才意识到，那封来路古怪的通知不是只寄给你一个人的。\n\n你原以为自己走进的是一场真假难辨的单独面试，眼前却更像一批人早已被放进同一张名单。\n\n柳淼淼坐得端正，苏晓樯翻着英文材料，赵孟华靠在椅背上，像这场面试只是他今天行程里不太重要的一项。\n\n赵孟华看到你，眉毛微微抬了一下。\n\n赵孟华：你也在名单里？\n\n你：看样子是，前台暂时还没把我赶出去。\n\n赵孟华：网页我看过了。学校规模不大，不过有些教授以前在名校任职。它既然主动筛人，标准应该比普通申请更高。\n\n你：那我出现在这里，确实给这个结论增加了一点争议。\n\n赵孟华：我也正奇怪这个。\n\n赵孟华已经低头翻回自己的材料，像刚才只是顺手核对了一行名单。\n\n陈雯雯低声问：你准备口语了吗？我有点担心听不懂问题。",
+        "kind": "story"
+      },
+      {
+        "id": 16,
+        "nodeId": "CH1-07-UNKNOWN",
+        "text": "安慰陈雯雯：“听不懂就让他们再说一次。”",
+        "kind": "choice"
+      },
+      {
+        "id": 17,
+        "nodeId": "CH1-07-UNKNOWN",
+        "text": "陈雯雯点头道谢。",
+        "kind": "feedback"
+      },
+      {
+        "id": 18,
+        "nodeId": "CH1-08",
+        "text": "叶胜一次次推门叫名字。进去的人带着准备好的笑，出来时笑容像刚从脸上借来，还没来得及贴稳。\n\n柳淼淼很快出来。苏晓樯进去之前把资料合上，出来后只说了一句“他们问得有病”，又补充自己本来也不只这一条路。\n\n赵孟华停留的时间同样不长。他没有评价题目，只把袖口重新理平。\n\n有人小声说，前面的人不是在面试，是给面试官练刀。\n\n陈雯雯进去得久一些。她出来时脸色发白，刚想靠近你，叶胜已经站在门边。\n\n叶胜：路明非。\n\n陈雯雯嘴唇动了一下，似乎想提醒你什么。门已经打开。",
+        "kind": "story"
+      },
+      {
+        "id": 19,
+        "nodeId": "CH1-09",
+        "text": "房间里只有两位年轻面试官。叶胜坐在左侧，酒德亚纪把你的资料放在面前，没有翻动。\n\n酒德亚纪：第一个问题。你相信地球之外存在其他智慧生命吗？\n\n这个问题跟成绩、奖学金和未来规划都没有关系。你准备过的答案一下子全没了用处。",
+        "kind": "story"
+      },
+      {
+        "id": 20,
+        "nodeId": "CH1-09",
+        "text": "“相信。我经常在楼顶看星星……宇宙这么大，只有地球有人，反而很奇怪。”",
+        "kind": "choice"
+      },
+      {
+        "id": 21,
+        "nodeId": "CH1-09",
+        "text": "叶胜追问是不是在说光的孤独；你挠挠头，没有否认。",
+        "kind": "feedback"
+      },
+      {
+        "id": 22,
+        "nodeId": "CH1-10",
+        "text": "叶胜：第二个问题。你相信有人拥有无法用常识解释的能力吗？\n\n窗外有人拖动行李箱，滚轮声从走廊经过。你忽然想到随邀请寄来的 N96 和里面唯一的联系人，又想到那个隔着屏幕看穿你战术的红色猫头像。",
+        "kind": "story"
+      },
+      {
+        "id": 23,
+        "nodeId": "CH1-10",
+        "text": "“相信，超相信的。”",
+        "kind": "choice"
+      },
+      {
+        "id": 24,
+        "nodeId": "CH1-10",
+        "text": "叶胜问为什么，你只说“相信就是相信”。",
+        "kind": "feedback"
+      },
+      {
+        "id": 25,
+        "nodeId": "CH1-11",
+        "text": "酒德亚纪：最后一个问题。你觉得人类生存的基础是精神和灵魂，还是物质和肉体？\n\n你沉默了几秒。\n\n这句话里的每个字你都认识，排在一起以后却像一扇没有把手的门。你可以编一个听起来像答案的东西，也可以承认自己根本不知道他们在问什么。",
+        "kind": "story"
+      },
+      {
+        "id": 26,
+        "nodeId": "CH1-11",
+        "text": "“我不知道。问题太难了……要不算了吧。”",
+        "kind": "choice"
+      },
+      {
+        "id": 27,
+        "nodeId": "CH1-11",
+        "text": "酒德亚纪停了一下，认真记下“我不知道”。\n\n酒德亚纪合上资料。\n\n酒德亚纪：谢谢，面试结束。\n\n你看了一眼墙上的钟。从进门到现在，甚至没有一首歌那么长。",
+        "kind": "feedback"
+      },
+      {
+        "id": 28,
+        "nodeId": "CH1-12",
+        "text": "门在身后关上。候场区的人一起抬头，像想从你脸上确认里面究竟发生了什么。\n\n赵孟华：这么快？\n\n你：效率高。主要是我和卡塞尔学院互相确认了一下，双方都不太理解对方。\n\n陈雯雯还坐在原处。她问：是不是很难？\n\n你：不难。就是每个问题都跟上一个世界没什么关系。\n\n陈雯雯小声说，她大概也没有希望了。\n\n你本来应该先担心自己，却还是说：十五分钟总比九十秒强。真要淘汰，也得先淘汰我这个速度纪录保持者。\n\n陈雯雯笑了一下。那笑容很轻，不能证明任何别的东西。\n\n电梯门合上时，你认定自己又失败了一次。房间里面发生了什么，你不知道；有些答案现在也不该让你知道。",
+        "kind": "story"
+      },
+      {
+        "id": 29,
+        "nodeId": "CH2-01",
+        "text": "电话在深夜响起时，婶婶先以为是哪位亲戚出了事。\n\n三分钟后，家里所有灯都亮了。\n\n婶婶：录取了？真录取了？你再说一遍，是那个卡塞尔，不是什么培训班？\n\n叔叔一边找纸一边记第二天见面的时间。路鸣泽站在门口，睡得头发朝三个方向翘起，先问电话那头是不是美国人，又问你是不是真的要去美国。\n\n你坐在床边，听他们替你高兴、怀疑、计算和安排。那句“你被录取了”在人群里传了一圈，最后才像一件迟到的东西落到你手上。",
+        "kind": "story"
+      },
+      {
+        "id": 30,
+        "nodeId": "CH2-01",
+        "text": "第一反应是怀疑：“他们是不是通知错人了？”",
+        "kind": "choice"
+      },
+      {
+        "id": 31,
+        "nodeId": "CH2-02",
+        "text": "第二天，丽晶酒店的餐厅里，古德里安教授隔着桌子握住你的手，热情得像被录取的人是他。\n\n古德里安：明非，我就知道你能通过！学院愿意为你提供每年三万六千美元的奖学金，足以覆盖学费和基本生活。你不需要因为钱放弃这次机会。\n\n婶婶的眼神在听到数字时亮了一下。叔叔努力保持镇定，路鸣泽已经开始把美元换算成人民币。\n\n叶胜和酒德亚纪坐在一旁。他们比昨天温和，却仍然不解释那三道问题究竟测试了什么。",
+        "kind": "story"
+      },
+      {
+        "id": 32,
+        "nodeId": "CH2-02",
+        "text": "“为什么是我？”",
+        "kind": "choice"
+      },
+      {
+        "id": 33,
+        "nodeId": "CH2-02",
+        "text": "古德里安说学院认为你的潜力不能用普通成绩衡量。",
+        "kind": "feedback"
+      },
+      {
+        "id": 34,
+        "nodeId": "CH2-03",
+        "text": "谈话快结束时，酒德亚纪从随身的资料袋里取出一个单独封存的信封，没有把它和录取文件放在一起。\n\n酒德亚纪：这封信不属于招生材料。转交备注写着，只有录取结果确定以后才能交给你。\n\n你：谁把它交给你们的？\n\n古德里安：你的父母托人转交给学院的。我们只负责保管和递送，信里的话应该由他们自己告诉你。\n\n酒德亚纪把信封推到你面前。\n\n信封上写着你的名字。不是学院统一打印的字体，而是父母留下的手写字。\n\n信没有解释他们在哪里，也没有说明为什么这些年很少回来。里面只是说，他们知道你正在长大，知道你有时觉得自己被忘在叔叔家里，也知道一封信补不上缺席的那些年。\n\n他们希望你去看看更大的世界。\n\n你读到最后，把纸折回去，说自己想去洗把脸。\n\n酒店走廊的镜子把你的眼睛照得很红。你推开最近的一扇门，直到里面传来一个女孩的声音，才意识到门上的标志似乎不太对。\n\n陌生女孩：看完父母的信，就连男女厕所都不分了？\n\n你抬头，看见一头暗红色的长发。",
+        "kind": "story"
+      },
+      {
+        "id": 35,
+        "nodeId": "CH2-04",
+        "text": "她把手机屏幕举到你面前晃了晃。你认出了上面的红色猫头像。至于眼前这个暗红色长发的女孩，你是第一次见。\n\n你：之前跟我打星际的是你？\n\n诺诺：不然呢？你以为学院的中央电脑半夜闲得没事，专门来虐你？\n\n你：所以是你和电脑一起虐我。\n\n诺诺：纠正一下。是我指挥，她执行。你负责输。\n\n她把一包纸巾丢给你，没有问你为什么哭，也没有说“想哭就哭”。她只是靠在洗手台边，等你把脸擦干净。",
+        "kind": "story"
+      },
+      {
+        "id": 36,
+        "nodeId": "CH2-04",
+        "text": "“你们一直在查我？”",
+        "kind": "choice"
+      },
+      {
+        "id": 37,
+        "nodeId": "CH2-04",
+        "text": "诺诺回答“招生前当然要看档案”，拒绝说明更多。",
+        "kind": "feedback"
+      },
+      {
+        "id": 38,
+        "nodeId": "CH2-05",
+        "text": "回到餐厅以后，所有人已经默认你会去。婶婶开始问宿舍有没有暖气，叔叔研究护照和签证，古德里安教授把文件按顺序摆好。\n\n你却没有拿笔。\n\n诺诺坐在旁边看了你一会儿。\n\n诺诺：还不签？\n\n你：我得想想。毕竟出国不是换个网吧。\n\n诺诺：你废话很多。\n\n你：这是为了活跃气氛。\n\n诺诺：不，是为了让别人没空问你真话。\n\n她看了一眼你亮起的手机。陈雯雯发来文学社毕业活动的时间。\n\n诺诺：去吧。该结束的事不结束，你连飞机上都会惦记。\n\n她没有说结果会好，也没有保证你不会难堪。",
+        "kind": "story"
+      },
+      {
+        "id": 39,
+        "nodeId": "CH2-06",
+        "text": "文学社包下的小放映厅比平时亮。有人搬花，有人调投影，徐岩岩和徐淼淼在舞台边来回跑。赵孟华穿得很正式，看到你时只招了招手。\n\n赵孟华：你来得正好。等会儿帮个忙，站位已经给你留了。\n\n你看见舞台上摆着几个巨大的英文字母，暂时倒扣着。陈雯雯坐在前排，白裙子在昏暗灯光里很显眼。苏晓樯站得离人群稍远，抱着手臂，一句话也没说。",
+        "kind": "story"
+      },
+      {
+        "id": 40,
+        "nodeId": "CH2-06",
+        "text": "问徐家兄弟：“你们到底需要我干什么？”",
+        "kind": "choice"
+      },
+      {
+        "id": 41,
+        "nodeId": "CH2-06",
+        "text": "两人含糊其辞，反而暴露这是赵孟华准备的告白。",
+        "kind": "feedback"
+      },
+      {
+        "id": 42,
+        "nodeId": "CH2-07",
+        "text": "灯光暗下来之前，赵孟华把一个小写字母牌递给你。\n\n赵孟华：站左边第三个位置。别乱动，等灯亮就举起来。难得你也能派上用场，别在这时候掉链子。\n\n他的语气平静而自然，仿佛这不是请求，只是把一个无关紧要的位置分配给一个无关紧要的人。\n\n舞台另一端，其他字母已经就位。",
+        "kind": "story"
+      },
+      {
+        "id": 43,
+        "nodeId": "CH2-07",
+        "text": "“你们缺演员自己补，我不站。”",
+        "kind": "choice"
+      },
+      {
+        "id": 44,
+        "nodeId": "CH2-08-DIGNITY-KNOWN",
+        "text": "你把字母留在原地。赵孟华第一次真正看向你。\n\n赵孟华：你什么意思？\n\n你：你喜欢谁就自己去说，别拿我补你的句子。\n\n徐家兄弟愣住，赵孟华的脸色沉了一瞬，随后把字母踢到幕布边。\n\n赵孟华：随你。少你一个也不耽误。\n\n他走上台，投影替他补全了那句话。屏幕上的句子亮起，那场安排也彻底摆到了所有人面前。陈雯雯仍然红着脸接受了他，苏晓樯还是哭着离开。\n\n结果没有因为你的拒绝而改变。不同的是，你没有站在灯光中央，替别人完成羞辱自己的仪式。\n\n你走出放映厅。门在身后合拢，里面的掌声变得很远。\n\n走廊尽头站着一个红发女孩，像是已经等了一会儿。",
+        "kind": "story"
+      },
+      {
+        "id": 45,
+        "nodeId": "CH2-09-DIGNITY",
+        "text": "诺诺上下看了你一遍。\n\n诺诺：自己出来的？\n\n你：里面缺个字母。\n\n诺诺：看见了。\n\n你：不影响，他们有投影。科技改变人生。\n\n她嘴角动了一下，像是想笑，又忍住了。\n\n诺诺：有点进步。至少这次没等别人把你从地上捡起来。\n\n你：师姐，你们学院的夸奖方式都这么节省吗？\n\n诺诺把一件外套扔给你，转身往出口走。\n\n诺诺：跟上。你要是想站在这儿听完掌声，我也不拦你。",
+        "kind": "story"
+      },
+      {
+        "id": 46,
+        "nodeId": "CH2-10",
+        "text": "影院门外停着一辆红得过分的法拉利。诺诺把你塞进副驾驶，发动机的声音把身后的掌声和议论一起甩远。\n\n开出几条街后，车忽然失去力气，慢慢滑到路边。\n\n诺诺盯着仪表盘看了两秒。\n\n诺诺：没油了。\n\n你：你开五百万的车，不看油表？\n\n诺诺：我忙着接一个差点被旧生活绊住的新生。\n\n她下车，把高跟鞋踢到一边，毫不在意地坐在路沿上。华丽的衣服、熄火的跑车和她皱着眉发消息的样子混在一起，让刚才的一切忽然显得没有那么像世界末日。",
+        "kind": "story"
+      }
+    ],
+    "choices": [
+      {
+        "nodeId": "PRO-01",
+        "choiceId": "remember-name"
+      },
+      {
+        "nodeId": "CH1-01",
+        "choiceId": "self-mock"
+      },
+      {
+        "nodeId": "CH1-02",
+        "choiceId": "direct-confirm"
+      },
+      {
+        "nodeId": "CH1-04",
+        "choiceId": "commit-passive"
+      },
+      {
+        "nodeId": "CH1-05",
+        "choiceId": "nono-challenge"
+      },
+      {
+        "nodeId": "CH1-06-NO-OLDTANG",
+        "choiceId": "interview-honest"
+      },
+      {
+        "nodeId": "CH1-07-UNKNOWN",
+        "choiceId": "unknown-comfort-chen"
+      },
+      {
+        "nodeId": "CH1-09",
+        "choiceId": "alien-loneliness"
+      },
+      {
+        "nodeId": "CH1-10",
+        "choiceId": "power-instinctive"
+      },
+      {
+        "nodeId": "CH1-11",
+        "choiceId": "admit-unknown"
+      },
+      {
+        "nodeId": "CH2-01",
+        "choiceId": "admission-disbelief"
+      },
+      {
+        "nodeId": "CH2-02",
+        "choiceId": "ask-why-me"
+      },
+      {
+        "nodeId": "CH2-04",
+        "choiceId": "ask-nono-surveillance"
+      },
+      {
+        "nodeId": "CH2-06",
+        "choiceId": "confront-setup"
+      },
+      {
+        "nodeId": "CH2-07",
+        "choiceId": "refuse-letter"
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "CP-PRO-END",
+        "nodeId": "PRO-03",
+        "flags": {
+          "sawWhiteCityDream": true,
+          "dreamFocusName": true,
+          "dreamFocusSilhouette": false,
+          "dreamFocusFlame": false
+        },
+        "historyLength": 3,
+        "choiceLength": 1
+      },
+      {
+        "id": "CP-CH1-END",
+        "nodeId": "CH1-12",
+        "flags": {
+          "sawWhiteCityDream": true,
+          "dreamFocusName": true,
+          "dreamFocusSilhouette": false,
+          "dreamFocusFlame": false,
+          "openingToneSelfMock": true,
+          "openingToneAvoidance": false,
+          "openingToneIndirectProbe": false,
+          "invitationHidden": false,
+          "invitationVerify": false,
+          "invitationDirect": true,
+          "familyConfirmedEarly": true,
+          "interviewCommitmentExplicit": false,
+          "interviewCommitmentQuestioning": false,
+          "interviewCommitmentPassive": true,
+          "interviewConfirmed": true,
+          "nonoReactionProbe": false,
+          "nonoReactionChallenge": true,
+          "nonoReactionGuarded": false,
+          "metNonoOnline": true,
+          "interviewTonePrepared": false,
+          "interviewToneHonest": true,
+          "interviewToneDeflecting": false,
+          "recognizedRecruitmentBatch": true,
+          "comfortedChenAtInterview": true,
+          "enteredCassellInterview": true,
+          "alienAnswerLoneliness": true,
+          "alienAnswerSkeptical": false,
+          "alienAnswerProbing": false,
+          "powerAnswerInstinctive": true,
+          "powerAnswerHopeful": false,
+          "powerAnswerProbing": false,
+          "thirdAnswerAdmittedUnknown": true,
+          "thirdAnswerQuestionedPurpose": false,
+          "completedChapterOne": true
+        },
+        "historyLength": 29,
+        "choiceLength": 10
+      }
+    ],
+    "status": "choice"
+  }
+}
