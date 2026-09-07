@@ -222,3 +222,21 @@ test('all chapters have isolated tests and formal play reaches the archived seas
   await page.getByRole('dialog',{name:'载入季终归档？'}).getByRole('button',{name:'确认',exact:true}).click();
   await expect(page.locator('.action-region')).toContainText('第一季故事完');
 });
+
+
+test('C16 closed case is reopened on the merged outcome page without spoiling other endings', async ({page}, info) => {
+  await page.goto('/');
+  await page.getByRole('button', {name:'打开章节列表',exact:true}).click();
+  await page.getByRole('dialog', {name:'章节测试',exact:true}).getByRole('button', {name:/第十二章/}).click();
+  let state = startChapterTest(story, 12);
+  while (state.currentNodeId !== 'CH12-06') {
+    state = await clickChoice(page, state, state.currentNodeId === 'CH12-03' ? 'ch12-03-close' : state.currentNodeId === 'CH12-05' ? 'ch12-05-lethal' : undefined);
+  }
+  await expect(page.locator('.story-region')).not.toContainText('或者仍把手放在暴怒');
+  state = await clickChoice(page, state, 'ch12-06-human');
+  await expect(page.locator('.story-region')).toContainText('重新打开金属匣');
+  await expect(page.locator('.story-region')).not.toContainText('无论龙王死去');
+  await expect(page.locator('.story-region')).not.toContainText('残火被封进隔离舱');
+  await assertSplit(page);
+  await page.screenshot({path:info.outputPath('c16-closed-case-result.png'),fullPage:true});
+});

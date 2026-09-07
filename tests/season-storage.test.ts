@@ -39,7 +39,7 @@ describe('revised season saves', () => {
       const file = exportGame(oldStory, old, [old]);
       const migrated = importGame(story, file);
       expect(migrated.choices).toEqual(old.choices);
-      expect(migrated.flags).toEqual(old.flags);
+      expect(migrated.flags).toEqual({ ...old.flags, greedAvailable: true, sevenSinsCaseClosed: false });
       expect(importSeasonArchives(story, file)).toEqual([migrated]);
       expect(migrated.history.some(e => e.text.includes('出发前保存的操作要求'))).toBe(!prepared);
       expect(migrated.history.some(e => e.text.includes('收下这份不完整的记录'))).toBe(!prepared);

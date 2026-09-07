@@ -1,6 +1,6 @@
 {
   "id": "longzu-black-king-shadow-stage-one",
-  "contentVersion": "v0.7C-season-one.20260907.1",
+  "contentVersion": "v0.7C-season-one.20260906.1",
   "entryNodeId": "PRO-01",
   "chapters": [
     {
@@ -2289,7 +2289,7 @@
         },
         {
           "id": "avoidance",
-          "label": "“再开一盘。反正拒信不会长腿跑掉。”",
+          "label": "“先把这盘打完。反正拒信不会长腿跑掉。”",
           "keywords": [
             "打完",
             "等等",
@@ -2312,8 +2312,7 @@
               "value": false
             }
           ],
-          "nextNodeId": "CH1-02",
-          "feedback": "婶婶又在门外催了一声。你只好关掉游戏，先出门去拿信。"
+          "nextNodeId": "CH1-02"
         },
         {
           "id": "indirect-probe",
@@ -2340,8 +2339,7 @@
               "value": true
             }
           ],
-          "nextNodeId": "CH1-02",
-          "feedback": "老唐：各家不一样。我又不在招生办上班。先去看看，真有问题回来再说。\n\n婶婶又在门外催了一声，你只好先出门去拿信。"
+          "nextNodeId": "CH1-02"
         }
       ],
       "entryEffects": []
@@ -3044,7 +3042,7 @@
       "id": "CH1-10",
       "chapter": 1,
       "title": "第二问：不存在的能力",
-      "content": "叶胜：第二个问题。你相信有人拥有无法用常识解释的能力吗？\n\n门外有人拖动行李箱，滚轮声从走廊经过。你忽然想到随邀请寄来的 N96 和里面唯一的联系人，又想到那个隔着屏幕看穿你战术的红色猫头像。",
+      "content": "叶胜：第二个问题。你相信有人拥有无法用常识解释的能力吗？\n\n窗外有人拖动行李箱，滚轮声从走廊经过。你忽然想到随邀请寄来的 N96 和里面唯一的联系人，又想到那个隔着屏幕看穿你战术的红色猫头像。",
       "choices": [
         {
           "id": "power-instinctive",
@@ -4662,7 +4660,7 @@
       "id": "CH2-08-DIGNITY-SILENT",
       "chapter": 2,
       "title": "让句子缺一个字母",
-      "content": "你把字母放回原处，转身走向出口。\n\n赵孟华：你去哪儿？\n\n你没有回头。\n\n徐家兄弟愣住，赵孟华的脸色沉了一瞬，随后把字母踢到幕布边。\n\n赵孟华：随你。少你一个也不耽误。\n\n他走上台，投影替他补全了那句话。屏幕上的句子亮起，那场安排也彻底摆到了所有人面前。陈雯雯仍然红着脸接受了他，苏晓樯还是哭着离开。\n\n\n掌声还是响了。你站在灯照不到的地方，手里空着，指尖却绷得发疼。你没有说话，走到门口时，才把下一口气慢慢吐出来。\n\n你走出放映厅。门在身后合拢，里面的掌声变得很远。\n\n走廊尽头站着一个红发女孩，像是已经等了一会儿。",
+      "content": "你把字母放回原处，转身走向出口。\n\n赵孟华：你去哪儿？\n\n你没有回头。\n\n徐家兄弟愣住，赵孟华的脸色沉了一瞬，随后把字母踢到幕布边。\n\n赵孟华：随你。少你一个也不耽误。\n\n他走上台，投影替他补全了那句话。屏幕上的句子亮起，那场安排也彻底摆到了所有人面前。陈雯雯仍然红着脸接受了他，苏晓樯还是哭着离开。\n\n\n掌声还是响了。你站在灯照不到的地方，手里空着，指尖却绷得发疼。刚才那句拒绝只花了一口气，走到门口时，你才把下一口气慢慢吐出来。\n\n你走出放映厅。门在身后合拢，里面的掌声变得很远。\n\n走廊尽头站着一个红发女孩，像是已经等了一会儿。",
       "choices": [],
       "autoNextNodeId": "CH2-09-DIGNITY",
       "entryEffects": [
@@ -4695,7 +4693,7 @@
       "id": "CH2-03-HIDDEN-INTEREST",
       "chapter": 2,
       "title": "父母留下的字",
-      "content": "你把信塞进口袋，又隔着衣料按了一下。收到邀请那天，你也这样摸过那部手机，还跟家里说大概是骗局。这回你没有再找一句玩笑。",
+      "content": "你把信塞进口袋，又隔着衣料按了一下。昨天你也这样摸过那部手机，还跟家里说大概是骗局。这回你没有再找一句玩笑。",
       "choices": [],
       "autoNextNodeId": "CH2-03-CORRIDOR"
     },
@@ -5049,7 +5047,7 @@
       "id": "CH3-04-RESULT",
       "chapter": 3,
       "title": "第二个夜晚",
-      "content": "男孩没有解释交换的内容。他望向月台，像听见了只有自己能听见的铃声。\n\n男孩：列车来了。\n\n远处传来金属摩擦铁轨的长响。你猛地回头，芬格尔正从长椅上坐起；再看对面，那里只剩一片被月光照亮的空座位。",
+      "content": "无论你如何回应，男孩都没有解释交换的内容。他望向月台，像听见了只有自己能听见的铃声。\n\n男孩：列车来了。\n\n远处传来金属摩擦铁轨的长响。你猛地回头，芬格尔正从长椅上坐起；再看对面，那里只剩一片被月光照亮的空座位。",
       "choices": [],
       "entryEffects": [
         {
@@ -6808,7 +6806,7 @@
       "id": "CH5-13",
       "chapter": 5,
       "title": "宿舍里的新闻部",
-      "content": "晚上，芬格尔抱着电脑和一袋临期面包冲进宿舍。他先确认你没有被学生会或狮心会堵在门口，才把校园论坛转给你看。\n\n首页已经把你称为“自由一日最大意外”。照片里，黑队狙击手被标注为狮心会成员苏茜；红发女孩则是诺诺，学生会主席恺撒公开的女友。\n\n芬格尔：学生会有人想申诉，说你不在参战名单里。恺撒把申诉压下去了。狮心会没表态，不过他们大概会用沉默记很久。\n\n你：所以我在注册前就得罪了两大学生组织。\n\n芬格尔：准确说，你还赢了。奖励写在自由一日规则里：诺顿馆一年使用权；今年“学院之星”评选的决赛权；还有一条古老得很不文明的规则——你第一次正式追求的女孩不能拒绝，而且要维持至少三个月关系。\n\n你：学院把追人也写进战利品？\n\n芬格尔：校规上白纸黑字。你要真拿它去追人，挨揍的时候可别报我的名字。",
+      "content": "晚上，芬格尔抱着电脑和一袋临期面包冲进宿舍。他先确认你没有被学生会或狮心会堵在门口，才把校园论坛转给你看。\n\n首页已经把你称为“自由一日最大意外”。照片里，黑队狙击手被标注为狮心会成员苏茜；红发女孩则是诺诺，学生会主席恺撒公开的女友。\n\n芬格尔：学生会有人想申诉，说你不在参战名单里。恺撒把申诉压下去了。狮心会没表态，不过他们大概会用沉默记很久。\n\n你：所以我在注册前就得罪了两大学生组织。\n\n芬格尔：准确说，你还赢了。奖励写在自由一日规则里：诺顿馆一年使用权；今年“学院之星”评选的决赛权；还有一条古老得很不文明的规则——你第一次正式追求的女孩不能拒绝，而且要维持至少三个月关系。\n\n你：学院把追人也写进战利品？\n\n芬格尔：规则就是这么写的。用不用是你的事，但不能假装它原本写成“双方先同意”。",
       "choices": [
         {
           "id": "ch5-13-reject",
@@ -6894,7 +6892,7 @@
       "id": "CH5-13-RELATION",
       "chapter": 5,
       "title": "宿舍里的新闻部",
-      "content": "芬格尔确认这是全校都知道的公开关系。\n\n芬格尔：赢了比赛就够了，别把人家的感情也算进奖品。",
+      "content": "芬格尔确认这是全校都知道的公开关系；今天的枪声不会自动把任何人的感情改写。",
       "choices": [],
       "entryEffects": [],
       "autoNextNodeId": "CH5-14",
@@ -6936,7 +6934,7 @@
       "id": "CH6-01",
       "chapter": 6,
       "title": "凌晨五点的八张图",
-      "content": "凌晨五点，窗外还是一整块没有解冻的黑。\n\n你被一只冰凉的手拍醒时，第一反应是自由一日又开战了。第二反应是肩膀很疼，昨晚那三枪像还留在骨头里，每动一下，都有人在里面敲空弹壳。\n\n芬格尔站在床边，脸上带着一个通常只在推销保险和策划犯罪时才会出现的庄严表情。\n\n芬格尔：起床。距离 3E 还有四小时，你的人生只剩下一百八十分钟复习和六十分钟后悔。\n\n地板上铺着八张纸。每张纸上都是一团彼此纠缠的线条，像八片从古树上剥下来的影子。你盯了十秒，确定它们既不像文字，也不像人类有必要记住的东西。\n\n你：这是什么？精神病院八位优秀毕业生的联合作品？\n\n芬格尔：答案。\n\n你：题目呢？\n\n芬格尔：没有。\n\n你：你们学校作弊已经进化到只卖答案、不提供题目了？\n\n芬格尔蹲下来，把一支可水洗的黑色笔塞给你，只要求考试后请一顿能看见肉的早餐。\n\n芬格尔：3E 的龙文题库八年循环一次。正常人四年毕业，所以学院认为没人能见到完整循环。这个制度最大的漏洞，就是他们低估了一个留级八年的人对教育事业的感情。你怀疑这仍然是一门生意，只是他把账单写得比较像友情。\n\n桌上的考试通知写着九点开始。最下面还有一行小字：无法对龙文产生共鸣者，将重新评估血统等级与就读资格。",
+      "content": "凌晨五点，窗外还是一整块没有解冻的黑。\n\n你被一只冰凉的手拍醒时，第一反应是自由一日又开战了。第二反应是肩膀很疼，昨晚那三枪像还留在骨头里，每动一下，都有人在里面敲空弹壳。\n\n芬格尔站在床边，脸上带着一个通常只在推销保险和策划犯罪时才会出现的庄严表情。\n\n芬格尔：起床。距离 3E 还有四小时，你的人生只剩下一百八十分钟复习和六十分钟后悔。\n\n地板上铺着八张纸。每张纸上都是一团彼此纠缠的线条，像八片从古树上剥下来的影子。你盯了十秒，确定它们既不像文字，也不像人类有必要记住的东西。\n\n你：这是什么？精神病院八位优秀毕业生的联合作品？\n\n芬格尔：答案。\n\n你：题目呢？\n\n芬格尔：没有。\n\n你：你们学校作弊已经进化到只卖答案、不提供题目了？\n\n芬格尔蹲下来，把一支可水洗的黑色笔塞给你。\n\n芬格尔：3E 的龙文题库八年循环一次。正常人四年毕业，所以学院认为没人能见到完整循环。这个制度最大的漏洞，就是他们低估了一个留级八年的人对教育事业的感情。\n\n芬格尔把笔塞进你手里，只要求考试后请一顿能看见肉的早餐。你怀疑这仍然是一门生意，只是他把账单写得比较像友情。\n\n桌上的考试通知写着九点开始。最下面还有一行小字：无法对龙文产生共鸣者，将重新评估血统等级与就读资格。",
       "choices": [
         {
           "id": "ch6-01-memorize",
@@ -8072,7 +8070,7 @@
       "id": "CH7-08",
       "chapter": 7,
       "title": "后座的保险栓",
-      "content": "你们回到布加迪旁边。\n\n车门锁没有损坏，警报灯也没有亮。诺诺却在拉开副驾门前停住，目光落在后轮旁一小块被压倒的湿草和一串沿山道而来的泥痕上。\n\n她没有立刻回头，只把手伸向礼裙侧面的枪套。\n\n后座响起一声很轻的金属摩擦。\n\n保险栓被推开。\n\n一个男人从阴影里坐直，湿外套散发着雨水、机油和冰窖寒气混在一起的味道。枪口先对着诺诺，随后在看清你的脸时迟疑了几厘米。\n\n男人：兄弟，先别回头。今晚这活儿已经够倒霉了，我不想再误伤熟人。\n\n你从后视镜里看见那张脸。\n\n过去几年，无数个失眠夜里，你们隔着太平洋在星际地图上互相拆家。",
+      "content": "你们回到布加迪旁边。\n\n车门锁没有损坏，警报灯也没有亮。诺诺却在拉开副驾门前停住，目光落在后轮旁一小块被压倒的湿草和一串沿山道而来的泥痕上。\n\n她没有立刻回头，只把手伸向礼裙侧面的枪套。\n\n后座响起一声很轻的金属摩擦。\n\n保险栓被推开。\n\n一个男人从阴影里坐直，湿外套散发着雨水、机油和冰窖寒气混在一起的味道。枪口先对着诺诺，随后在看清你的脸时迟疑了几厘米。\n\n男人：兄弟，先别回头。今晚这活儿已经够倒霉了，我不想再误伤熟人。\n\n你从后视镜里看见那张脸。\n\n过去几年，无数个失眠夜里，你们隔着太平洋在星际地图上互相拆家。面试前他教你怎样在听不懂英语时保持微笑，还答应等你到了美国，要带你坐灰狗去看纽约以外的地方。\n\n你：老唐？\n\n老唐：小声点。现在叫名字会显得我们很不专业。\n\n诺诺没有放下手。她从后视镜里先看枪、再看他的袖口和鞋底，像在几秒内读完他经过哪些通道、多久没有休息，以及他并不真想开枪这件事。\n\n老唐：开车。等出了学院范围，我就放你们走。\n\n你握住方向盘。刚才烟花留下的颜色已经从视野里消失，只剩后视镜中那个美国网友疲惫又慌张的眼睛。",
       "choices": [],
       "entryEffects": [
         {
@@ -8086,20 +8084,8 @@
           "value": true
         }
       ],
-      "autoNextNodeId": "CH7-08-NO-OLDTANG",
-      "checkpointId": "CP-CH7-END",
-      "autoNextRules": [
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "askedOldTang",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH7-08-ASKED-OLDTANG"
-        }
-      ]
+      "autoNextNodeId": "CH8-01",
+      "checkpointId": "CP-CH7-END"
     },
     "CH8-01": {
       "id": "CH8-01",
@@ -8288,7 +8274,7 @@
       "id": "CH8-03-RESULT",
       "chapter": 8,
       "title": "服务通道",
-      "content": "隔离门在你身后闭合。\n\n芬格尔通过旧终端连续打开体育馆门禁，又删去一段监控缓存。他的操作在系统里留下清楚痕迹：调用级别远高于 F 级权限。\n\n诺诺留在外侧与恺撒的防线汇合。你、老唐和芬格尔沿服务梯抵达室内泳池。",
+      "content": "隔离门在你身后闭合。\n\n芬格尔通过旧终端连续打开体育馆门禁，又删去一段监控缓存。他的操作在系统里留下清楚痕迹：调用级别远高于 F 级权限。\n\n诺诺留在外侧与恺撒的防线汇合，不进入后续泳池段落。你、老唐和芬格尔沿服务梯抵达室内泳池。",
       "choices": [],
       "entryEffects": [],
       "autoNextNodeId": "CH8-04"
@@ -8742,12 +8728,11 @@
         },
         {
           "id": "ch9-02-share",
-          "label": "把恢复数据和取证过程完整交给执行部，并申请调阅护兄影像",
+          "label": "把恢复数据和取证过程完整交给执行部",
           "keywords": [
             "上交恢复数据",
             "提交完整取证",
-            "交给施耐德",
-            "申请调阅护兄影像"
+            "交给施耐德"
           ],
           "effects": [
             {
@@ -8791,15 +8776,9 @@
       "id": "CH9-02-SHARE",
       "chapter": 9,
       "title": "没有发送的灰狗车票",
-      "content": "执行部接收数据后，把维护车、道路摄像头和夔门坐标关联进同一条追踪链。私人消息被列为附属证据，不向任务组以外公开。\n\n你要求调阅康斯坦丁护住哥哥的原始影像。执行部审核后，将经核验的副本纳入本次任务资料。",
+      "content": "执行部接收数据后，把维护车、道路摄像头和夔门坐标关联进同一条追踪链。私人消息被列为附属证据，不向任务组以外公开。",
       "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "preservedBrotherEvidence",
-          "value": true
-        }
-      ],
+      "entryEffects": [],
       "autoNextNodeId": "CH9-03"
     },
     "CH9-02-FIND": {
@@ -8815,7 +8794,7 @@
       "id": "CH9-03",
       "chapter": 9,
       "title": "谁在船上负责什么",
-      "content": "青铜计划最后一次简报在地下会议室举行。\n\n曼斯通过视频提供前次行动的完整口述：叶胜与酒德亚纪如何发现青铜城、哪里失去信号、黄铜罐如何送回。他只负责复盘，不继续担任本次现场指挥。曼施坦因站在主屏前，作为摩尼亚赫号船长和行动协调人接过后续流程。\n\n施耐德坐在阴影里。会议桌中央依次亮起每个人的姓名与职责：\n\n- 诺诺：下潜现场判断、侧写、活灵与结构痕迹识别。\n- 路明非：使用已验证的游戏化地图接口，承担异常龙文响应；没有整船指挥权。\n- 楚子航：船侧近距掩护。\n- 零：岸上监控、替补与机动支援。\n- 恺撒：战斗组火力与紧急撤离指挥。\n- 曼施坦因：摩尼亚赫号船上协调。\n- 芬格尔：学院远程数据支援，不随下潜组进入青铜城。\n\n任务席位已经确认。它不是奖状，而是一份有人愿意为你负责的行动清单。",
+      "content": "青铜计划最后一次简报在地下会议室举行。\n\n曼斯通过视频提供前次行动的完整口述：叶胜与酒德亚纪如何发现青铜城、哪里失去信号、黄铜罐如何送回。他只负责复盘，不继续担任本次现场指挥。曼施坦因站在主屏前，作为摩尼亚赫号船长和行动协调人接过后续流程。\n\n施耐德坐在阴影里。会议桌中央依次亮起每个人的姓名与职责：\n\n- 诺诺：下潜现场判断、侧写、活灵与结构痕迹识别。\n- 路明非：使用已验证的游戏化地图接口，承担异常龙文响应；没有整船指挥权。\n- 零：岸上监控、替补与机动支援。\n- 恺撒：战斗组与紧急撤离指挥。\n- 曼施坦因：摩尼亚赫号船上协调。\n- 芬格尔：学院远程数据支援，不随下潜组进入青铜城。\n\n任务席位已经确认。它不是奖状，而是一份有人愿意为你负责的行动清单。",
       "choices": [],
       "entryEffects": [],
       "autoNextNodeId": "CH9-03-CLOSE",
@@ -9023,7 +9002,7 @@
       "id": "CH9-06",
       "chapter": 9,
       "title": "活体处置不是一句“别杀他”",
-      "content": "最后一项没有写在标准清单里。\n\n施耐德把目标页投上主屏：青铜与火之王·诺顿。默认处置是确认核心后歼灭，必要时允许使用所有船载武器。\n\n你在姓名栏下面看见另一行小字：人类身份，老唐。\n\n诺诺没有替你说话。她先看完老唐手机、监控与道路摄像头的证据，再抬头看你。\n\n诺诺：我知道你想把他带回来。可船上还有别人。你得让他们听明白，怎么试，试不成又怎么办。\n\n你：那我要拿什么说服他们？\n\n诺诺：认你有什么证据证明他还在，分离以后拿什么关住龙王，失败时谁承担后果。\n\n她把目标页往你面前推了推，手指停在“老唐”两个字旁边：“你们一起经历过什么，他留下过什么，得有不同的事情互相印证。弟弟护住他的那段原始影像，也不能靠你转述补出来。至于分开后的力量往哪儿去，得在动手前找好地方。”\n\n你低头看着资料。原来叫他一声朋友之后，还有这么多话得说清楚。",
+      "content": "最后一项没有写在标准清单里。\n\n施耐德把目标页投上主屏：青铜与火之王·诺顿。默认处置是确认核心后歼灭，必要时允许使用所有船载武器。\n\n你在姓名栏下面看见另一行小字：人类身份，老唐。\n\n诺诺没有替你说话。她先看完老唐手机、监控与道路摄像头的证据，再抬头看你。\n\n诺诺：我知道你想把他带回来。可船上还有别人。你得让他们听明白，怎么试，试不成又怎么办。\n\n你：那认什么？\n\n诺诺：认你有什么证据证明他还在，分离以后拿什么关住龙王，失败时谁承担后果。\n\n她把目标页往你面前推了推，手指停在“老唐”两个字旁边：“你们一起经历过什么，他留下过什么，得有不同的事情互相印证。弟弟护住他的那段原始影像，也不能靠你转述补出来。至于分开后的力量往哪儿去，得在动手前找好地方。”\n\n你低头看着资料。原来叫他一声朋友之后，还有这么多话得说清楚。",
       "choices": [
         {
           "id": "ch9-06-nonlethal",
@@ -9037,11 +9016,6 @@
             {
               "type": "flag",
               "key": "requestedNonlethalDragonProtocol",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
               "value": true
             }
           ],
@@ -9066,11 +9040,6 @@
             {
               "type": "flag",
               "key": "requestedNonlethalDragonProtocol",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
               "value": true
             }
           ],
@@ -9100,11 +9069,6 @@
             {
               "type": "flag",
               "key": "requestedNonlethalDragonProtocol",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
               "value": true
             }
           ],
@@ -9168,7 +9132,7 @@
       "id": "CH9-06-NONLETHAL",
       "chapter": 9,
       "title": "活体处置不是一句“别杀他”",
-      "content": "你提交人类证据，施耐德只批准“条件允许时尝试”。致命预案继续保留；一旦分离失败或船上人员受到威胁，恺撒仍有权结束目标。\n\n你：警戒不能撤。但他留下那些记录的时候，还在想以后去哪儿。我愿意为他争取这一次，前提是其他人能撤出去。",
+      "content": "你提交人类证据，施耐德只批准“条件允许时尝试”。致命预案继续保留；一旦分离失败或船上人员受到威胁，恺撒仍有权结束目标。",
       "choices": [],
       "entryEffects": [],
       "autoNextNodeId": "CH9-07"
@@ -9972,13 +9936,7 @@
             "先保护伤员",
             "别让它动"
           ],
-          "effects": [
-            {
-              "type": "flag",
-              "key": "sevenSinsCaseClosed",
-              "value": true
-            }
-          ],
+          "effects": [],
           "nextNodeId": "CH12-03-CLOSE"
         }
       ]
@@ -10050,7 +10008,7 @@
         },
         {
           "id": "ch12-05-restraint",
-          "label": "校准船侧承载框架，核对容纳位置",
+          "label": "接入束缚组件或青铜结构图，先验证容纳位置",
           "keywords": [
             "接入束缚组件",
             "验证容纳位置",
@@ -10073,7 +10031,7 @@
         },
         {
           "id": "ch12-05-restraint-blueprint",
-          "label": "按青铜结构图校准容纳回路",
+          "label": "接入束缚组件或青铜结构图，先验证容纳位置",
           "keywords": [
             "接入束缚组件",
             "验证容纳位置",
@@ -10101,11 +10059,11 @@
         },
         {
           "id": "ch12-05-lethal",
-          "label": "先核对致命火力与撤离底线，再决定是否尝试分离",
+          "label": "承认目前只有致命火力，暂不伪装成可活捉方案",
           "keywords": [
-            "核对致命火力",
-            "确认撤离底线",
-            "先看保底方案"
+            "承认没有方案",
+            "只用致命火力",
+            "不伪装活捉"
           ],
           "effects": [],
           "nextNodeId": "CH12-05-LETHAL"
@@ -10120,7 +10078,7 @@
       "choices": [
         {
           "id": "ch12-06-lethal",
-          "label": "用贪婪锁定核心，先结束眼前攻击",
+          "label": "抓住松动的刀柄，先结束眼前攻击",
           "keywords": [
             "抓住松动刀柄",
             "先结束攻击",
@@ -10674,7 +10632,7 @@
       "id": "CH12-08",
       "chapter": 12,
       "title": "一场战斗，三种余波",
-      "content": "战斗结束后，江面没有立刻安静。\n\n火焰熄灭，水汽仍在上升；摩尼亚赫号的右舷严重变形，甲板上散着被烧黑的通讯器和青铜碎片。医疗组把诺诺推进舱内，她的生命体征保持在可以转运的区间，脸色却比窗外的雨更白。\n\n金属匣被重新锁好。七宗罪没有被交给任何一名学生保管，执行部在确认封存手续后，把它移入校长权限的运输箱。\n\n你站在船侧，感觉胸腔里那块被拿走的四分之一仍然空着。眼前的战斗已经结束，那块缺口却没有改变。",
+      "content": "战斗结束后，江面没有立刻安静。\n\n火焰熄灭，水汽仍在上升；摩尼亚赫号的右舷严重变形，甲板上散着被烧黑的通讯器和青铜碎片。医疗组把诺诺推进舱内，她的生命体征保持在可以转运的区间，脸色却比窗外的雨更白。\n\n金属匣被重新锁好。七宗罪没有被交给任何一名学生保管，执行部在确认封存手续后，把它移入校长权限的运输箱。\n\n你站在船侧，感觉胸腔里那块被拿走的四分之一仍然空着。无论龙王死去、老唐在最后一秒回应，还是有一小点残火被封进隔离舱，这个空缺都没有改变。",
       "choices": [],
       "autoNextNodeId": "CH12-09",
       "entryEffects": [
@@ -10817,7 +10775,7 @@
       "id": "CH13-06",
       "chapter": 13,
       "title": "仕兰仍在普通世界",
-      "content": "手机在深夜亮了一下。\n\n仕兰中学旧群正在讨论毕业后的聚会地点。赵孟华在北京继续自己的大学生活，陈雯雯发来一张图书馆照片，苏晓樯在群里抱怨机票价格。有人问起当年那场面试，十七把椅子里的其他人只记得一场普通的升学选择。\n\n你看着他们的消息，忽然觉得“普通”不是一个低级词。\n\n你把输入框点开，又关掉。群里还在为聚餐吃火锅还是烧烤争论，谁都没问起江上的雨。你看了好一会儿，把打了一半的话删掉。\n\n你只发了一句：“等我有空。”\n\n消息很快被新的表情盖住。世界继续往前走，像什么都没有发生过。\n\n你又取出那封一直收着的父母来信。学院给了你新的身份，却还没有告诉你，他们现在在哪里。你在下一次会面的备忘里留下一行字：问古德里安，父母档案的申请还缺什么。\n\n写完以后，你没有把它划掉。",
+      "content": "手机在深夜亮了一下。\n\n仕兰中学旧群正在讨论毕业后的聚会地点。赵孟华在北京继续自己的大学生活，陈雯雯发来一张图书馆照片，苏晓樯在群里抱怨机票价格。有人问起当年那场面试，十七把椅子里的其他人只记得一场普通的升学选择。\n\n你看着他们的消息，忽然觉得“普通”不是一个低级词。\n\n你把输入框点开，又关掉。群里还在为聚餐吃火锅还是烧烤争论，谁都没问起江上的雨。你看了好一会儿，把打了一半的话删掉。\n\n你只发了一句：“等我有空。”\n\n消息很快被新的表情盖住。世界继续往前走，像什么都没有发生过。",
       "choices": [],
       "autoNextNodeId": "CH13-07"
     },
@@ -10921,7 +10879,7 @@
       "id": "CH10-05-BROTHER",
       "chapter": 10,
       "title": "CH10-05-BROTHER",
-      "content": "你记下两座王座的位置，旁边标注自己在学院亲眼看见康斯坦丁护住老唐的经过。两件事是否相关，还要等离水后复核。",
+      "content": "诺诺没有把这件事写成“龙类感人故事”。她只在记录边写下：“王座与护兄影像并列，待离水后复核。”",
       "choices": [],
       "autoNextNodeId": "CH10-06",
       "entryEffects": [
@@ -11222,7 +11180,7 @@
       "id": "CH12-05-LETHAL",
       "chapter": 12,
       "title": "CH12-05-LETHAL",
-      "content": "你先把致命火力和撤离路线逐项确认，要求接应组守住医疗舱一侧。\n\n诺诺：保底的办法不能撤。要不要试着把他带回来，你得看手里的证据和准备，再作决定。",
+      "content": "你关掉未完成的束缚图，把常规武器和逃生路线交给恺撒。诺诺没有责怪你，只说：“知道做不到，也是一种需要承担的答案。”",
       "choices": [],
       "autoNextNodeId": "CH12-06-INTRO"
     },
@@ -11230,59 +11188,137 @@
       "id": "CH12-06-FEEDBACK-1",
       "chapter": 12,
       "title": "CH12-06-FEEDBACK-1",
-      "content": "",
+      "content": "你把短刀从匣中拔出，所有声音被压成一条通向诺顿核心的线。路鸣泽没有阻拦，只说：“你选择了一个不会向你追问的结果。”",
       "choices": [],
-      "autoNextNodeId": "CH12-06-FEEDBACK-1-DRAW",
-      "autoNextRules": [
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "sevenSinsCaseClosed",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-06-FEEDBACK-1-REOPEN"
-        },
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "greedAvailable",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-06-FEEDBACK-1-READY"
-        }
-      ]
+      "autoNextNodeId": "CH12-07A"
     },
     "CH12-06-FEEDBACK-2": {
       "id": "CH12-06-FEEDBACK-2",
       "chapter": 12,
       "title": "CH12-06-FEEDBACK-2",
-      "content": "",
+      "content": "你把名字和那段共同经历再次送进火焰。龙王的攻击短暂停顿，但停顿是否足够改变结果，取决于你此前保存的事实。",
       "choices": [],
-      "autoNextNodeId": "CH12-06-FEEDBACK-2-DRAW",
+      "autoNextNodeId": "CH12-07A",
       "autoNextRules": [
         {
           "conditions": [
             {
               "type": "flag",
-              "key": "sevenSinsCaseClosed",
+              "key": "preservedOldTangTrust",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangInvasionRecord",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangHumanMessage",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "key": "witnessedConstantineShieldOldTang",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedBrotherEvidence",
               "value": true
             }
           ],
-          "nextNodeId": "CH12-06-FEEDBACK-2-REOPEN"
+          "nextNodeId": "CH12-07B"
         },
         {
           "conditions": [
             {
               "type": "flag",
-              "key": "greedAvailable",
+              "key": "preservedOldTangTrust",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangInvasionRecord",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangHumanMessage",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "witnessedConstantineShieldOldTang",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedBrotherEvidence",
               "value": true
             }
           ],
-          "nextNodeId": "CH12-06-FEEDBACK-2-READY"
+          "nextNodeId": "CH12-07B"
+        },
+        {
+          "conditions": [
+            {
+              "type": "flag",
+              "key": "preservedOldTangTrust",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangInvasionRecord",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangHumanMessage",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "witnessedConstantineShieldOldTang",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedBrotherEvidence",
+              "value": true
+            }
+          ],
+          "nextNodeId": "CH12-07B"
+        },
+        {
+          "conditions": [
+            {
+              "type": "flag",
+              "key": "preservedOldTangTrust",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangInvasionRecord",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedOldTangHumanMessage",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "witnessedConstantineShieldOldTang",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "key": "preservedBrotherEvidence",
+              "value": true
+            }
+          ],
+          "nextNodeId": "CH12-07B"
         }
       ]
     },
@@ -11290,31 +11326,9 @@
       "id": "CH12-06-FEEDBACK-3",
       "chapter": 12,
       "title": "CH12-06-FEEDBACK-3",
-      "content": "",
+      "content": "路鸣泽要求你再次说清楚：“封印，不是放过；留下，不是治愈。”你明确确认后，暴怒的剑鞘终于松开。",
       "choices": [],
-      "autoNextNodeId": "CH12-06-FEEDBACK-3-AFTER-READY",
-      "autoNextRules": [
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "sevenSinsCaseClosed",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-06-FEEDBACK-3-REOPEN"
-        },
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "greedAvailable",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-06-FEEDBACK-3-SET-ASIDE"
-        }
-      ]
+      "autoNextNodeId": "CH12-07C"
     },
     "CH13-01-EVEN": {
       "id": "CH13-01-EVEN",
@@ -11328,7 +11342,7 @@
       "id": "CH13-01-BOUNDARY",
       "chapter": 13,
       "title": "CH13-01-BOUNDARY",
-      "content": "你：以后再把别人推进潜水钟，记得给自己也留个位置。\n\n诺诺看了你一眼，手指在被单上轻轻敲了一下。\n\n诺诺：知道了。下回你也别在门口发呆。\n\n她说完靠回枕头，没有再把那一瞬说成轻而易举的事。",
+      "content": "诺诺看着你：“那你先学会别在门口等死。”她没有答应，也没有反驳，只把输液管重新放到不碍手的位置。",
       "choices": [],
       "autoNextNodeId": "CH13-02"
     },
@@ -11501,19 +11515,7 @@
             "保存兄弟画面"
           ],
           "effects": [],
-          "nextNodeId": "CH10-05-BROTHER",
-          "nextNodeRules": [
-            {
-              "conditions": [
-                {
-                  "type": "flag",
-                  "key": "preservedBrotherEvidence",
-                  "value": true
-                }
-              ],
-              "nextNodeId": "CH10-05-BROTHER-FOOTAGE"
-            }
-          ]
+          "nextNodeId": "CH10-05-BROTHER"
         },
         {
           "id": "ch10-05-oldtang",
@@ -11821,7 +11823,7 @@
       "id": "CH10-10-CONDITION-1-TEXT-1",
       "chapter": 10,
       "title": "CH10-10-CONDITION-1-TEXT-1",
-      "content": "你撑住舱门，把诺诺拉过门槛。她撞进你怀里，金属匣已经卡在舱内的固定带下。备用潜水钟按独立程序脱离城墙，带着你们一起上浮。舱内还有一组氧气可供轮换，城市的青铜门在你们脚下彻底闭合。",
+      "content": "备用潜水钟按独立程序脱离城墙，先带诺诺与金属匣上浮，再把你拖进舱内。上浮过程中还有一组氧气可供轮换，城市的青铜门在你们脚下彻底闭合。",
       "choices": [],
       "autoNextNodeId": "CH10-10-RESULT"
     },
@@ -11829,7 +11831,7 @@
       "id": "CH10-10-CONDITION-1-TEXT-2",
       "chapter": 10,
       "title": "CH10-10-CONDITION-1-TEXT-2",
-      "content": "恺撒手动维持接应窗口，潜水钟被迫在碎片流中停顿。你从舱内死死抓住诺诺的手腕，借绞盘回拉的瞬间把她拽过门槛。她和你一起摔在金属匣旁，舱门在碎片撞上来前合拢。",
+      "content": "恺撒手动维持接应窗口，潜水钟被迫在碎片流中停顿。诺诺先把你推进舱门，再借着绞盘回拉；你们在最后一秒一起撞进舱内。",
       "choices": [],
       "autoNextNodeId": "CH10-10-RESULT"
     },
@@ -12238,7 +12240,7 @@
       "id": "CH11-05-CONDITION-3-TEXT-1",
       "chapter": 11,
       "title": "CH11-05-CONDITION-3-TEXT-1",
-      "content": "束缚组件短暂咬住一段青铜骨架，记录下一组共振频率。龙火熔坏了外层咬合齿，组件被迫脱开；固定在船侧的承载框架还在，却再也扣不住完整的龙躯。它留下了一次测量，救不了眼前的诺诺。",
+      "content": "束缚组件短暂咬住一段青铜骨架，记录到一组共振频率后被高温熔毁。它证明分离思路不是幻想，却救不了眼前的诺诺。",
       "choices": [],
       "autoNextNodeId": "CH11-05-CHOICE"
     },
@@ -12696,7 +12698,7 @@
       "id": "CH12-06-INTRO",
       "chapter": 12,
       "title": "CH12-06-INTRO",
-      "content": "龙王的火焰越过船头。\n\n金属匣就在你手边。诺诺的伤员担架被推进舱门，恺撒在远处喊出最后一条火力线。所有准备、证据和欠下的账在这一刻缩成一个问题：你要让谁活着走出今晚？\n\n路鸣泽站在你身边，像一个不肯替客户签字的柜台。\n\n岸上的执行部没有撤掉最后一条备用狙击线。隔着暴雨，你只能看见山脊方向偶尔一闪的瞄准镜反光。\n\n路鸣泽：现在选的不是最强的武器，是你愿意为结果负责到什么程度。",
+      "content": "龙王的火焰越过船头。\n\n你握着贪婪的短刀，或者仍把手放在暴怒的剑柄上。诺诺的伤员担架被推进舱门，恺撒在远处喊出最后一条火力线。所有准备、证据和欠下的账在这一刻缩成一个问题：你要让谁活着走出今晚？\n\n路鸣泽站在你身边，像一个不肯替客户签字的柜台。\n\n岸上的执行部没有撤掉最后一条备用狙击线。隔着暴雨，你只能看见山脊方向偶尔一闪的瞄准镜反光。\n\n路鸣泽：现在选的不是最强的武器，是你愿意为结果负责到什么程度。",
       "choices": [],
       "autoNextNodeId": "CH12-06-INTRO-CONDITION-1"
     },
@@ -13285,11 +13287,11 @@
         },
         {
           "id": "ch13-01-boundary",
-          "label": "提醒她以后救人时，也给自己留条退路",
+          "label": "提醒她以后别把最后的氧气都给别人",
           "keywords": [
-            "给自己留退路",
+            "别再让氧气",
             "以后先顾自己",
-            "别再独自冒险"
+            "别把命给别人"
           ],
           "effects": [],
           "nextNodeId": "CH13-01-BOUNDARY"
@@ -13343,7 +13345,7 @@
       "choices": [
         {
           "id": "ch13-02-give",
-          "label": "把记录器交给诺诺保管",
+          "label": "把完整记录交给诺诺保管",
           "keywords": [
             "交给诺诺",
             "让她保管",
@@ -13659,335 +13661,6 @@
       "content": "你把还能辨认的杂音连同时间标记另存一份，没有把听不清的部分补成对白。恺撒点头，收下这份不完整的记录。",
       "choices": [],
       "autoNextNodeId": "CH13-03"
-    },
-    "CH7-08-ASKED-OLDTANG": {
-      "id": "CH7-08-ASKED-OLDTANG",
-      "chapter": 7,
-      "title": "后座的保险栓",
-      "content": "面试前他教你怎样在听不懂英语时保持微笑，还答应等你到了美国，要带你坐灰狗去看纽约以外的地方。\n\n你：老唐？\n\n老唐：小声点。现在叫名字会显得我们很不专业。\n\n诺诺没有放下手。她从后视镜里先看枪、再看他的袖口和鞋底，像在几秒内读完他经过哪些通道、多久没有休息，以及他并不真想开枪这件事。\n\n老唐：开车。等出了学院范围，我就放你们走。\n\n你握住方向盘。刚才烟花留下的颜色已经从视野里消失，只剩后视镜中那个美国网友疲惫又慌张的眼睛。",
-      "choices": [],
-      "entryEffects": [],
-      "autoNextNodeId": "CH8-01"
-    },
-    "CH7-08-NO-OLDTANG": {
-      "id": "CH7-08-NO-OLDTANG",
-      "chapter": 7,
-      "title": "后座的保险栓",
-      "content": "你：老唐？\n\n老唐：小声点。现在叫名字会显得我们很不专业。\n\n诺诺没有放下手。她从后视镜里先看枪、再看他的袖口和鞋底，像在几秒内读完他经过哪些通道、多久没有休息，以及他并不真想开枪这件事。\n\n老唐：开车。等出了学院范围，我就放你们走。\n\n你握住方向盘。刚才烟花留下的颜色已经从视野里消失，只剩后视镜中那个美国网友疲惫又慌张的眼睛。",
-      "choices": [],
-      "entryEffects": [],
-      "autoNextNodeId": "CH8-01"
-    },
-    "CH12-06-FEEDBACK-1-AFTER-READY": {
-      "id": "CH12-06-FEEDBACK-1-AFTER-READY",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-1",
-      "content": "所有声音被压成一条通向诺顿核心的线。路鸣泽没有阻拦，只说：“你选择了一个不会向你追问的结果。”",
-      "choices": [],
-      "autoNextNodeId": "CH12-07A"
-    },
-    "CH12-06-FEEDBACK-1-REOPEN": {
-      "id": "CH12-06-FEEDBACK-1-REOPEN",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-1",
-      "content": "你重新打开金属匣，拔出那柄松动的短刀。纷乱的声音在耳边骤然收束，你强迫自己握稳刀柄。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-1-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-1-DRAW": {
-      "id": "CH12-06-FEEDBACK-1-DRAW",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-1",
-      "content": "你握住松动的刀柄，把短刀从匣中拔出。纷乱的声音在耳边骤然收束。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-1-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-1-READY": {
-      "id": "CH12-06-FEEDBACK-1-READY",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-1",
-      "content": "你握稳手里的贪婪，把刀锋转向火焰。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-1-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-2-AFTER-READY": {
-      "id": "CH12-06-FEEDBACK-2-AFTER-READY",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-2",
-      "content": "你把老唐的名字再次送进火焰。龙王的攻击短暂停顿，你没有移开视线，等着那张脸上出现一点熟悉的神情。",
-      "choices": [],
-      "autoNextNodeId": "CH12-07A",
-      "autoNextRules": [
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangInvasionRecord",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangHumanMessage",
-              "value": false
-            },
-            {
-              "type": "flag",
-              "key": "witnessedConstantineShieldOldTang",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedBrotherEvidence",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-07B"
-        },
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangInvasionRecord",
-              "value": false
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangHumanMessage",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "witnessedConstantineShieldOldTang",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedBrotherEvidence",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-07B"
-        },
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
-              "value": false
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangInvasionRecord",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangHumanMessage",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "witnessedConstantineShieldOldTang",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedBrotherEvidence",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-07B"
-        },
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "preservedOldTangTrust",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangInvasionRecord",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedOldTangHumanMessage",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "witnessedConstantineShieldOldTang",
-              "value": true
-            },
-            {
-              "type": "flag",
-              "key": "preservedBrotherEvidence",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH12-07B"
-        }
-      ]
-    },
-    "CH12-06-FEEDBACK-2-REOPEN": {
-      "id": "CH12-06-FEEDBACK-2-REOPEN",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-2",
-      "content": "你重新打开金属匣，拔出那柄松动的短刀。纷乱的声音在耳边骤然收束，你强迫自己握稳刀柄。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-2-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-2-DRAW": {
-      "id": "CH12-06-FEEDBACK-2-DRAW",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-2",
-      "content": "你握住松动的刀柄，把短刀从匣中拔出。纷乱的声音在耳边骤然收束。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-2-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-2-READY": {
-      "id": "CH12-06-FEEDBACK-2-READY",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-2",
-      "content": "你握稳手里的贪婪，把刀锋转向火焰。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": true
-        },
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-2-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-3-AFTER-READY": {
-      "id": "CH12-06-FEEDBACK-3-AFTER-READY",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-3",
-      "content": "路鸣泽要求你再次说清楚：“封印，不是放过；留下，不是治愈。”你明确确认后，暴怒的剑鞘终于松开。",
-      "choices": [],
-      "autoNextNodeId": "CH12-07C"
-    },
-    "CH12-06-FEEDBACK-3-REOPEN": {
-      "id": "CH12-06-FEEDBACK-3-REOPEN",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-3",
-      "content": "你重新打开金属匣，把手放回暴怒的剑柄。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "sevenSinsCaseClosed",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-3-AFTER-READY"
-    },
-    "CH12-06-FEEDBACK-3-SET-ASIDE": {
-      "id": "CH12-06-FEEDBACK-3-SET-ASIDE",
-      "chapter": 12,
-      "title": "CH12-06-FEEDBACK-3",
-      "content": "你把贪婪放回匣中，转而握住暴怒的剑柄。",
-      "choices": [],
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "greedAvailable",
-          "value": false
-        }
-      ],
-      "autoNextNodeId": "CH12-06-FEEDBACK-3-AFTER-READY"
-    },
-    "CH10-05-BROTHER-FOOTAGE": {
-      "id": "CH10-05-BROTHER-FOOTAGE",
-      "chapter": 10,
-      "title": "CH10-05-BROTHER",
-      "content": "诺诺没有把这件事写成“龙类感人故事”。她只在记录边写下：“王座与护兄影像并列，待离水后复核。”",
-      "choices": [],
-      "autoNextNodeId": "CH10-06",
-      "entryEffects": [
-        {
-          "type": "flag",
-          "key": "foundTwinThroneEvidence",
-          "value": true
-        }
-      ]
     }
   },
   "endings": {

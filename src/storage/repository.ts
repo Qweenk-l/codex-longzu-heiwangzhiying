@@ -1,7 +1,8 @@
-import { choose, startGame } from '../engine/engine';
+import { availableChoices, choose, startGame } from '../engine/engine';
 import type { Session, Story } from '../engine/types';
 import legacyStageThree from '../../content-source/legacy-stage-three.1.json';
 import legacySeasonOne from '../../content-source/legacy-season-one.20260906.json';
+import legacySeasonOneC14 from '../../content-source/legacy-season-one.20260906.1.json';
 
 const DATABASE = 'black-king-shadow';
 const STORE = 'sessions';
@@ -17,14 +18,18 @@ function validateArchives(story: Story, archives: unknown): Session[] {
   if (archives === undefined) return [];
   if (!Array.isArray(archives) || archives.length > 3) throw new Error('季终归档记录无效。');
   const seen = new Set<string>();
-  return archives.map(value => {
+  const migrated = archives.map(value => {
     if (!object(value)) throw new Error('季终归档记录无效。');
     const session = validate(story, { formatVersion: 1, projectId: value.projectId, contentVersion: value.contentVersion, session: value });
     const ending = seasonEnding(session);
-    if (!ending || seen.has(ending)) throw new Error('季终归档记录无效。');
-    seen.add(ending);
+    const originalEnding = seasonEnding(value as unknown as Session);
+    if (!ending || !originalEnding || seen.has(originalEnding)) throw new Error('季终归档记录无效。');
+    seen.add(originalEnding);
     return session;
   });
+  // Revised evidence can make two formerly different outcomes converge.
+  // Keep the existing policy: the later archive for each actual ending.
+  return [...new Map(migrated.map(session => [seasonEnding(session), session])).values()];
 }
 
 function object(value: unknown): value is Record<string, unknown> {
@@ -37,6 +42,23 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-season-one.20260907.1'
+    && value.contentVersion !== story.contentVersion) {
+    const verified = validate(legacySeasonOneC14 as Story, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) {
+      const choices = availableChoices(story, resumed);
+      let selected = choices.find(choice => choice.id === step.choiceId);
+      // The same authored option has disjoint storage IDs for evidence masks.
+      // New evidence can change the mask, never the player's actual decision.
+      if (!selected) {
+        const family = /^(ch9-06-nonlethal|ch12-06-save)(?:-\d+)?$/.exec(step.choiceId)?.[1];
+        if (family) selected = choices.find(choice => choice.id === family || choice.id.startsWith(`${family}-`));
+      }
+      resumed = choose(story, resumed, step.nodeId, selected?.id ?? step.choiceId, step.input);
+    }
+    return resumed;
+  }
   if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-season-one.20260906.1'
     && value.contentVersion !== story.contentVersion) {
     const verified = validate(legacySeasonOne as Story, value);
