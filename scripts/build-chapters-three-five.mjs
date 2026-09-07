@@ -4,6 +4,7 @@ const flag = (key, value = true) => ({ type: 'flag', key, value });
 const clean = text => text.replace(/\*\*|`/g, '').trim();
 const flags = text => [...text.matchAll(/`([a-zA-Z]\w*)`/g)].map(m => flag(m[1]));
 const visible = text => text.split('\n')
+  .map(line => line.replace(/<!--[\s\S]*?-->/g, ''))
   .filter(line => !/^\s*(?:\*\*|---|>.*(?:~~|【V0\.5D))/.test(line))
   .map(line => line.replace(/^>\s*【红字修订】/, ''))
   .join('\n').replace(/\n{3,}/g, '\n\n').trim();

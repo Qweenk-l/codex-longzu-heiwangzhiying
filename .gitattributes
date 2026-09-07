@@ -2,3 +2,6 @@
 *.cmd text eol=crlf
 content-source/v0.4B.md -text
 content-source/baseline-v0.7C.json -text
+content-source/v0.5D.md -text
+content-source/v0.7C-ch6-ch9.md -text
+content-source/v0.7C-ch10-ch13.md -text

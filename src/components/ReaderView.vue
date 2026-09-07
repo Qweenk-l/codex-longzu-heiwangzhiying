@@ -69,8 +69,8 @@ async function keepInputVisible(event: FocusEvent) {
           <SafeText :text="entry.text" />
         </article>
         <div v-if="session.status === 'stageEnd'" class="end-note">
-          <h2>{{ session.mode === 'test' ? '本章测试完成' : '当前试玩完成' }}</h2>
-          <p>{{ session.mode === 'test' ? '你已走到本章测试终点，可以重开本章或返回目录。' : `本次试玩开放至${chapter?.title.split('《')[0]}，后续章节尚未开放。第一季故事仍在继续。` }}</p>
+          <h2>{{ session.mode === 'test' ? '本章测试完成' : session.flags.completedSeasonOne ? '第一季故事完' : '当前试玩完成' }}</h2>
+          <p>{{ session.mode === 'test' ? '你已走到本章测试终点，可以重开本章或返回目录。' : session.flags.completedSeasonOne ? '你已走到第一季结尾。可以回看剧情记录，或回退到已到达的检查点探索其他选择。第二季尚未开放。' : `本次试玩开放至${chapter?.title.split('《')[0]}，后续章节尚未开放。第一季故事仍在继续。` }}</p>
         </div>
         <div v-if="session.status === 'ending'" class="end-note">
           <h2>{{ ending?.title || '本段旅程暂告一段落' }}</h2>
@@ -96,7 +96,7 @@ async function keepInputVisible(event: FocusEvent) {
           <p v-if="inputMessage" id="input-feedback" class="input-feedback" role="status">{{ inputMessage }}</p>
         </template>
         <template v-else>
-          <h2>{{ session.status === 'ending' ? '这条路线暂时结束' : session.mode === 'test' ? '本章测试完成' : `已到达${chapter?.title.split('《')[0]}试玩终点` }}</h2>
+          <h2>{{ session.status === 'ending' ? '这条路线暂时结束' : session.mode === 'test' ? '本章测试完成' : session.flags.completedSeasonOne ? '第一季故事完' : `已到达${chapter?.title.split('《')[0]}试玩终点` }}</h2>
           <button v-if="session.status === 'ending'" :disabled="busy" @click="emit('returnToDecision')">回到第二章决策前</button>
           <button v-if="session.mode === 'test'" :disabled="busy" @click="emit('restart')">重开本章测试</button>
           <button :disabled="busy" @click="emit('menu')">返回目录</button>

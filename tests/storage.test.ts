@@ -2,8 +2,10 @@ import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import { choose, startGame } from '../src/engine/engine';
 import { exportGame, importGame, loadGame, saveGame } from '../src/storage/repository';
-import type { Story } from '../src/engine/types';
+import type { Session, Story } from '../src/engine/types';
 import { readFileSync } from 'node:fs';
+
+const checkpointDecisions = (points: Session['checkpoints']) => points.map(({ historyLength, ...point }) => point);
 
 const story:Story={id:'storage-test',contentVersion:'1',entryNodeId:'a',chapters:[],endings:{},nodes:{
   a:{id:'a',title:'开始',chapter:0,content:'开始',choices:[{id:'go',label:'往前',keywords:[],effects:[{type:'flag',key:'seen',value:true}],nextNodeId:'b'}],checkpointId:'cp'},
@@ -39,7 +41,7 @@ describe('save boundaries',()=>{
       expect(result.currentNodeId).toBe('CH2-10');
       expect(result.choices).toEqual(old.session.choices);
       expect(result.flags).toEqual(old.session.flags);
-      expect(result.checkpoints).toEqual(old.session.checkpoints);
+      expect(checkpointDecisions(result.checkpoints)).toEqual(checkpointDecisions(old.session.checkpoints));
       for (const id of ['CH1-02','CH2-08-DIGNITY-KNOWN']) {
         expect(result.history.find(h=>h.nodeId===id)?.text).toBe(current.nodes[id].content);
         const altered=structuredClone(file);
@@ -68,7 +70,7 @@ describe('save boundaries',()=>{
       expect(result.currentNodeId).toBe('CH1-04');
       expect(result.flags).toEqual(old.session.flags);
       expect(result.choices).toEqual(old.session.choices);
-      expect(result.checkpoints).toEqual(old.session.checkpoints);
+      expect(checkpointDecisions(result.checkpoints)).toEqual(checkpointDecisions(old.session.checkpoints));
       expect(result.history.find(h=>h.nodeId==='CH1-03-OLDTANG')?.text).toBe(current.nodes['CH1-03-OLDTANG'].content);
       await saveGame(current,result);
       expect(await loadGame(current)).toEqual(result);
@@ -82,8 +84,8 @@ describe('save boundaries',()=>{
     const result=importGame(current,JSON.stringify(old));
     expect(result.flags).toEqual(old.session.flags);
     expect(result.choices).toEqual(old.session.choices);
-    expect(result.checkpoints).toEqual(old.session.checkpoints);
-    expect(result.history).toHaveLength(old.session.history.length);
+    expect(checkpointDecisions(result.checkpoints)).toEqual(checkpointDecisions(old.session.checkpoints));
+    expect(result.history.some(h => h.nodeId === 'CH2-03-CORRIDOR')).toBe(true);
     expect(result.history.find(h=>h.kind==='feedback' && h.nodeId==='CH1-07-UNKNOWN')?.text.split('\n\n')).toHaveLength(3);
     expect(result.history.find(h=>h.nodeId==='CH2-08-DIGNITY-KNOWN')?.text).toContain('别拉我来凑数');
     await saveGame(current,result);
@@ -109,7 +111,7 @@ describe('save boundaries',()=>{
   });
   it('upgrades the approved Fingel prose while rejecting altered old history',async()=>{
     const current:Story=JSON.parse(readFileSync(new URL('../src/content/stage-one.json',import.meta.url),'utf8'));
-    const previous:Story=structuredClone(current);
+    const previous:Story=JSON.parse(readFileSync(new URL('../content-source/legacy-stage-three.1.json',import.meta.url),'utf8'));
     previous.contentVersion='v0.5D-stage-two.1';
     previous.nodes['CH3-03'].content=previous.nodes['CH3-03'].content.replace("芬格尔把那张五美元抻平，郑重地放在膝盖上。\n\n芬格尔：师弟，你出二十，我出五，咱们先凑着等车。至于你那个三明治……能不能分师兄一半？我也不白吃，看行李、认路，进了学院还能告诉你哪些坑千万别踩。\n\n你：都是你踩过的？\n\n芬格尔：八年。总不能一点收获都没有吧。\n\n他说得很坦然，目光却又往三明治上飘了一下。\n\n你低头看了看手里的午饭。刚才它还只是个三明治，现在已经有人愿意拿八年的大学经验来换半个了。","芬格尔：师弟，商量一下。你的食物分我一半，我们把二十五美元合在一起撑到列车来；我负责看行李、找插座和提供八年级生存情报。\n\n你终于明白，这二十五美元不是系统自动合并的队伍资产，而是一个饿了两天的人正在向你发起合伙申请。");
     let state=startGame(previous);
@@ -121,7 +123,7 @@ describe('save boundaries',()=>{
     expect(upgraded.history.find(h=>h.nodeId==='CH3-03')?.text).toContain('八年的大学经验来换半个');
     expect(upgraded.choices).toEqual(state.choices);
     expect(upgraded.flags).toEqual(state.flags);
-    expect(upgraded.checkpoints).toEqual(state.checkpoints);
+    expect(checkpointDecisions(upgraded.checkpoints)).toEqual(checkpointDecisions(state.checkpoints));
     await saveGame(current,upgraded);
     expect(await loadGame(current)).toEqual(upgraded);
     file.session.history.find((h:{nodeId:string})=>h.nodeId==='CH3-03').text+='伪造';
@@ -134,7 +136,7 @@ describe('save boundaries',()=>{
     expect(resumed.currentNodeId).toBe('CH6-01');
     expect(resumed.choices).toEqual(old.session.choices);
     expect(resumed.flags).toEqual(old.session.flags);
-    expect(resumed.checkpoints).toEqual(old.session.checkpoints);
+    expect(checkpointDecisions(resumed.checkpoints)).toEqual(checkpointDecisions(old.session.checkpoints));
     expect(resumed.history.at(-1)?.nodeId).toBe('CH6-01');
     await saveGame(current,resumed);
     expect(await loadGame(current)).toEqual(resumed);

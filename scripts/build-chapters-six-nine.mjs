@@ -10,7 +10,9 @@ const editorial = [
   '说明结束后，界面重新显示前两项，玩家仍须作出明确选择；本状态不跨节点保留。',
 ];
 const visible = text => {
-  let result = text.split('\n').filter(line => !/^\s*(?:\*\*|---|>.*(?:~~|【V0\.7C)|自动进入|共同进入)/.test(line))
+  let result = text.split('\n')
+    .map(line => line.replace(/<!--[\s\S]*?-->/g, ''))
+    .filter(line => !/^\s*(?:\*\*|---|>.*(?:~~|【V0\.7C)|自动进入|共同进入)/.test(line))
     .map(line => line.replace(/^>\s*(?:【红字修订】)?/, '').replace(/`/g, ''))
     .join('\n');
   for (const note of editorial) result = result.replace(note, '');
@@ -18,7 +20,12 @@ const visible = text => {
 };
 
 export function buildChaptersSixNine(baseline) {
-  const source = readFileSync(new URL('../content-source/v0.7C-ch6-ch9.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  const source = readFileSync(new URL('../content-source/v0.7C-ch6-ch9.md', import.meta.url), 'utf8')
+    .replace(/\r\n/g, '\n')
+    // Review comments after a short-result colon are editorial only; join the
+    // authored continuation so it remains one parsed short-result sentence.
+    .replace(/：<!--[\s\S]*?-->\n/g, '：')
+    .replace(/<!--[\s\S]*?-->/g, '');
   const original = Object.fromEntries(baseline.nodes.map(n => [n.id, n]));
   const nodes = {};
   const add = (id, title, content) => {

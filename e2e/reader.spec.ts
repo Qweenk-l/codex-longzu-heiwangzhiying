@@ -15,13 +15,13 @@ test('chapter drawer scrolls in a short viewport and opens all implemented chapt
   const bounds=await drawer.boundingBox();
   expect(bounds!.x).toBeGreaterThanOrEqual(0);
   expect(bounds!.x+bounds!.width).toBeLessThanOrEqual(390);
-  await expect(drawer.locator('.chapter-list button')).toHaveCount(10);
-  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(10);
-  for (const chapter of ['第三章','第四章','第五章','第六章','第七章','第八章','第九章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*可测试')})).toBeEnabled();
+  await expect(drawer.locator('.chapter-list button')).toHaveCount(14);
+  await expect(drawer.locator('.chapter-list button:enabled')).toHaveCount(14);
+  for (const chapter of ['第三章','第四章','第五章','第六章','第七章','第八章','第九章','第十章','第十一章','第十二章','第十三章']) await expect(drawer.getByRole('button',{name:new RegExp(chapter+'.*可测试')})).toBeEnabled();
   const content=drawer.locator('.drawer-content');
   expect(await content.evaluate(el=>el.scrollHeight>el.clientHeight)).toBe(true);
   await content.evaluate(el=>{el.scrollTop=el.scrollHeight;});
-  await expect(drawer.getByRole('button',{name:/第九章/})).toBeInViewport();
+  await expect(drawer.getByRole('button',{name:/第十三章/})).toBeInViewport();
   await expect(drawer.getByRole('button',{name:'关闭',exact:true})).toBeInViewport();
   await page.screenshot({path:info.outputPath('chapter-drawer.png'),fullPage:true});
   await page.keyboard.press('Escape');
@@ -32,7 +32,8 @@ test('chapter drawer scrolls in a short viewport and opens all implemented chapt
   await expect(trigger).toBeFocused();
 });
 async function clickChoice(page: Page, state: Session, id?: string): Promise<Session> {
-  const choice = availableChoices(story, state).find(c => c.id === id) ?? availableChoices(story, state)[0];
+  const choices = availableChoices(story, state);
+  const choice = choices.find(c => c.id === id) ?? (state.currentNodeId === 'CH11-07' ? choices[2] : choices[0]);
   expect(choice).toBeTruthy();
   await page.getByRole('region', {name:'行动区',exact:true}).getByRole('button',{name:choice.label,exact:true}).click();
   const next = choose(story, state, state.currentNodeId, choice.id);
@@ -153,7 +154,7 @@ test('temporary ending, rollback, approved known-confession variant, stage bound
   state=await clickChoice(page,state);
   await expect(page.locator('.topbar h1')).toContainText('第三章');
   await expect(page.locator('.choice-button')).toHaveCount(3);
-  await expect(page.locator('.story-region')).toContainText('几个小时前，你还困在那场告白的喧闹里');
+  await expect(page.locator('.story-region')).toContainText('几个小时前，你还在那间放映厅里');
   await assertSplit(page); await page.screenshot({path:info.outputPath('stage-end.png'),fullPage:true});
   await page.getByRole('button',{name:'目录',exact:true}).click();
   const downloadPromise=page.waitForEvent('download'); await page.getByRole('button',{name:'导出正式存档'}).click();
@@ -168,12 +169,12 @@ test('temporary ending, rollback, approved known-confession variant, stage bound
   await expect(page.locator('.story-region')).toContainText('飞机落地时，芝加哥正下着细雨。');
 });
 
-test('chapters three to nine have independent test routes and normal play reaches chapter nine',async({page},info)=>{
+test('all chapters have isolated tests and formal play reaches the archived season ending',async({page},info)=>{
   await page.goto('/');
   await page.getByRole('button',{name:'开始游戏',exact:true}).click();
   const original=await page.locator('.choice-button').first().textContent();
   await page.getByRole('button',{name:'目录',exact:true}).click();
-  for (const number of [3,4,5,6,7,8,9]) {
+  for (const number of [3,4,5,6,7,8,9,10,11,12,13]) {
     await page.getByRole('button',{name:'打开章节列表',exact:true}).click();
     await page.getByRole('dialog',{name:'章节测试',exact:true}).getByRole('button',{name:new RegExp(story.chapters[number].title)}).click();
     await expect(page.locator('.test-context')).toContainText(story.chapters[number].prerequisiteSummary);
@@ -187,6 +188,7 @@ test('chapters three to nine have independent test routes and normal play reache
     await assertSplit(page);
     await page.screenshot({path:info.outputPath(`chapter-${number}-test-end.png`),fullPage:true});
     await page.getByRole('button',{name:'目录',exact:true}).click();
+    await expect(page.getByRole('heading',{name:'路明非 · 第一季已完成'})).toHaveCount(0);
     await page.getByRole('button',{name:'继续游戏',exact:true}).click();
     await expect(page.locator('.choice-button').first()).toHaveText(original!);
     await page.getByRole('button',{name:'目录',exact:true}).click();
@@ -202,10 +204,21 @@ test('chapters three to nine have independent test routes and normal play reache
     expect(count).toBeLessThan(100);
     normal=await clickChoice(page,normal);
   }
-  await expect(page.locator('.action-region')).toContainText('已到达第九章试玩终点');
-  await expect(page.locator('.story-region')).toContainText('舱门打开，里面的黑暗像一只等待已久的眼睛。');
+  await expect(page.locator('.action-region')).toContainText('第一季故事完');
+  await expect(page.locator('.story-region')).toContainText('雨声持续了很久。');
   await page.reload();
   await page.getByRole('button',{name:'继续游戏',exact:true}).click();
-  await expect(page.locator('.action-region')).toContainText('已到达第九章试玩终点');
-  await page.screenshot({path:info.outputPath('chapter-nine-normal-end.png'),fullPage:true});
+  await expect(page.locator('.action-region')).toContainText('第一季故事完');
+  await page.screenshot({path:info.outputPath('season-one-normal-end.png'),fullPage:true});
+  await page.getByRole('button',{name:'目录',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'路明非 · 第一季已完成'})).toBeVisible();
+  const downloadEvent = page.waitForEvent('download');
+  await page.getByRole('button',{name:'导出正式存档',exact:true}).click();
+  const download = await downloadEvent;
+  const exported = JSON.parse(await readFile((await download.path())!, 'utf8'));
+  expect(exported.seasonArchives).toHaveLength(1);
+  expect(exported.seasonArchives[0].flags.endingCanonAshes).toBe(true);
+  await page.getByRole('button',{name:'载入季终归档 · 原著余烬',exact:true}).click();
+  await page.getByRole('dialog',{name:'载入季终归档？'}).getByRole('button',{name:'确认',exact:true}).click();
+  await expect(page.locator('.action-region')).toContainText('第一季故事完');
 });

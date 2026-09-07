@@ -1,4 +1,5 @@
 import { buildChaptersSixNine } from './build-chapters-six-nine.mjs';
+import { buildChaptersTenThirteen } from './build-chapters-ten-thirteen.mjs';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { buildChaptersThreeFive } from './build-chapters-three-five.mjs';
@@ -6,7 +7,7 @@ import { buildChaptersThreeFive } from './build-chapters-three-five.mjs';
 // Only the checked-in snapshots are read; the original reference files stay untouched.
 const source = readFileSync(new URL('../content-source/v0.4B.md', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const baseline = JSON.parse(readFileSync(new URL('../content-source/baseline-v0.7C.json', import.meta.url), 'utf8'));
-const clean = text => text.replace(/\*\*/g, '').replace(/`/g, '').trim();
+const clean = text => text.replace(/<!--[\s\S]*?-->/g, '').replace(/\*\*/g, '').replace(/`/g, '').trim();
 const sections = Object.fromEntries([...source.matchAll(/^## ((?:PRO|CH[12])-\S+?)｜([^\n]+)\n([\s\S]*?)(?=^## |^# |$(?![\s\S]))/gm)].map(m => [m[1], { title: m[2], body: m[3] }]));
 const subsection = (body, heading) => {
   const marker = `### ${heading}`;
@@ -140,6 +141,63 @@ for (const suffix of ['KNOWN', 'UNCERTAIN', 'SILENT']) {
   const common = clean(subsection(body, '三个变体的共同正文')).replace('直到屏幕上的句子亮起，你才彻底看懂这场安排。', '屏幕上的句子亮起，那场安排也彻底摆到了所有人面前。');
   nodes[id] = { id, chapter: 2, title: '让句子缺一个字母', content: variant(body, id) + '\n\n' + common, choices: [], autoNextNodeId: 'CH2-09-DIGNITY', entryEffects: effects('publicHumiliation = false、protectedDignity = true、oldLifeAttachment -= 1', 'CH2-08-DIGNITY') };
 }
+
+// The September review adds conditional prose before the existing player decisions.
+// Keep the original choice node IDs and make the new prose automatic nodes.
+const corridorMarker = '\n\n酒店走廊的镜子';
+const corridorStart = nodes['CH2-03'].content.indexOf(corridorMarker);
+if (corridorStart < 0) throw new Error('Missing CH2-03 corridor boundary');
+const corridorContent = nodes['CH2-03'].content.slice(corridorStart).trim();
+nodes['CH2-03'].content = nodes['CH2-03'].content.slice(0, corridorStart).trim();
+const corridorId = 'CH2-03-CORRIDOR';
+nodes[corridorId] = {
+  id: corridorId,
+  chapter: 2,
+  title: nodes['CH2-03'].title,
+  content: corridorContent,
+  choices: [],
+  autoNextNodeId: 'CH2-04',
+};
+
+const hiddenInterestBody = clean(subsection(sections['CH2-03'].body, '系统处理'));
+const hiddenInterestText = hiddenInterestBody.match(/仅当 hidInterestFromFamily = true 时显示：“([^”]+)”/)?.[1];
+if (!hiddenInterestText) throw new Error('Missing CH2-03 hidden-interest echo');
+const hiddenInterestId = 'CH2-03-HIDDEN-INTEREST';
+nodes[hiddenInterestId] = {
+  id: hiddenInterestId,
+  chapter: 2,
+  title: nodes['CH2-03'].title,
+  content: hiddenInterestText,
+  choices: [],
+  autoNextNodeId: corridorId,
+};
+nodes['CH2-03'].autoNextNodeId = corridorId;
+nodes['CH2-03'].autoNextRules = [rule('hidInterestFromFamily', hiddenInterestId)];
+
+const contactEchoBody = clean(subsection(sections['CH2-06'].body, '条件短结果（展示层）'));
+const contactEchoes = Object.fromEntries([...contactEchoBody.matchAll(/^- 条件（后台）：(\w+) = true。展示文字：(.+)$/gm)]
+  .map(([, key, content]) => [key, content]));
+for (const key of ['askedChen', 'askedSu']) {
+  if (!contactEchoes[key]) throw new Error(`Missing CH2-06 contact echo: ${key}`);
+}
+const chenEchoId = 'CH2-06-ECHO-CHEN';
+const suEchoId = 'CH2-06-ECHO-SU';
+nodes[chenEchoId] = { id: chenEchoId, chapter: 2, title: nodes['CH2-06'].title, content: contactEchoes.askedChen, choices: [], autoNextNodeId: 'CH2-06' };
+nodes[suEchoId] = { id: suEchoId, chapter: 2, title: nodes['CH2-06'].title, content: contactEchoes.askedSu, choices: [], autoNextNodeId: 'CH2-06' };
+nodes[chenEchoId].autoNextRules = [rule('askedSu', suEchoId)];
+const contactIntroId = 'CH2-06-INTRO';
+nodes[contactIntroId] = {
+  id: contactIntroId,
+  chapter: 2,
+  title: nodes['CH2-06'].title,
+  content: nodes['CH2-06'].content,
+  choices: [],
+  autoNextNodeId: 'CH2-06',
+};
+nodes['CH2-06'].content = '';
+nodes[contactIntroId].autoNextRules = [rule('askedChen', chenEchoId), rule('askedSu', suEchoId)];
+nodes['CH2-05'].autoNextNodeId = contactIntroId;
+
 nodes['CH2-08-CANON-KNOWN'] = { ...structuredClone(nodes['CH2-08-CANON']), id: 'CH2-08-CANON-KNOWN', content: nodes['CH2-08-CANON'].content.replace('你举着那个字母，直到手臂发酸才明白，所有人或许都知道安排，只有你和苏晓樯不知道。你不是故事里迟到的男主角，只是告白布景缺少的一块。', '你举着那个字母，直到手臂发酸。你明知道这是赵孟华准备的告白，却还是站在了这里。你不是故事里迟到的男主角，只是告白布景缺少的一块。') };
 nodes['CH2-07'].choices[0].nextNodeRules = [rule('confrontedSetup', 'CH2-08-CANON-KNOWN')];
 nodes['CH2-07'].choices[1].nextNodeId = 'CH2-08-DIGNITY-UNCERTAIN';
@@ -191,8 +249,25 @@ const prefixNine = [...prefixEight, ...route([
   ['CH8-01','ch8-01-trust'], ['CH8-03','ch8-03-obey'], ['CH8-05','ch8-05-ask'],
   ['CH8-07','ch8-07-offset'], ['CH8-10','ch8-10-brother'],
 ])];
+Object.assign(nodes, buildChaptersTenThirteen(baseline).nodes);
+delete nodes['CH9-08'].stageEnd;
+nodes['CH9-08'].autoNextNodeId = 'CH10-01';
+// Resolve the authored decisions to their actual owners after conditional
+// prose is split into automatic nodes. Never fabricate prerequisite flags.
+const extendPrefix = (prefix, ids) => [...prefix, ...ids.map(choiceId => {
+  const owners = Object.values(nodes).filter(node => node.choices.some(choice => choice.id === choiceId));
+  if (owners.length !== 1) throw new Error(`Ambiguous canonical decision ${choiceId}`);
+  return { nodeId: owners[0].id, choiceId };
+})];
+const prefixTen = extendPrefix(prefixNine, ['ch9-02-message', 'ch9-04-prepare', 'ch9-05-backup', 'ch9-06-lethal']);
+const prefixEleven = extendPrefix(prefixTen, [
+  'ch10-01-route', 'ch10-03-blood', 'ch10-04-formation', 'ch10-05-brother',
+  'ch10-06-save', 'ch10-07-record', 'ch10-09-name',
+]);
+const prefixTwelve = extendPrefix(prefixEleven, ['ch11-04-report', 'ch11-05-cause', 'ch11-06-nono', 'ch11-07-confirm']);
+const prefixThirteen = extendPrefix(prefixTwelve, ['ch12-01-check', 'ch12-03-hold', 'ch12-04-norton', 'ch12-05-lethal', 'ch12-06-lethal']);
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.7C-stage-three.1', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.7C-season-one.20260906', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },
@@ -204,12 +279,16 @@ const story = {
     { chapter: 7, title: '第七章《安珀馆的星与花》', entryNodeId: 'CH7-01', prerequisiteSummary: '你通过3E，确认自由一日奖励。在图书馆协助打开青铜城地图后，仍目睹叶胜与酒德亚纪牺牲；你在悼念时把他们的名字写在同一条白布上。', canonicalPrefix: prefixSeven },
     { chapter: 8, title: '第八章《龙穴警报》', entryNodeId: 'CH8-01', prerequisiteSummary: '你接受学生会邀请，与零共舞。警报打断晚宴，你按诺诺指引驾车离开交火区，在山顶祝她生日快乐。回到车旁，持枪的老唐突然出现在后座。', canonicalPrefix: prefixEight },
     { chapter: 9, title: '第九章《夔门再临》', entryNodeId: 'CH9-01', prerequisiteSummary: '你保留对老唐的信任，服从诺诺分工，在钟楼偏开贤者之石的准星。康斯坦丁仍因护兄而死，老唐随后觉醒为诺顿。你保存护兄影像，并提出下一次行动必须审查撤离、通讯与处置方案。', canonicalPrefix: prefixNine },
+    { chapter: 10, title: '第十章《青铜城下潜》', entryNodeId: 'CH10-01', prerequisiteSummary: '你保留了老唐的人类消息，完成应急撤离与独立通讯准备，接受任务的致命处置预案。摩尼亚赫号抵达夔门，你与诺诺准备下潜。', canonicalPrefix: prefixTen },
+    { chapter: 11, title: '第十一章《龙王复仇》', entryNodeId: 'CH11-01', prerequisiteSummary: '你与诺诺进入青铜城，记录双生王座与铸造台位置，在最低通道找到叶胜和未知金属匣。你们已携任务物件返回摩尼亚赫号，叶胜留在城内。', canonicalPrefix: prefixEleven },
+    { chapter: 12, title: '第十二章《七宗罪》', entryNodeId: 'CH12-01', prerequisiteSummary: '诺顿袭击摩尼亚赫号，诺诺重伤。常规抢救失败后，你明确确认与路鸣泽交易，永久支付四分之一生命；诺诺暂时保住生命体征，金属匣仍在甲板上。', canonicalPrefix: prefixTwelve },
+    { chapter: 13, title: '第十三章《余烬》', entryNodeId: 'CH13-01', prerequisiteSummary: '你选择以致命解法解除诺顿威胁，岸上备用狙击线击破核心，老唐没有回来。诺诺已进入转运与恢复，七宗罪封存；本章沿用原著余烬结果，不重新判定。', canonicalPrefix: prefixThirteen },
   ],
   nodes,
   endings: { trialAlternate: { title: '普通人生·暂时结局', description: '你暂时没有接受卡塞尔的邀请。可以回到决定前重新选择，或结束本次试玩。' } },
 };
 for (const node of Object.values(nodes)) {
-  if (!node.content || (!node.choices.length && !node.autoNextNodeId && !node.endingId && !node.stageEnd)) throw new Error(`Incomplete node ${node.id}`);
+  if (typeof node.content !== 'string' || (!node.choices.length && !node.autoNextNodeId && !node.autoNextRules?.length && !node.endingId && !node.stageEnd)) throw new Error(`Incomplete node ${node.id}`);
   const refs = [node.autoNextNodeId, ...(node.autoNextRules ?? []).map(r => r.nextNodeId), ...node.choices.flatMap(c => [c.nextNodeId, ...(c.nextNodeRules ?? []).map(r => r.nextNodeId)])].filter(Boolean);
   for (const ref of refs) if (!nodes[ref]) throw new Error(`Dangling reference ${node.id} -> ${ref}`);
 }

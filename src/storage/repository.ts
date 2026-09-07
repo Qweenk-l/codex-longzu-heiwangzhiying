@@ -1,10 +1,30 @@
 import { choose, startGame } from '../engine/engine';
 import type { Session, Story } from '../engine/types';
+import legacyStageThree from '../../content-source/legacy-stage-three.1.json';
 
 const DATABASE = 'black-king-shadow';
 const STORE = 'sessions';
 const MAX_BYTES = 10 * 1024 * 1024;
-interface SaveFile { formatVersion: 1; projectId: string; contentVersion: string; session: Session }
+interface SaveFile { formatVersion: 1; projectId: string; contentVersion: string; session: Session; seasonArchives?: Session[] }
+const seasonEndings = ['endingCanonAshes', 'endingHumanEcho', 'endingEmberAlive'];
+export function seasonEnding(session: Session): string | undefined {
+  if (session.mode !== 'normal' || session.status !== 'stageEnd' || session.flags.completedSeasonOne !== true) return;
+  const endings = seasonEndings.filter(key => session.flags[key] === true);
+  return endings.length === 1 ? endings[0] : undefined;
+}
+function validateArchives(story: Story, archives: unknown): Session[] {
+  if (archives === undefined) return [];
+  if (!Array.isArray(archives) || archives.length > 3) throw new Error('季终归档记录无效。');
+  const seen = new Set<string>();
+  return archives.map(value => {
+    if (!object(value)) throw new Error('季终归档记录无效。');
+    const session = validate(story, { formatVersion: 1, projectId: value.projectId, contentVersion: value.contentVersion, session: value });
+    const ending = seasonEnding(session);
+    if (!ending || seen.has(ending)) throw new Error('季终归档记录无效。');
+    seen.add(ending);
+    return session;
+  });
+}
 
 function object(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -16,6 +36,15 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-season-one.20260906'
+    && /^(v0\.4B-stage-one\.[1-5]|v0\.5D-stage-two\.[12]|v0\.7C-stage-three\.1)$/.test(String(value.contentVersion))) {
+    // Old prose and state must pass their original replay before the revised
+    // story replays those same decisions, including any newly visible echoes.
+    const verified = validate(legacyStageThree as Story, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) resumed = choose(story, resumed, step.nodeId, step.choiceId, step.input);
+    return resumed;
+  }
   if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-stage-three.1'
     && /^(v0\.4B-stage-one\.[1-5]|v0\.5D-stage-two\.[12])$/.test(String(value.contentVersion))) {
     const previous: Story = { ...story, contentVersion: 'v0.5D-stage-two.2', nodes: {
@@ -111,14 +140,20 @@ export function importGame(story: Story, text: string): Session {
   if (new TextEncoder().encode(text).length > MAX_BYTES) throw new Error('存档文件过大，请选择 10 MB 以内的存档。');
   let parsed: unknown;
   try { parsed = JSON.parse(text); } catch { throw new Error('无法读取存档文件，请选择导出的 JSON 存档。'); }
+  if (object(parsed)) validateArchives(story, parsed.seasonArchives);
   return validate(story, parsed);
+}
+export function importSeasonArchives(story: Story, text: string): Session[] {
+  importGame(story, text);
+  return validateArchives(story, JSON.parse(text).seasonArchives);
 }
 function envelope(story: Story, session: Session): SaveFile {
   return { formatVersion: 1, projectId: story.id, contentVersion: story.contentVersion, session };
 }
-export function exportGame(story: Story, session: Session): string {
+export function exportGame(story: Story, session: Session, archives: Session[] = []): string {
   const file = envelope(story, session);
   validate(story, file);
+  if (archives.length) file.seasonArchives = validateArchives(story, archives);
   return JSON.stringify(file, null, 2);
 }
 function openDatabase(): Promise<IDBDatabase> {
@@ -144,14 +179,39 @@ export async function loadGame(story: Story): Promise<Session | null> {
     return result === undefined ? null : validate(story, result);
   } finally { db.close(); }
 }
-export async function saveGame(story: Story, session: Session): Promise<void> {
+export async function loadSeasonArchives(story: Story): Promise<Session[]> {
+  const db = await openDatabase();
+  try {
+    const stored = await new Promise<unknown>((resolve, reject) => {
+      const tx = db.transaction(STORE, 'readonly');
+      const request = tx.objectStore(STORE).get(`${story.id}:season-one`);
+      tx.oncomplete = () => resolve(request.result);
+      tx.onabort = tx.onerror = () => reject(new Error('无法读取季终归档。'));
+    });
+    return validateArchives(story, stored);
+  } finally { db.close(); }
+}
+export async function saveGame(story: Story, session: Session, importedArchives: Session[] = []): Promise<void> {
   const file = envelope(story, session);
   validate(story, file);
+  const incoming = validateArchives(story, importedArchives);
+  if (seasonEnding(session)) incoming.push(session);
   const db = await openDatabase();
   try {
     await new Promise<void>((resolve, reject) => {
       const tx = db.transaction(STORE, 'readwrite');
       tx.objectStore(STORE).put(file, story.id);
+      if (incoming.length) {
+        const key = `${story.id}:season-one`;
+        const request = tx.objectStore(STORE).get(key);
+        request.onsuccess = () => {
+          try {
+            const merged = new Map(validateArchives(story, request.result).map(item => [seasonEnding(item), item]));
+            for (const item of incoming) merged.set(seasonEnding(item), item);
+            tx.objectStore(STORE).put([...merged.values()], key);
+          } catch { tx.abort(); }
+        };
+      }
       tx.oncomplete = () => resolve();
       tx.onabort = () => reject(new Error('自动存档失败，原存档仍保留；请导出当前进度。'));
       tx.onerror = () => reject(new Error('自动存档失败，请检查存储空间或导出当前进度。'));

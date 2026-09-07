@@ -11,11 +11,11 @@ const story: Story = {
   ...buildChaptersSixNine(baseline),
 };
 
-const sourcePath = new URL('../../01-剧情文档/01-当前参考稿/龙族试玩第一季第六至第九章剧情与玩法设计稿-v0.7C-修订标注版.md', import.meta.url);
+const sourcePath = new URL('../../01-剧情文档/03-审阅与原始批注/2026-09-06-修订审阅版/龙族试玩第一季第六至第九章剧情与玩法设计稿-v0.7C-修订标注版-2026-09-06修订审阅版.md', import.meta.url);
 const snapshotPath = new URL('../content-source/v0.7C-ch6-ch9.md', import.meta.url);
 
 function authoredText(text: string): string {
-  return text.split('\n')
+  return text.replace(/<!--[\s\S]*?-->/g, '').split('\n')
     .filter(line => {
       const trimmed = line.trim();
       return !/^>\s*\*\*【V0\.7C 修订/.test(trimmed)
@@ -48,7 +48,10 @@ function authoredNodeText(id: string, text: string): string {
 }
 
 function sourceSections(): Map<string, { title: string; body: string }> {
-  const source = readFileSync(sourcePath, 'utf8').replace(/\r\n/g, '\n');
+  const source = readFileSync(sourcePath, 'utf8')
+    .replace(/\r\n/g, '\n')
+    .replace(/：<!--[\s\S]*?-->\n/g, '：')
+    .replace(/<!--[\s\S]*?-->/g, '');
   return new Map([...source.matchAll(/^## (CH[6-9]-[^｜\n]+)｜([^\n]+)\n([\s\S]*?)(?=^## |^# |$(?![\s\S]))/gm)]
     .map(([, id, title, body]) => [id, { title, body }]));
 }

@@ -4,11 +4,13 @@ import ReaderView from './components/ReaderView.vue';
 import rawStory from './content/stage-one.json';
 import type { Session, Story } from './engine/types';
 import { availableChoices, choose, resolveInput, restoreCheckpoint, startChapterTest, startGame } from './engine/engine';
-import { exportGame, importGame, loadGame, saveGame } from './storage/repository';
+import { exportGame, importGame, importSeasonArchives, loadGame, loadSeasonArchives, saveGame, seasonEnding } from './storage/repository';
 
 const story = rawStory as Story;
 const lastChapterLabel = story.chapters.at(-1)!.title.split('《')[0];
 const normal = shallowRef<Session | null>(null);
+const archives = shallowRef<Session[]>([]);
+const endingTitles: Record<string, string> = { endingCanonAshes: '原著余烬', endingHumanEcho: '人性回响', endingEmberAlive: '残火未熄' };
 const session = shallowRef<Session | null>(null);
 const loadFailed = ref(false);
 const inReader = ref(false);
@@ -53,11 +55,15 @@ async function acceptConfirmation() {
 function showError(cause: unknown) {
   error.value = cause instanceof Error ? cause.message : '操作未完成，请重试。';
 }
-async function persist(state: Session): Promise<boolean> {
+async function persist(state: Session, importedArchives: Session[] = []): Promise<boolean> {
   saveStatus.value = '正在保存…';
   saved.value = false;
   try {
-    await saveGame(story, state);
+    await saveGame(story, state, importedArchives);
+    const merged = new Map(archives.value.map(item => [seasonEnding(item), item]));
+    for (const item of importedArchives) merged.set(seasonEnding(item), item);
+    if (seasonEnding(state)) merged.set(seasonEnding(state), state);
+    archives.value = [...merged.values()];
     loadFailed.value = false;
     saved.value = true;
     saveStatus.value = '已自动保存';
@@ -96,6 +102,9 @@ function resume() {
   inReader.value = true;
   error.value = '';
 }
+function openArchive(archive: Session) {
+  confirmAction('载入季终归档？', '这会将当前正式进度替换为这份季终存档。已归档的结局会保留；如需保留当前路线，请先导出存档。', () => applyState(structuredClone(archive), true));
+}
 function testChapter(chapter: number) {
   if (busy.value) return;
   try {
@@ -120,7 +129,7 @@ function submitInput(nodeId: string, text: string) {
 function requestRestore(id: string) {
   if (!session.value || busy.value) return;
   checkpointsDialog.value?.close();
-  confirmAction('回到这个检查点？', '检查点之后的选择、正文和后续检查点将被删除。重走路线后会保存新的进度。', () => {
+  confirmAction('回到这个检查点？', '检查点之后的选择、正文和后续检查点将被删除。重走路线后会保存新的进度，已归档的季终存档会保留。', () => {
     if (!session.value) return;
     try { return applyState(restoreCheckpoint(story, session.value, id), true); } catch (cause) { showError(cause); }
   });
@@ -144,7 +153,7 @@ async function retrySave() {
 function downloadSave() {
   if (!normal.value || busy.value) return;
   try {
-    const blob = new Blob([exportGame(story, normal.value)], { type: 'application/json' });
+    const blob = new Blob([exportGame(story, normal.value, archives.value)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
@@ -161,9 +170,12 @@ async function readImport(event: Event) {
   busy.value = true;
   error.value = '';
   let imported: Session;
+  let importedArchives: Session[];
   try {
     if (file.size > 10 * 1024 * 1024) throw new Error('存档文件过大，请选择本游戏导出的存档。');
-    imported = importGame(story, await file.text());
+    const text = await file.text();
+    imported = importGame(story, text);
+    importedArchives = importSeasonArchives(story, text);
   } catch (cause) { showError(cause); return; }
   finally { busy.value = false; }
   confirmAction('导入这份正式存档？', normal.value || loadFailed.value ? '文件已通过校验。导入将覆盖当前正式存档，请确认已保留所需的旧文件。' : '文件已通过校验。确认后将保存为正式进度并打开阅读页面。', async () => {
@@ -173,7 +185,7 @@ async function readImport(event: Event) {
     const previousSaved = saved.value;
     const previousStatus = saveStatus.value;
     try {
-      if (await persist(imported)) {
+      if (await persist(imported, importedArchives)) {
         normal.value = imported;
         session.value = imported;
         readerKey.value += 1;
@@ -207,6 +219,7 @@ onMounted(async () => {
   } catch { /* A damaged preference never blocks reading. */ }
   try {
     normal.value = await loadGame(story);
+    archives.value = await loadSeasonArchives(story);
     saved.value = Boolean(normal.value);
     saveStatus.value = normal.value ? '已读取正式进度' : '尚无正式存档';
   } catch {
@@ -254,6 +267,11 @@ onBeforeUnmount(() => {
           <h3 id="test-heading">章节测试</h3>
           <p class="muted">从预设前情进入指定章节，不影响正式进度。</p>
           <button :disabled="busy" aria-haspopup="dialog" @click="chaptersDialog?.showModal()">打开章节列表</button>
+        </section>
+        <section v-if="archives.length" class="chapter-tests" aria-labelledby="archive-heading">
+          <h3 id="archive-heading">路明非 · 第一季已完成</h3>
+          <p class="muted">已抵达的季终归档会在回退重玩后保留，导出存档时一并保存。</p>
+          <button v-for="archive in archives" :key="seasonEnding(archive)" :disabled="busy" @click="openArchive(archive)">载入季终归档 · {{ endingTitles[seasonEnding(archive)!] }}</button>
         </section>
         <div class="save-tools"><button :disabled="busy || !normal" @click="downloadSave">导出正式存档</button><button :disabled="busy" @click="fileInput?.click()">导入存档</button></div>
         <p class="storage-note">进度保存在当前浏览器。换设备或清理浏览器前，请先导出存档。</p>

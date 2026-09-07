@@ -42,7 +42,7 @@ describe('第三至第五章内容', () => {
         const common = line.match(/^### 共同结果 `([^`]+)`/);
         if (common) { contentId = common[1]; commonCount++; }
       } else if (contentId && !/^\s*(?:\*\*|---|>.*(?:~~|【V0\.5D))/.test(line)) {
-        lines.push(line.replace(/^>\s*【红字修订】/, ''));
+        lines.push(line.replace(/<!--[\s\S]*?-->/g, '').replace(/^>\s*【红字修订】/, ''));
       }
     }
     flush();
