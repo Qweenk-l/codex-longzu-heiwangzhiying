@@ -15,6 +15,32 @@ function at(id: string, flags: Record<string, boolean> = {}) {
 const prose = (state: ReturnType<typeof at>) => state.history.filter(e => e.kind === 'story').map(e => e.text).join('\n');
 
 describe('CH10–CH13 source fidelity and conditional presentation', () => {
+  it('keeps CH10-07 prose order and choices while selecting the approved instruction', () => {
+    for (const prepared of [false, true]) {
+      const start = at('CH10-06', { preparedIndependentComms: prepared });
+      const state = choose(story, start, start.currentNodeId, availableChoices(story, start)[0].id);
+      const text = prose(state);
+      expect(state.currentNodeId).toBe('CH10-07');
+      expect(text.includes('曼施坦因的声音从备用频道')).toBe(prepared);
+      expect(text.includes('出发前保存的操作要求')).toBe(!prepared);
+      const instruction = text.indexOf(prepared ? '曼施坦因的声音' : '诺诺点了点终端');
+      expect(text.indexOf('寝宫后方的圆厅')).toBeLessThan(instruction);
+      expect(instruction).toBeLessThan(text.indexOf('你：学院的意思是，只看不摸？'));
+      expect(availableChoices(story, state).some(c => c.id === 'ch10-07-record')).toBe(true);
+    }
+  });
+  it('uses the approved incomplete-record feedback only without independent communications', () => {
+    for (const prepared of [false, true]) {
+      const start = at('CH13-02', { preparedIndependentComms: prepared });
+      const state = choose(story, start, start.currentNodeId, 'ch13-02-edit');
+      const text = prose(state);
+      expect(text.includes('收下这份不完整的记录')).toBe(!prepared);
+      expect(text.includes('只留下转向、氧气和出口三类信息')).toBe(prepared);
+      expect(state.history.some(e => e.nodeId === 'CH13-03')).toBe(true);
+      expect(state.choices.at(-1)?.choiceId).toBe('ch13-02-edit');
+    }
+  });
+
   it('preserves the approved source byte for byte and includes all 39 authored sections', () => {
     const original = new URL('../../01-剧情文档/03-审阅与原始批注/2026-09-06-修订审阅版/龙族试玩第一季第十至第十三章剧情与玩法设计稿-v0.7C-修订标注版-2026-09-06修订审阅版.md', import.meta.url);
     expect(readFileSync(original).equals(readFileSync(new URL('../content-source/v0.7C-ch10-ch13.md', import.meta.url)))).toBe(true);

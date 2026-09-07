@@ -26,6 +26,28 @@ function completed(): Session {
 }
 
 describe('revised season saves', () => {
+  it('upgrades pre-comms-patch progress and archives by replay without accepting forged prose', () => {
+    const oldStory: Story = JSON.parse(readFileSync(new URL('../content-source/legacy-season-one.20260906.json', import.meta.url), 'utf8'));
+    for (const prepared of [false, true]) {
+      let old = startGame(oldStory);
+      for (const step of oldStory.chapters[13].canonicalPrefix) {
+        old = choose(oldStory, old, step.nodeId, step.nodeId === 'CH9-05' && !prepared ? 'ch9-05-primary' : step.choiceId);
+      }
+      while (old.currentNodeId !== 'CH13-02-CHOICE') old = choose(oldStory, old, old.currentNodeId, availableChoices(oldStory, old)[0].id);
+      old = choose(oldStory, old, old.currentNodeId, 'ch13-02-edit');
+      old = finish(oldStory, old);
+      const file = exportGame(oldStory, old, [old]);
+      const migrated = importGame(story, file);
+      expect(migrated.choices).toEqual(old.choices);
+      expect(migrated.flags).toEqual(old.flags);
+      expect(importSeasonArchives(story, file)).toEqual([migrated]);
+      expect(migrated.history.some(e => e.text.includes('出发前保存的操作要求'))).toBe(!prepared);
+      expect(migrated.history.some(e => e.text.includes('收下这份不完整的记录'))).toBe(!prepared);
+      const forged = JSON.parse(file); forged.session.history[0].text += '伪造';
+      expect(() => importGame(story, JSON.stringify(forged))).toThrow();
+    }
+  });
+
   it('validates the old chapter-nine ending then resumes chapter ten with revised history', () => {
     const old = finish(legacy, startGame(legacy));
     expect(old.currentNodeId).toBe('CH9-08');

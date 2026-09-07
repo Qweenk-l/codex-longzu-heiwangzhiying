@@ -267,7 +267,7 @@ const prefixEleven = extendPrefix(prefixTen, [
 const prefixTwelve = extendPrefix(prefixEleven, ['ch11-04-report', 'ch11-05-cause', 'ch11-06-nono', 'ch11-07-confirm']);
 const prefixThirteen = extendPrefix(prefixTwelve, ['ch12-01-check', 'ch12-03-hold', 'ch12-04-norton', 'ch12-05-lethal', 'ch12-06-lethal']);
 const story = {
-  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.7C-season-one.20260906', entryNodeId: 'PRO-01',
+  id: 'longzu-black-king-shadow-stage-one', contentVersion: 'v0.7C-season-one.20260906.1', entryNodeId: 'PRO-01',
   chapters: [
     { chapter: 0, title: '序章《白帝城·梦醒》', entryNodeId: 'PRO-01', prerequisiteSummary: '从黑暗中的一声呼唤开始。', canonicalPrefix: [] },
     { chapter: 1, title: '第一章《卡塞尔之门》', entryNodeId: 'CH1-01', prerequisiteSummary: '白帝城的梦留下了一个名字。镜头转向你和老唐的星际对局，婶婶催你出门取信。', canonicalPrefix: prefixOne },

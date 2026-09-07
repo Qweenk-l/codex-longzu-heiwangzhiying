@@ -263,6 +263,21 @@ export function buildChaptersTenThirteen(baseline) {
     [option([flag('preservedBrotherEvidence')],'你保存了康斯坦丁护住哥哥的影像。')],
     [option([flag('endingEmberAlive')],'季终结果：残火未熄。证据与准备支持了分离和封印；老唐仍需隔离观察。'),option([flag('endingHumanEcho')],'季终结果：人性回响。老唐在最后一秒作出了人的回应，但没有生还。'),option([flag('endingCanonAshes')],'季终结果：原著余烬。诺顿的威胁已解除，老唐没有回来。')],
   ],'CH13-08');
+  // Approved communications wording: preserve choice owners for save replay.
+  const instruction = '曼施坦因的声音从备用频道里断续传来：“记录结构，不要启动。重复，不要启动。”';
+  const [beforeInstruction, afterInstruction] = nodes['CH10-07'].content.split(instruction);
+  if (afterInstruction === undefined) throw new Error('Missing CH10-07 communications instruction');
+  add('CH10-07-INTRO', beforeInstruction);
+  nodes['CH10-07'].content = afterInstruction.trim();
+  sequence('CH10-07-INTRO', [[
+    option([flag('preparedIndependentComms')], instruction),
+    option([], '诺诺点了点终端上出发前保存的操作要求：“记录结构，不要启动。”'),
+  ]], 'CH10-07');
+  for (const choice of nodes['CH10-06-CHOICE'].choices) nodes[choice.nextNodeId].autoNextNodeId = 'CH10-07-INTRO';
+  const editRecord = nodes['CH13-02-CHOICE'].choices.find(choice => choice.id === 'ch13-02-edit');
+  add('CH13-02-EDIT-INCOMPLETE', '你把还能辨认的杂音连同时间标记另存一份，没有把听不清的部分补成对白。恺撒点头，收下这份不完整的记录。', 'CH13-03');
+  editRecord.nextNodeRules = [{ conditions: [flag('preparedIndependentComms')], nextNodeId: editRecord.nextNodeId }];
+  editRecord.nextNodeId = 'CH13-02-EDIT-INCOMPLETE';
   nodes['CH13-08'].entryEffects=[flag('completedSeasonOne')];
   nodes['CH13-08'].checkpointId='CP-SEASON1-END';
   nodes['CH13-08'].stageEnd=true;

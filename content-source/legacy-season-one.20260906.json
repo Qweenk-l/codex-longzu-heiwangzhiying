@@ -1,6 +1,6 @@
 {
   "id": "longzu-black-king-shadow-stage-one",
-  "contentVersion": "v0.7C-season-one.20260906.1",
+  "contentVersion": "v0.7C-season-one.20260906",
   "entryNodeId": "PRO-01",
   "chapters": [
     {
@@ -9517,7 +9517,7 @@
       "id": "CH10-07",
       "chapter": 10,
       "title": "铸造台与结构图",
-      "content": "你：学院的意思是，只看不摸？\n\n诺诺：学院的意思通常是只让别人摸。今天他们把你也算进来了。\n\n她指着槽口之间相连的刻痕：“这里也许能告诉我们，分开的力量该往哪里导。但几张位置照片不够，得把回路扫全。要查，就得确认还有支撑扫描和撤回的准备；不能把回去的时间也花在这里。”",
+      "content": "寝宫后方的圆厅像一只熄灭的眼睛。\n\n七道熔铸槽从墙根向中心汇聚，尺寸由小到大排列。最大的槽口仍有烧蚀痕迹，金属壁上留下不规则的火纹；每道槽旁都有一段被磨去的铭文，像有人在离开前带走了最重要的名字。\n\n诺诺绕着台面走了一圈，把手套贴在几个凹槽上。\n\n诺诺：这里不是仓库，是工位。重的东西从左边进，成形后沿下方的轨道离开。\n\n曼施坦因的声音从备用频道里断续传来：“记录结构，不要启动。重复，不要启动。”\n\n你：学院的意思是，只看不摸？\n\n诺诺：学院的意思通常是只让别人摸。今天他们把你也算进来了。\n\n她指着槽口之间相连的刻痕：“这里也许能告诉我们，分开的力量该往哪里导。但几张位置照片不够，得把回路扫全。要查，就得确认还有支撑扫描和撤回的准备；不能把回去的时间也花在这里。”",
       "choices": [
         {
           "id": "ch10-07-scan",
@@ -10926,7 +10926,7 @@
       "title": "CH10-06-SAVE",
       "content": "你关闭了自己的麦克风。那声“哥哥”在静默中多重复了一次，随后和城市的低频一起沉下去。",
       "choices": [],
-      "autoNextNodeId": "CH10-07-INTRO"
+      "autoNextNodeId": "CH10-07"
     },
     "CH10-06-RESPOND": {
       "id": "CH10-06-RESPOND",
@@ -10934,7 +10934,7 @@
       "title": "CH10-06-RESPOND",
       "content": "你的声音撞上青铜壁，回来的却不是老唐，而是更尖的龙文回响。诺诺按住你的肩：“验证到这里，别把自己也变成回路的一部分。”",
       "choices": [],
-      "autoNextNodeId": "CH10-07-INTRO"
+      "autoNextNodeId": "CH10-07"
     },
     "CH10-06-RECORD": {
       "id": "CH10-06-RECORD",
@@ -10942,7 +10942,7 @@
       "title": "CH10-06-RECORD",
       "content": "备用记录器亮起红灯，开始保存未经降噪的声音。诺诺把灯转向更深处：“走。城市已经知道我们听见了。”",
       "choices": [],
-      "autoNextNodeId": "CH10-07-INTRO"
+      "autoNextNodeId": "CH10-07"
     },
     "CH10-07-SCAN": {
       "id": "CH10-07-SCAN",
@@ -13363,19 +13363,7 @@
             "保留复盘"
           ],
           "effects": [],
-          "nextNodeId": "CH13-02-EDIT-INCOMPLETE",
-          "nextNodeRules": [
-            {
-              "conditions": [
-                {
-                  "type": "flag",
-                  "key": "preparedIndependentComms",
-                  "value": true
-                }
-              ],
-              "nextNodeId": "CH13-02-EDIT"
-            }
-          ]
+          "nextNodeId": "CH13-02-EDIT"
         },
         {
           "id": "ch13-02-off",
@@ -13605,62 +13593,6 @@
       "content": "季终结果：原著余烬。诺顿的威胁已解除，老唐没有回来。",
       "choices": [],
       "autoNextNodeId": "CH13-08"
-    },
-    "CH10-07-INTRO": {
-      "id": "CH10-07-INTRO",
-      "chapter": 10,
-      "title": "CH10-07-INTRO",
-      "content": "寝宫后方的圆厅像一只熄灭的眼睛。\n\n七道熔铸槽从墙根向中心汇聚，尺寸由小到大排列。最大的槽口仍有烧蚀痕迹，金属壁上留下不规则的火纹；每道槽旁都有一段被磨去的铭文，像有人在离开前带走了最重要的名字。\n\n诺诺绕着台面走了一圈，把手套贴在几个凹槽上。\n\n诺诺：这里不是仓库，是工位。重的东西从左边进，成形后沿下方的轨道离开。",
-      "choices": [],
-      "autoNextNodeId": "CH10-07-INTRO-CONDITION-1"
-    },
-    "CH10-07-INTRO-CONDITION-1": {
-      "id": "CH10-07-INTRO-CONDITION-1",
-      "chapter": 10,
-      "title": "CH10-07-INTRO-CONDITION-1",
-      "content": "",
-      "choices": [],
-      "autoNextNodeId": "CH10-07",
-      "autoNextRules": [
-        {
-          "conditions": [
-            {
-              "type": "flag",
-              "key": "preparedIndependentComms",
-              "value": true
-            }
-          ],
-          "nextNodeId": "CH10-07-INTRO-CONDITION-1-TEXT-1"
-        },
-        {
-          "conditions": [],
-          "nextNodeId": "CH10-07-INTRO-CONDITION-1-TEXT-2"
-        }
-      ]
-    },
-    "CH10-07-INTRO-CONDITION-1-TEXT-1": {
-      "id": "CH10-07-INTRO-CONDITION-1-TEXT-1",
-      "chapter": 10,
-      "title": "CH10-07-INTRO-CONDITION-1-TEXT-1",
-      "content": "曼施坦因的声音从备用频道里断续传来：“记录结构，不要启动。重复，不要启动。”",
-      "choices": [],
-      "autoNextNodeId": "CH10-07"
-    },
-    "CH10-07-INTRO-CONDITION-1-TEXT-2": {
-      "id": "CH10-07-INTRO-CONDITION-1-TEXT-2",
-      "chapter": 10,
-      "title": "CH10-07-INTRO-CONDITION-1-TEXT-2",
-      "content": "诺诺点了点终端上出发前保存的操作要求：“记录结构，不要启动。”",
-      "choices": [],
-      "autoNextNodeId": "CH10-07"
-    },
-    "CH13-02-EDIT-INCOMPLETE": {
-      "id": "CH13-02-EDIT-INCOMPLETE",
-      "chapter": 13,
-      "title": "CH13-02-EDIT-INCOMPLETE",
-      "content": "你把还能辨认的杂音连同时间标记另存一份，没有把听不清的部分补成对白。恺撒点头，收下这份不完整的记录。",
-      "choices": [],
-      "autoNextNodeId": "CH13-03"
     }
   },
   "endings": {
