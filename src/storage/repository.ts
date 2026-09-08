@@ -3,6 +3,7 @@ import type { Session, Story } from '../engine/types';
 import legacyStageThree from '../../content-source/legacy-stage-three.1.json';
 import legacySeasonOne from '../../content-source/legacy-season-one.20260906.json';
 import legacySeasonOneC14 from '../../content-source/legacy-season-one.20260906.1.json';
+import legacySeasonOneC16 from '../../content-source/legacy-season-one.20260907.1.json';
 
 const DATABASE = 'black-king-shadow';
 const STORE = 'sessions';
@@ -42,6 +43,13 @@ function stable(value: unknown): string {
 }
 function validate(story: Story, value: unknown): Session {
   if (!object(value) || value.projectId !== story.id) throw new Error('这不是《龙族：黑王之影》的有效存档。');
+  if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-season-one.20260908.1'
+    && value.contentVersion !== story.contentVersion) {
+    const verified = validate(legacySeasonOneC16 as Story, value);
+    let resumed = startGame(story);
+    for (const step of verified.choices) resumed = choose(story, resumed, step.nodeId, step.choiceId, step.input);
+    return resumed;
+  }
   if (story.id === 'longzu-black-king-shadow-stage-one' && story.contentVersion === 'v0.7C-season-one.20260907.1'
     && value.contentVersion !== story.contentVersion) {
     const verified = validate(legacySeasonOneC14 as Story, value);
